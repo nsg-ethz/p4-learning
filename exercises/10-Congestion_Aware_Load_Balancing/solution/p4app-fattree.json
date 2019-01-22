@@ -1,0 +1,118 @@
+{
+  "program": "p4src/loadbalancer.p4",
+  "switch": "simple_switch",
+  "compiler": "p4c",
+  "options": "--target bmv2 --arch v1model --std p4-16",
+  "switch_cli": "simple_switch_CLI",
+  "cli": true,
+  "pcap_dump": true,
+  "enable_log": true,
+  "exec_scripts": [
+    {
+      "cmd": "python routing-controller.py",
+      "reboot_run": true
+    }
+  ],
+    "topo_module": {
+    "file_path": "",
+    "module_name": "p4utils.mininetlib.apptopo",
+    "object_name": "AppTopoStrategies"
+  },
+  "controller_module": null,
+  "topodb_module": {
+    "file_path": "",
+    "module_name": "p4utils.utils.topology",
+    "object_name": "Topology"
+  },
+  "mininet_module": {
+    "file_path": "",
+    "module_name": "p4utils.mininetlib.p4net",
+    "object_name": "P4Mininet"
+  },
+  "topology": {
+    "assignment_strategy": "l3",
+    "default_bw":10,
+    "links": [
+      ["h1", "s1"], ["h2", "s1"], ["h3", "s2"], ["h4", "s2"], ["s1", "s9"], ["s1", "s10"], ["s2", "s9"], ["s2", "s10"], ["s9", "s17"], ["s9", "s18"], ["s10", "s19"], ["s10", "s20"],
+      ["h5", "s3"], ["h6", "s3"], ["h7", "s4"], ["h8", "s4"], ["s3", "s11"], ["s3", "s12"], ["s4", "s11"], ["s4", "s12"], ["s11", "s17"], ["s11", "s18"], ["s12", "s19"], ["s12", "s20"],
+      ["h9", "s5"], ["h10", "s5"], ["h11", "s6"], ["h12", "s6"], ["s5", "s13"], ["s5", "s14"], ["s6", "s13"], ["s6", "s14"], ["s13", "s17"], ["s13", "s18"], ["s14", "s19"], ["s14", "s20"],
+      ["h13", "s7"], ["h14", "s7"], ["h15", "s8"], ["h16", "s8"], ["s7", "s15"], ["s7", "s16"], ["s8", "s15"], ["s8", "s16"], ["s15", "s17"], ["s15", "s18"], ["s16", "s19"], ["s16", "s20"]
+    ],
+    "hosts": {
+      "h1": {
+      },
+      "h2": {
+      },
+      "h3": {
+      },
+      "h4": {
+      },
+      "h5": {
+      },
+      "h6": {
+      },
+      "h7": {
+      },
+      "h8": {
+      },
+      "h9": {
+      },
+      "h10": {
+      },
+      "h11": {
+      },
+      "h12": {
+      },
+      "h13": {
+      },
+      "h14": {
+      },
+      "h15": {
+      },
+      "h16": {
+      }
+    },
+    "switches": {
+      "s1": {
+      },
+      "s2": {
+      },
+      "s3": {
+      },
+      "s4": {
+      },
+      "s5": {
+      },
+      "s6": {
+      },
+      "s7": {
+      },
+      "s8": {
+      },
+      "s9": {
+      },
+      "s10": {
+      },
+      "s11": {
+      },
+      "s12": {
+      },
+      "s13": {
+      },
+      "s14": {
+      },
+      "s15": {
+      },
+      "s16": {
+      },
+      "s17": {
+      },
+      "s18": {
+      },
+      "s19": {
+      },
+      "s20": {
+      }
+    }
+  }
+}

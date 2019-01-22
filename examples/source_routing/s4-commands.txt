@@ -1,0 +1,7 @@
+table_set_default ipv4_lpm drop
+
+table_add ipv4_lpm ipv4_forward 10.0.1.1/32 => 00:00:00:03:04:00 1
+table_add ipv4_lpm ipv4_forward 10.0.4.2/32 => 00:00:0a:00:04:02 3
+
+table_add device_to_port ipv4_forward 2 => 00:00:00:02:04:00 1
+table_add device_to_port ipv4_forward 3 => 00:00:00:03:04:00 2

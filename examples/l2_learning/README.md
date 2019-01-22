@@ -1,0 +1,42 @@
+# L2 Learning
+
+## Introduction
+
+In this example you can see how to use copy to cpu or digests to implement
+a l2 learning P4 application and controller.
+
+## How to run
+
+### Copy-to-cpu-based L2 Learning
+
+1. Start the topology (this will also compile and load the program).
+
+   ```bash
+   sudo p4run --conf p4app_cpu.json
+   ```
+
+2. Start the controller in another terminal window:
+
+   ```bash
+   sudo python l2_learning_controller.py s1 cpu
+   ```
+
+   We tell the controller from which switch listen from. The `cpu` parameter tells the controller which technique it should
+   use to receive packets. In this case, sniffing an ethernet port.
+
+### Digest-based L2 Learning
+
+1. Start the topology (this will also compile and load the program).
+
+   ```bash
+   sudo p4run --conf p4app_digest.json
+   ```
+
+2. Start the controller in another terminal window:
+
+   ```bash
+   sudo python l2_learning_controller.py s1 digest
+   ```
+
+   We tell the controller from which switch listen from. The `digest` parameter tells the controller which technique it should
+   use to receive packets. In this case it will use the `nanomsg` socket to receive digests.

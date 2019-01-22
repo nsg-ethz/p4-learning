@@ -1,0 +1,4 @@
+table_add forwarding set_egress_port 1 => 2
+table_add forwarding set_egress_port 2 => 1
+
+
