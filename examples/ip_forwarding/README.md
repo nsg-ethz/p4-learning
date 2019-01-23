@@ -39,8 +39,24 @@ the control plane rules, so you only need to implement the data plane
 logic of your P4 program.
 
 
-# Parser
+## How to run
 
-The parser describes a state machine with one `start` state and two possible final states: `accept`
-or `reject`. Explain the basic state machine used to parse ethernet and ipv4, and explain that this
-can be used later to access those headers fields.
+Run the topology:
+
+```
+sudo p4run
+```
+
+
+Try to ping from one host to another:
+
+```
+mininet> h1 ping h2
+```
+
+Ping from all host pairs to test for connectivity:
+
+```
+mininet> pingall
+```
+

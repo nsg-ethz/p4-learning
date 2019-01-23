@@ -1,4 +1,17 @@
-# Priority Queueing
+# Strict Priority Queueing
+
+```
+
++--+      +--+     ++-+
+|h1+------+s1+-----+h3+
++--+      +-++     +--+
+            |
+            |
+          +-++
+          |h2|
+          +-++
+
+```
 
 
 ### Introduction
@@ -33,17 +46,20 @@ the bandwidth.
 sudo p4run
 ```
 
+Start to iperf servers at `h3`:
 ```
 mx h3
 iperf -s -p 5000 -u -i 1
 iperf -s -p 5001
 ```
 
+Send a UDP flow from `h1`:
 ```
 mx h1
 iperf -c 10.0.1.3 -i 1 -t 10 -p 5000 -u -b 50M
 ```
 
+Send a TCP flow from `h2`:
 ```
 mx h1
 iperf -c 10.0.1.3 -i 1 -t 10 -p 5001

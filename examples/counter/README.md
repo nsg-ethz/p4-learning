@@ -13,11 +13,17 @@
 
 Simple example of direct and indirect counters that count the packets and bytes arriving at each ingress port.
 
-run example:
 
-    $ sudo p4run --config p4app_direct.json
-    $ sudo p4run --config p4app_indirect.json
+## How to run
 
+Run the topology, by starting either the direct or indirect examples:
+
+```
+sudo p4run --config p4app_direct.json
+```
+```
+sudo p4run --config p4app_indirect.json
+```
 
 
 ### Testing the counters

@@ -1,5 +1,13 @@
 # Basic Recirculation
 
+
+```
++--+      +--+     ++-+
+|h1+------+s1+-----+h2+
++--+      +-++     +--+
+
+```
+
 ## Introduction
 
 In this example we show how to recirculate packets.
@@ -21,5 +29,5 @@ sudo p4run
 ```
 
 Send some traffic. And then check the log file at `log/s1.log`, you will see
-the how the counter increases at each recirculation.
+how the counter increases at each recirculation when matching the `debug` table.
 

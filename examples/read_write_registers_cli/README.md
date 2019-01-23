@@ -1,5 +1,13 @@
 # Read and Write Registers With the CLI
 
+
+```
++--+      +--+     ++-+
+|h1+------+s1+-----+h2+
++--+      +-++     +--+
+
+```
+
 ## Introduction
 
 This example shows how to read and write registers using the Runtime CLI.

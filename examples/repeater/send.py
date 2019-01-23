@@ -30,14 +30,9 @@ def main():
     addr = socket.gethostbyname(sys.argv[1])
     iface = get_if()
 
-    if len(sys.argv) >= 3:
-        tos = int(sys.argv[3]) % 256
-    else:
-        tos = 0
-
     print "sending on interface %s to %s" % (iface, str(addr))
     pkt =  Ether(src=get_if_hwaddr(iface), dst='ff:ff:ff:ff:ff:ff')
-    pkt = pkt /IP(dst=addr,tos=tos) / TCP(dport=1234, sport=random.randint(49152,65535)) / sys.argv[2]
+    pkt = pkt /IP(dst=addr) / TCP(dport=1234, sport=random.randint(49152,65535)) / sys.argv[2]
     pkt.show2()
     sendp(pkt, iface=iface, verbose=False)
 

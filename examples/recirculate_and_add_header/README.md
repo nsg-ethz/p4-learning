@@ -1,5 +1,13 @@
 # Recirculate and Add Headers
 
+
+```
++--+      +--+     ++-+
+|h1+------+s1+-----+h2+
++--+      +-++     +--+
+
+```
+
 ## Introduction
 
 In this example we show how to recirculate packets and add a headers at
@@ -39,6 +47,3 @@ the number of bytes increases as we recirculate more. You can also inspect
 the value of those packets and verify that they carry the register's content
 using `wireshark` or any other tool.
 
-### Note
-
-I could not recirculate partial metadata headers anymore..

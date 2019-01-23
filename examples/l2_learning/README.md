@@ -1,9 +1,21 @@
 # L2 Learning
 
+```
++--+      +--+     ++-+
+|h1+------+  +-----+h2+
++--+      +  +     +--+
+          +s1+
++--+      +  +     ++-+
+|h3+------+  +-----+h4+
++--+      +-++     +--+
+
+```
+
 ## Introduction
 
 In this example you can see how to use copy to cpu or digests to implement
-a l2 learning P4 application and controller.
+a l2 learning P4 application and controller. You can find a better explained version
+of this example in the [exercises](../../exercises/04-L2_Learning) section.
 
 ## How to run
 

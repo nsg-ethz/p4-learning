@@ -1,5 +1,13 @@
 # Verifying a checksum
 
+
+```
++--+      +--+     ++-+
+|h1+------+s1+-----+h2+
++--+      +-++     +--+
+
+```
+
 ## Introduction
 
 In this example we show how to verify IPv4 checksums and drop packets accordingly.
@@ -20,7 +28,7 @@ mx h2
 python receive.py
 ```
 
-Send valid and invalid packets to `h2 from `h1`:
+Send valid and invalid packets to `h2` from `h1`:
 
 ```
 mx h1

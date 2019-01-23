@@ -34,3 +34,27 @@ header and compute this hash value modulo the number of possible equal paths. Fo
 a packet to `h2`, the switch should determine the output port by computing: `hash(some-header-fields) mod 4`. To prevent out of order packets, ECMP hashing is done on a per-flow basis,
 which means that all packets with the same source and destination IP addresses and the same source and destination
 ports always hash to the same next hop.
+
+## How to run
+
+Run the topology:
+
+```
+sudo p4run
+```
+
+
+Monitor all the interfaces connecting `s1` to the 4 middle switches. You can use `tshark`, `tcpdump`:
+
+```
+sudo tshark -i s1-eth2
+```
+
+(Do the same with the other three interfaces).
+
+Send packets with random ports from `h1`:
+
+```
+mx h1
+python send.py 10.0.6.2 1000
+```

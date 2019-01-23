@@ -1,4 +1,4 @@
-# Implementing Copy To Cpu
+# Copy To Cpu
 
 ```
 +--+      +--+     ++-+
@@ -21,3 +21,23 @@ to a packet.
 **Note:** that to add an extra port to each switch we added the attribute
 `cpu_port` to the `p4app.json` file.
 
+## How to run
+
+Run the topology:
+
+```
+sudo p4run
+```
+
+Run the very small controller code that receives packets from the switch:
+
+```
+sudo python receive.py
+```
+
+Generate packets using the `send.py` script which sets the TOS field to 1.
+
+```
+mx h1
+sudo python send.py 10.0.1.2
+```

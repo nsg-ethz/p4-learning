@@ -25,7 +25,7 @@ def get_if():
 def main():
 
     if len(sys.argv)<3:
-        print 'pass 2 arguments: <destination> "<message>"'
+        print 'pass 2 arguments: <destination> "<num_packets> <sleep_between_packets"'
         exit(1)
 
     addr = socket.gethostbyname(sys.argv[1])
@@ -33,11 +33,11 @@ def main():
 
     print "sending on interface %s to %s" % (iface, str(addr))
 
-    for _ in range(int(sys.argv[3])):
+    for _ in range(int(sys.argv[2])):
         pkt = Ether(src=get_if_hwaddr(iface), dst='ff:ff:ff:ff:ff:ff')
-        pkt = pkt /IP(dst=addr) / TCP(dport=60000, sport=60001) / sys.argv[2]
+        pkt = pkt /IP(dst=addr) / TCP(dport=60000, sport=60001)
         sendp(pkt, iface=iface, verbose=False)
-        time.sleep(float(sys.argv[4]))
+        time.sleep(float(sys.argv[3]))
 
 
 if __name__ == '__main__':

@@ -1,5 +1,12 @@
 # Debugging table
 
+```
++--+      +--+     ++-+
+|h1+------+s1+-----+h2+
++--+      +-++     +--+
+
+```
+
 ## Introduction
 
 This is a very basic example in which we show how tables can be used to

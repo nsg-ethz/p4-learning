@@ -8,7 +8,7 @@
 ```
 
 
-## Description
+## Introduction
 
 This program illustrates as simply as possible how to use meters in P4 with
 bmv2. bmv2 uses two-rate three-color meters as described
@@ -35,6 +35,8 @@ In this case, the first rate is 0.5 packets per second, with a burst size of
 1, and the second rate is 10 packets per second, with a burst size of 1 also.
 Feel free to play with the numbers, but these play nicely with the
 demonstration below.
+
+## How to run
 
 There are two examples, one using a direct and one using an indirect meter.
 You can start them using:

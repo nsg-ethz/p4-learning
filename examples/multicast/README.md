@@ -1,5 +1,16 @@
 # Multicast
 
+```
++--+      +--+     ++-+
+|h1+------+  +-----+h2+
++--+      +  +     +--+
+          +s1+
++--+      +  +     ++-+
+|h3+------+  +-----+h4+
++--+      +-++     +--+
+
+```
+
 ## Introduction
 
 In this example we show how to use the multicasting engine to broadcast
@@ -14,7 +25,7 @@ Note: Only packets with an ethernet type of `0x1234` get multicasted
 to all the ports.
 
 You can find more information about how to create multicast groups in
-the following [documentation section]()
+the following [documentation section](../../documentation/simple-switch.md#creating-multicast-groups)
 
 ## How to run
 
