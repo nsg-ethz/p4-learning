@@ -96,7 +96,7 @@ function do_update_p4c {
     fi
 
     make -j${NUM_CORES}
-    #sudo make install
+    sudo make install
     sudo ldconfig
     cd ../..
 }
@@ -155,10 +155,18 @@ while true ; do
 done
 
 # main
-if [ "$P4INCLUDE_ONLY" == 0 ]; then
-    do_update_p4c
-fi
 
-if [ "$P4INCLUDE_PATH" ]; then
-    do_copy_p4include
+# checks if the current path includes the word p4c somewhere
+# its probably not the best way to check if we are in the right
+# path, but its something
+if [[ "$ROOT_PATH" == *"p4c"* ]];then
+    if [ "$P4INCLUDE_ONLY" == 0 ]; then
+        do_update_p4c
+    fi
+
+    if [ "$P4INCLUDE_PATH" ]; then
+        do_copy_p4include
+    fi
+else
+    die 'ERROR: you are not in a p4c directory'
 fi

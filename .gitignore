@@ -455,3 +455,33 @@ $RECYCLE.BIN/
 
 
 # End of https://www.gitignore.io/api/latex,linux,macos,python,windows,phpstorm
+
+#own ignores
+# Python byte code
+*.pyc
+
+# Emacs
+*~
+
+# Compiled JSON
+*.json
+!*p4app*.json
+
+*.pcap
+
+# Build folders
+build*/
+log*/
+pcap*/
+*.pickle
+
+*.db
+
+*.p4i
+*.p4rt
+
+#latex
+*.aux
+*.bbl
+*.log
+*.out

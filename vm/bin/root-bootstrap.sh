@@ -67,6 +67,7 @@ sudo apt-get install -y --no-install-recommends \
   libprotobuf-c-dev \
   g++ \
   bash-completion \
+  traceroute
 
 
 #Install pip from source

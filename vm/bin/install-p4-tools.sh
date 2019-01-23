@@ -95,7 +95,7 @@ mkdir -p ${BUILD_DIR}
 # If false, build tools without debug features to improve throughput of BMv2 and
 # reduce CPU/memory footprint.
 DEBUG_FLAGS=true
-ENABLE_P4_RUNTIME=false
+ENABLE_P4_RUNTIME=true
 
 #Install Protobuf
 function do_protobuf {
@@ -172,8 +172,12 @@ function do_sysrepo {
     # Dependencies in : https://github.com/p4lang/PI/blob/master/proto/README.md
     sudo apt-get --yes install build-essential cmake libpcre3-dev libavl-dev libev-dev libprotobuf-c-dev protobuf-c-compiler
 
+    cd ${BUILD_DIR}
+
     # Install libyang
-    git clone https://github.com/CESNET/libyang.git
+    if [ ! -d libyang ]; then
+        git clone https://github.com/CESNET/libyang.git
+    fi
     cd libyang
     git checkout v0.16-r1
     mkdir build
@@ -183,8 +187,12 @@ function do_sysrepo {
     sudo make install
     sudo ldconfig
 
+    cd ../..
+
     # Install sysrepo
-    git clone https://github.com/sysrepo/sysrepo.git
+    if [ ! -d sysrepo ]; then
+        git clone https://github.com/sysrepo/sysrepo.git
+    fi
     cd sysrepo
     git checkout v0.7.5
     mkdir build
@@ -193,6 +201,7 @@ function do_sysrepo {
     make
     sudo make install
     sudo ldconfig
+    cd ..
 }
 
 #only if we want P4Runtime
@@ -343,6 +352,14 @@ function do_install_scripts {
     chmod a+x /home/p4/bin/update-p4c
 }
 
+function do_p4-learning {
+    cd ${BUILD_DIR}
+    if [ ! -d p4-learning ]; then
+        git clone https://github.com/nsg-ethz/p4-learning.git
+    fi
+    cd ..
+}
+
 do_protobuf
 if [ "$ENABLE_P4_RUNTIME" = true ] ; then
     do_grpc
@@ -357,5 +374,7 @@ do_p4c
 do_scapy
 do_ptf
 do_p4-utils
+do_install_scripts
+do_p4-learning
 
 echo "Done with p4-tools install!"

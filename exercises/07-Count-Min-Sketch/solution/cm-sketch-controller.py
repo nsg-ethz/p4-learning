@@ -90,4 +90,4 @@ if __name__ == "__main__":
 
 
     controller = CMSController(args.sw)
-    #controller.decode_registers(args.eps, args.n, args.mod, args.flow_file)
+    controller.decode_registers(args.eps, args.n, args.mod, args.flow_file)

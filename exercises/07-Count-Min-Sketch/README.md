@@ -43,7 +43,7 @@ packets fast to the switch we can clone the repository again with a different na
 cd ~/p4-tools/
 git clone https://github.com/p4lang/behavioral-model.git bmv2-opt
 cd bmv2-opt
-git checkout 7e71a9bdd161afd63a162aaa96703bfa7ab1b3e1
+git checkout 7e71a9bdd161afd63a162aaa96703bfa7ab1b3e1 <= substitute this with the commit used in p4-learning/vm/bin/install-p4-tools.sh
 ./autogen.sh
 ./configure --disable-elogger --disable-logging-macros 'CFLAGS=-g -O2' 'CXXFLAGS=-g -O2'
 make -j 2

@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
 
   # VirtualBox specific configuration
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "Adv-comm-net-VM"
+    vb.name = "P4-learning"
     vb.gui = true
     vb.memory = 4096
     vb.cpus = 3

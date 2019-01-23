@@ -254,8 +254,17 @@ while true ; do
 done
 
 # main
-if [ "$ENABLE_P4_RUNTIME" == 1 ]; then
-    # Updates PI: https://github.com/p4lang/PI
-    do_update_PI
+
+# checks if the current path includes the word p4c somewhere
+# its probably not the best way to check if we are in the right
+# path, but its something
+if [[ "$ROOT_PATH" == *"bmv2"* ]];then
+
+    if [ "$ENABLE_P4_RUNTIME" == 1 ]; then
+        # Updates PI: https://github.com/p4lang/PI
+        do_update_PI
+    fi
+    do_update_bmv2
+else
+    die 'ERROR: you are not in a bmv2 directory'
 fi
-do_update_bmv2
