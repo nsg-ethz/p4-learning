@@ -67,7 +67,7 @@ If you built the VM with vagrant you can ssh into it by running:
 vagrant ssh
 ```
 
-By default `vagrant ssh` will login as `vagrant` user, however you need to **use the user `p4`** for doing the exercises. 
+By default `vagrant ssh` will login as `vagrant` user, however you need to switch ** the user `p4`** in order to be able to use the software.
 
 You can achieve this in multiple ways:
 
@@ -75,7 +75,7 @@ You can achieve this in multiple ways:
 
 * Use the following command to login with the user `p4`:
 ```bash
-ssh p4@localhost -p 2223
+ssh p4@localhost -p 2223 #default port we use to forward SSH from host to guest
 password: p4
 ```
 
@@ -86,7 +86,7 @@ vagrant@p4:~$ su p4
 
 ### VM Credentials
 
-The VM comes with two users, `vagrant` and `p4`, for both the password is the same than the user name. **Always use the user `p4` for solving the exercises**.
+The VM comes with two users, `vagrant` and `p4`, for both the password is the same than the user name. **Always use the user `p4`**.
 
 ## Download the OVA Package
 

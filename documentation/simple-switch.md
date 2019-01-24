@@ -10,7 +10,7 @@ an implementation of the `abstract switch model` presented in the
 switch target has been implemented using the `bmv2` library, which is a framework that allows developers to implement their own
 software p4 targets.
 
-In the second version of the language (P4-16, the one we will be using through the lecture),
+In the second version of the language (P4-16, the one we use in this repository),
 several backwards-incompatible changes were made to the language and syntax. In particular, a large number
 of language features were eliminated from the language and moved into
 libraries including counters, checksum units, meters, etc. And thus, the core of the P4-16 language has been made
