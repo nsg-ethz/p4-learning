@@ -35,7 +35,7 @@ vagrant plugin install vagrant-vbguest
 
 ## Settings
 
-The VM is configured to have 4 GB of RAM, 2 CPUS, and 64 GB of hard disk. To modify that you can edit the
+The VM is configured to have 4 GB of RAM, 3 CPUS, and 64 GB of dynamic hard disk. To modify that you can edit the
 [Vagrantfile](Vagrantfile) before building. If needed (hopefully not), you can add more disk space to you virtual machine by following the steps
  shown in this [Tutorial](https://tuhrig.de/resizing-vagrant-box-disk-space/).
 
@@ -101,7 +101,16 @@ Pre-built OVA package: [ova](https://drive.google.com/open?id=17JzX2cN4JMnB2AWfb
 
 In case you want to use an already existing VM or you just want to manually install all the dependencies
 and required software to run virtual networks with p4 switches, you can have a look at the install [scripts](./bin) used
-by the Vagrant setup. However, please note that we cannot provide support for manual installations.
+by the Vagrant setup.
+
+If you are using Ubuntu 16.04.5, you can simply copy all the scripts in `/bin` to your machine/VM and run then run the `root-bootstrap.sh` script. However,
+before doing that you will have to copy all the files in `./vm_files` to your home directory, and edit all the lines in the scripts that try to use them. Finally, run
+the boostrap script:
+
+```
+sudo root-bootstrap.sh
+```
+
 
 
 ## FAQ

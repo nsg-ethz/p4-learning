@@ -1,7 +1,7 @@
 # Exercises
 
-In this page, you find the [Advanced Topics in Communication Networks 2018](https://adv-net.ethz.ch/) exercises.
-
+In this page, you find the [Advanced Topics in Communication Networks 2018](https://adv-net.ethz.ch/) exercises. Before running the exercises
+make sure you have all the required software installed in your machine or VM. For more information see [here](../README.md#required-software).
 
 ## Exercises
 

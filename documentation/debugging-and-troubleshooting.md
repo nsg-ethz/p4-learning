@@ -115,6 +115,14 @@ get some insights on what the code does by just modifying a header field dependi
 gets executed and check that value when the packet leaves the switch. Of course you can do something more sophisticated, and
 and use several fields, read the value of a register and save it in the header, and so on.
 
+
+### Using P4 tables to inspect headers/metadata values
+
+We already have an [example](../examples/debugging_table/README.md) covering this. Basically the idea is to use
+P4 tables and do an `exact` match to all the fields you want to track. Every time the table is executed, if the bmv2
+debugging is enabled, the switch will write the values of each field that was used to match the table entry in the switch
+log file. See the example for more information.
+
 ### If the above did not solve your problem:
 
 P4, and all the tools around are quite new. Several times things just do not work

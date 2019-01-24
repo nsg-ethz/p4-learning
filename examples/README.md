@@ -4,9 +4,8 @@ Compilation of different P4 examples. In overall, these examples cover
 almost all the `simple switch` features (with some exceptions). Thus, they
 can perfectly be used as a guide or cheat sheet.
 
-To run the examples without any modification you have to first install [p4-utils](https://github.com/nsg-ethz/p4-utils). P4-utils its
-a set of tools built on top of mininet that help with the developement and testing
-of p4 networks.
+To run the examples without any modification you have to first install [p4-utils](https://github.com/nsg-ethz/p4-utils).
+P4-utils its a set of tools built on top of mininet that help with the developement and testing of p4 networks.
 
 ## Examples
 

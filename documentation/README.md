@@ -3,25 +3,27 @@
 This documentation contains helpful information that will help you getting started
 with P4.
 
-We will keep adding content. The questions that get asked often will be added to the
-FAQ section. Useful resources and documentation will also be added if something new
+The questions that get asked often (if any) will be added to the
+FAQ section (which at the moment is empty). Useful resources and documentation will also be added if something new
 comes or if people ask about it.
 
-Before asking something to us check if the solution to your problem can be found in any of the
-following documents and links.
+Before asking something check if the solution to your problem can be found in any of the
+following documents and links, or examples.
 
 #### Getting Started With P4:
 
 1. [Build VM](../vm/README.md#build-vm-using-vagrant) Build The VM from scratch using Vagrant
 2. [Download VM](../vm/README.md#download-the-ova-package) Get the OVA Image to directly import it to VirtualBox
-3. [P4 Repositories](p4lang-repository-structure.md) Guide to the public p4lang repositories
+3. [P4 Tutorials](https://github.com/p4lang/tutorials) Official P4 tutorials (they use the P4Runtime).
+4. [P4 Exercises](../exercises) List of exercises from this repository.
 4. [P4 Utils](https://github.com/nsg-ethz/p4-utils) Mininet Extension to build P4 networks
 
 #### P4 References
 
-1. [P4 Spec](https://p4.org/p4-spec/) P4 Language and Related Specifications
-2. [P4-guide](https://github.com/jafingerhut/p4-guide) Repository which contains a lot of useful information, examples,
+1. [P4 Spec](https://p4.org/p4-spec/) P4 Language and Related Specifications.
+3. [P4-guide](https://github.com/jafingerhut/p4-guide) Repository which contains a lot of useful information, examples,
    tests of what works or what does not, etc.
+3. [P4 Repositories](./p4lang-repository-structure.md) Guide to the public p4lang repositories
 
 #### Resources
 
