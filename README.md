@@ -18,9 +18,7 @@ a collection of examples and much more. Specifically:
 * [Environment Installation](./vm): a guide and scripts to install the required software to start developing P4 applications
 in your own machine
 
-## How To Start?
-
-
+## How to start?
 
 ### Clone this repository into your machine
 
@@ -48,7 +46,7 @@ instructions in the [P4 Virtual Machine Installation](vm/README.md) document.
 version of `bmv2` and `p4c` that we provide. See the following [installation](./vm/bin/install-p4-tools.sh) script and use the
 same `commits`.
 
-#### Install P4 Utils
+#### Installing P4-utils
 
 To run the exercises and examples we [P4 utils](https://github.com/nsg-ethz/p4-utils). P4-utils is an extension to Mininet to support P4 devices
 that was strongly inspired by the original [p4app](https://github.com/p4lang/p4app) from the [p4lang](https://github.com/p4lang) repository.
