@@ -48,12 +48,12 @@ same `commits`.
 
 #### Installing P4-utils
 
-To run the exercises and examples we [P4 utils](https://github.com/nsg-ethz/p4-utils). P4-utils is an extension to Mininet to support P4 devices
-that was strongly inspired by the original [p4app](https://github.com/p4lang/p4app) from the [p4lang](https://github.com/p4lang) repository.
+To run the exercises and examples we use [P4 utils](https://github.com/nsg-ethz/p4-utils). P4-utils is an extension to Mininet to support P4 devices.
+It was strongly inspired by the original [p4app](https://github.com/p4lang/p4app) from the [p4lang](https://github.com/p4lang) repository.
 See the [P4-utils](https://github.com/nsg-ethz/p4-utils) repository for more information.
 
 If you build the VM from the vagrant script we provide or directly download the OVA package you will have `p4-utils` already installed, however
-if you have the required software already  in your machine you will have to manually install p4-utils:
+if you already have the required software and use your own machine/VM you can manally install it:
 
 ```bash
 git clone https://github.com/nsg-ethz/p4-utils.git
