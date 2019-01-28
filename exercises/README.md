@@ -15,14 +15,14 @@ make sure you have all the required software installed in your machine or VM. Fo
  * [Broadcasting Packets](./exercises/03-L2_Flooding)
  * [Learning Switch](./exercises/04-L2_Learning)
 
-### Switch and Stateful Programming
+### Basic Load Balancing
 
- * [Heavy Hitter Detector](./exercises/06-Heavy_Hitter_Detector)
  * [ECMP](./exercises/05-ECMP)
  * [Flowlet Switching](./exercises/05-Flowlet_Switching)
 
 ### Probabilistic Data Structures
 
+ * [Heavy Hitter Detector](./exercises/06-Heavy_Hitter_Detector)
  * [Count-Min Sketch](../exercises/07-Count-Min-Sketch)
 
 ### Advanced L3 Features
