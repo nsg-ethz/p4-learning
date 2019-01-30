@@ -111,8 +111,6 @@ the boostrap script:
 sudo root-bootstrap.sh
 ```
 
-
-
 ## FAQ
 
 #### How to change the keyboard layout?
@@ -120,3 +118,9 @@ run this command in the terminal:
 ```bash
 sudo dpkg-reconfigure keyboard-configuration
 ```
+
+#### `Vagrant Up` hangs
+
+When you do the first `vagrant up` the ubuntu VM first runs `apt-get update`
+which for some reason does not work with some old vagrant `boxes` if you happen
+to ran into that problem try to update your boxes with `vagrant box update`.
