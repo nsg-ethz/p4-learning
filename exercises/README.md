@@ -7,29 +7,29 @@ make sure you have all the required software installed in your machine or VM. Fo
 
 ### First contact with P4
 
- * [Packet Reflector](./exercises/01-Reflector)
- * [Repeater](./exercises/02-Repeater)
+ * [Packet Reflector](./01-Reflector)
+ * [Repeater](./02-Repeater)
 
 ### Basic L2 Switch
- * [Simple L2 Forwarding](./exercises/03-L2_Basic_forwarding)
- * [Broadcasting Packets](./exercises/03-L2_Flooding)
- * [Learning Switch](./exercises/04-L2_Learning)
+ * [Simple L2 Forwarding](./03-L2_Basic_forwarding)
+ * [Broadcasting Packets](./03-L2_Flooding)
+ * [Learning Switch](./04-L2_Learning)
 
 ### Basic Load Balancing
 
- * [ECMP](./exercises/05-ECMP)
- * [Flowlet Switching](./exercises/05-Flowlet_Switching)
+ * [ECMP](./05-ECMP)
+ * [Flowlet Switching](./05-Flowlet_Switching)
 
 ### Probabilistic Data Structures
 
- * [Heavy Hitter Detector](./exercises/06-Heavy_Hitter_Detector)
- * [Count-Min Sketch](../exercises/07-Count-Min-Sketch)
+ * [Heavy Hitter Detector](./06-Heavy_Hitter_Detector)
+ * [Count-Min Sketch](../07-Count-Min-Sketch)
 
 ### Advanced L3 Features
 
- * [Simple Routing](./exercises/08-Simple_Routing)
- * [Traceroutable Network](./exercises/09-Traceroutable)
+ * [Simple Routing](./08-Simple_Routing)
+ * [Traceroutable Network](./09-Traceroutable)
 
 ### Congestion Aware Load Balancing
 
- * [Congestion Aware Load Balancing](./exercises/10-Congestion_Aware_Load_Balancing)
+ * [Congestion Aware Load Balancing](./10-Congestion_Aware_Load_Balancing)
