@@ -2,15 +2,6 @@
 
 set -xe
 
-#Install mininet
-
-cd $HOME
-
-git clone git://github.com/mininet/mininet mininet
-cd mininet
-sudo ./util/install.sh -nwv
-cd ..
-
 #install tmux
 
 sudo apt-get remove -y tmux

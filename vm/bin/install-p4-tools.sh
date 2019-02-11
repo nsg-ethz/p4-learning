@@ -97,6 +97,17 @@ mkdir -p ${BUILD_DIR}
 DEBUG_FLAGS=true
 ENABLE_P4_RUNTIME=true
 
+#install mininet
+function do_mininet {
+
+    cd $HOME
+
+    git clone git://github.com/mininet/mininet mininet
+    cd mininet
+    sudo ./util/install.sh -nwv
+    cd ..
+}
+
 #Install Protobuf
 function do_protobuf {
     cd ${BUILD_DIR}
