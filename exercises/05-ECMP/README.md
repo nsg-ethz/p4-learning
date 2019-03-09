@@ -96,7 +96,8 @@ the `update_checksum` is used.
 
 10. This time you have to write six `sX-commands.txt` files, one per switch. Note that only `s1` and `s6` need to have `ecmp` groups installed. For all
 the other switches setting rules for the first table (using action `set_nhop`) will suffice. For `s1` you have to set a direct next hop towards `h1`, and a ecmp
-group towards `h2`. Set the ecmp group with `id = 1` and `num_hops = 4`. Then define 4 rules that map from 0 to 3 to one of the 4 switch output ports (using the second table).
+group towards `h2`. Set the ecmp group with `id = 1` and `num_hops = 4`. Then define 4 rules that map from 0 to 3 to one of the 4 switch output ports 
+(using the second table).
 
 ## Testing your solution
 

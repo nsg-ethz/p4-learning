@@ -11,7 +11,7 @@ We will leverage the fact that P4 allows reading queuing information (i.e. for e
 and use this information to detect congestion (i.e. if a queue contain many packets). In this case, the flow that suffers from congestion should be moved to another path.
 We will try to avoid congestion using a very simple technique: every time an egress (switch before the destination host) detects that a packet experienced congestion it will
 send a notification message to the ingress switch, which upon receiving it will randomly move the flow to another path. Obviously, this is by far
-not the best way of exploring available paths, but it will enough to just show how to collect information as packets cross the network, communicate between switches and make them
+not the best way of exploring available paths, but it will be enough to just show how to collect information as packets cross the network, communicate between switches and make them
 react to network states.
 
 As a starting point for this exercise, we use the code from last week's simple router (you can use the solution that we provide in the skeleton or your own code, if you managed to
@@ -82,7 +82,7 @@ the IP assignment will go as follows:
    3. Switch to Switch interfaces: `20.sw1.sw2.<1,2>`. Where `sw1` is the id of the first switch (following the order in the `p4app` link definition), `sw2` is the
    id of the second switch. The last byte is 1 for sw1's interface and 2 for sw2's interface.
 
-Note that it is the first time we assign IP addresses to a switch. However, it is very important to note that actually `p4-utils` will not assign those IPs
+Note that it is the third time we assign IP addresses to a switch. However, it is very important to note that actually `p4-utils` will not assign those IPs
 to the switches, but it will save them so they can be `virtually` used for some switch functionality (we will see what this means later).
 
 You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
@@ -94,7 +94,7 @@ the following description will be based on the ECMP solution we provide).
 
 Take a moment to go through the P4 code again to remind yourself how the program works before continuing.
 
-In this exercise we will give less hits (compared with previous exercises), and you will be able to decide for your self how to implement some pieces of the algorithm. In order
+In this exercise we will give less hints (compared with previous exercises), and you will be able to decide for your self how to implement some pieces of the algorithm. In order
 to compensate a bit with that, you will have two weeks to solve this exercise.
 
 #### Observing the problem
@@ -195,10 +195,10 @@ just did that for the sake of showing you how the queue depth changes as we make
 In our real implementation, only switches from the inside the network will use the telemetry header to detect congestion and move flows. Thus, packets leaving the internal network (going to a host)
 should not have the telemetry header in them. Therefore, we need to remove it before the packet reaches a host.
 
-To do that you will need to know which type of node (host or switch) is connected to each switch's port. As we have seen in order exercises, to do something like that we need to use
+To do that you will need to know which type of node (host or switch) is connected to each switch's port. As we have seen in other exercises, to do something like that we need to use
 a table, the control plane and the topology object that knows how nodes are connected. In brief, in this section you have to:
 
-1. Define a a new table and action in the ingress pipeline, that will be used to know which output port the packet is going to. This table should match to the `egress_spec`. And call
+1. Define a new table and action in the ingress pipeline, that will be used to know which output port the packet is going to. This table should match to the `egress_spec`. And call
 an action that sets to which type of node the packet will be going to (save that in a metadata field). For example you can use the number 1 for hosts and 2 for switches.
 2. Modify the `routing-controller.py` program such that it fills this table. You can do that by writing inside the `set_egress_type_table` function. For each switch you should populate
 the table with a port and the node type is connected to (host(1) or switch(2)).
@@ -222,7 +222,7 @@ In our network created using `P4-utils` the mtu is set to 9500. You can see that
 #### Congestion notification
 
 In this section you will have to implement the egress logic that detects congestion for a flow, and send a feedback packet to the ingress switch (the switch this flow used to enter the network). To generate
-a packet and send it to the ingress switch you will have `clone` the packet that triggers the congestion, modify it and send it back to the switch.
+a packet and send it to the ingress switch you will have to `clone` the packet that triggers the congestion, modify it and send it back to the switch.
 
 Your tasks are:
 
@@ -239,13 +239,13 @@ a probability p (i.e., 33%). You can use the random extern to decide if the flow
 
 4. If all the conditions above are true. You will have to send a packet notifying the ingress switch that this flow is experiencing congestion. To do that you need to generate a new packet out of the one you are forwarding. You can
 do that by cloning the packet (you have to clone from egress to egress). Now if you remember when you clone a packet (check l2_learning exercise) you have to add a `mirroring_session` id which tells the switch to which port to
-mirror the packet. Here you have to options:
+mirror the packet. Here you have two options:
 
-   1. You define a `mirror_session` for each switch port.  For that you would need to use the `ingress_port` and a table that mapps it to a mirror id that would send it to the port the packet came from.
+   1. You define a `mirror_session` for each switch port.  For that you would need to use the `ingress_port` and a table that maps it to a mirror id that would send it to the port the packet came from.
    2. You clone the packet to any port (lets say port 1, it really does not matter). And then you recirculate it by using the `recirculate` extern. This will allow you to send this packet again to the ingress pipeline so you can use the normal forwarding
    tables to forward the packet. I recommend you to use this second option since it does not require an extra table and you make sure the packet is properly forwarded using the routing table.
 
-5. Either if you use recirculation or just cloning modify the ethernet type so you switches know that this packet is a notification packet (for example you can use 0x7778). Remember to update the parser accordingly.
+5. Either if you use recirculation or just cloning, modify the ethernet type so your switches know that this packet is a notification packet (for example you can use 0x7778). Remember to update the parser accordingly.
 
 6. Hint: if you want to easily be able to send the packet to the ingress switch you can just swap the IP addresses so the packet is sent to the originator host. This will make the packet be automatically routed to the ingress
 switch (which it can then drop it).
@@ -275,7 +275,7 @@ the notification message has the source and destination IPs swapped so to access
 
 Once you think your implementation is ready, you should repeat the steps we showed at the beginning:
 
-1. Start the medium size topology, which has 4 hosts connected to another 4 hosts, witch 4 paths in between:
+1. Start the medium size topology, which has 4 hosts connected to another 4 hosts, with 4 paths in between:
 
    ```bash
    sudo p4run --config p4app-medium.json

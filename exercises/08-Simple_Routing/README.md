@@ -101,7 +101,7 @@ At a high level, the `route` function should do the following:
    1. If source switch and destination switch are the same. Install an entry for each directly connected host: You need host ip (use `/32`), mac address, and in which port index it is connected to the switch.
    2. If there is a single path between src switch and destination switch and the destination switch has direct hosts connected: this time use the next hop to get the output port and the destination mac address.
    3. If there are multiple paths between src switch and destination switch and the destination switch has direct hosts connected: create a ecmp group (as in the example above) for all multiple next hops needed to reach
-   the destination switch. If for the same source switch a the same multiple hops have to be used for another destination use the already defined ecmp group.
+   the destination switch. If for the same source switch the same multiple hops have to be used for another destination use the already defined ecmp group.
 
 To get information about the shortest paths, ip addresses, mac addresses, port indexes and how nodes are connected between each other you will have to strongly utilize the topology object from `p4-utils`.
 To implement the routing function you will have to strongly utilize the topology object from `p4-utils`.

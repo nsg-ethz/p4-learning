@@ -56,7 +56,7 @@ the IP assignment will go as follows:
    3. Switch to Switch interfaces: `20.sw1.sw2.<1,2>`. Where `sw1` is the id of the first switch (following the order in the `p4app` link definition), `sw2` is the
    id of the second switch. The last byte is 1 for sw1's interface and 2 for sw2's interface.
 
-Note that it is the first time we assign IP addresses to a switch. However, it is very important to note that actually `p4-utils` will not assign those IPs
+Note that it is the second time we assign IP addresses to a switch. However, it is very important to note that actually `p4-utils` will not assign those IPs
 to the switches, but it will save them so they can be `virtually` used for some switch functionality (we will see what this means later).
 
 You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
@@ -131,7 +131,7 @@ from the ICMP header together with the payload (original IP header + the first 8
 
 ## Testing your solution
 
-Once you completed your implementation, you can test the program using the `traceroue.py` script or the real `traceroute` tool. If you use the `traceroute` tool, bear in mind that we only implemented replies to TCP packets while the tool sends UDP packets by default. Add the `-T` parameter to use TCP packets.
+Once you completed your implementation, you can test the program using the `traceroute.py` script or the real `traceroute` tool. If you use the `traceroute` tool, bear in mind that we only implemented replies to TCP packets while the tool sends UDP packets by default. Add the `-T` parameter to use TCP packets.
 
 1. Start the topology (this will also compile and load the program).
 

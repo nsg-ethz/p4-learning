@@ -103,7 +103,7 @@ type `standard_metadata_t`.
 ### Queueing Metadata
 
 Metadata information that is populated by the switch when going from the ingress to the egress pipeline. Thus,
-this metadata fields can onlt be accesses from the egress pipeline and they are read-only.
+this metadata fields can only be accessed from the egress pipeline and they are read-only.
 
 - `enq_timestamp`:a timestamp, in microseconds, set when the packet is first
 enqueued.
@@ -277,7 +277,7 @@ list from the last resubmit action is used, and only one packet is resubmitted.
 - `recirculate`(in T data): recirculates the modified packet to the ingress. It can be applied only at
 the egress. This function marks the packet to be recirculated after egress deparsing, meaning that
 all the changes made to the packet will be kept in the recirculated one. Similarly
-to resbumit, some metadata fields can be kept using the `data` parameter.
+to resubmit, some metadata fields can be kept using the `data` parameter.
 
 - `clone`(in CloneType type, in bit<32> session): this functions allows you
 to create packet clones. For more information see its specific section [below](#cloning-packets).
@@ -300,7 +300,7 @@ p4 code and control plane programming.
 In order to use the packet replication engine of the simple switch several things need to be done both in the p4 program and
 using the runtime interface or CLI.
 
-First of all you need to create multicast grups, multicast nodes and associate them to ports and groups. That can be done using
+First of all you need to create multicast groups, multicast nodes and associate them to ports and groups. That can be done using
 the `simple_switch_CLI` or the thrift SimpleSwitchAPI provided by `P4 utils`:
 
 1. Create a multicast group:
@@ -350,7 +350,7 @@ mc_node_associate 1 0
 
 Finally, once you have programmed the replication engine and added multicast groups you can use them in your P4 program. For that
 you need to write the value of the multicast group id you want to use for multicasting in the `standard_metadata.mcast_grp` during the
-ingress pipeline. Following our example, to send a packet to ports 1,2 and 3 we would `standard_metadata.mcast_grp = 1`.
+ingress pipeline. Following our example, to send a packet to ports 1, 2 and 3 we would `standard_metadata.mcast_grp = 1`.
 
 ### Cloning Packets
 
@@ -435,10 +435,10 @@ digest(1, meta.digest_data); //assume that metadata is called meta in the ingres
 
 > Note that the first parameter of digest is always 1.
 
-Receiving digested packets its not trivial, since the switch adds some control header that needs to be
-parsed, furthermore, for each digested packet, the switch expects an acknowledge message (used to filter duplicates).
+Receiving digested packets is not trivial, since the switch adds some control header that needs to be
+parsed, furthermore, for each digested packet, the switch expects an acknowledgement message (used to filter duplicates).
 
-In the [`L2_learning`](../exercises/02-L2_Learning/l2_learning_controller.py)
+In the [`L2_learning`](../exercises/04-L2_Learning/l2_learning_controller.py)
 exercise we provided some example python code that uses the `nnpy` library to receive digest packets.
 
 
@@ -475,7 +475,7 @@ want to do this ask and we can show you how to do it.
 
 ## Ingress and Egress Pipelines
 
-We have seen that packets can be processed in a wide range of manners. Depending if we want to unicast, multicast, clone, digest, resubmit or recircualte a packet
+We have seen that packets can be processed in a wide range of manners. Depending if we want to unicast, multicast, clone, digest, resubmit or recirculate a packet
 can be processed differently. Also you might ask yourself what happens if we try to unicast and multicast at the same time, or resubmit and recirculate. In this section
 we explain how does simple switch handles those cases at the ingress and egress pipelines.
 
