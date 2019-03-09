@@ -27,7 +27,7 @@ As usual, we provide you with the following files:
   *  `p4app.json`: describes the topology we want to create with the help
      of mininet and p4-utils package.
   *  `p4src/flowlet_switching.p4`: p4 program skeleton to use as a starting point.
-  *  `p4src/includes`: In today's exercise we will split our p4 code in multiple files for the first time. In the includes
+  *  `p4src/includes`: In the includes
   directory you will find `headers.p4` and `parsers.p4` (which also have to be completed).
   *  `send.py`: a small python script to send burst of packets that belong to the same flow.
 
@@ -138,7 +138,7 @@ taking.
    python send.py 10.0.6.2 1000 <sleep_time_between_packets>
    ```
 
-   This will send `tcp syn` packets with the same 5-tuple. You can ply with the sleep time (third parameter). If you set it bigger than your gap, packets should change
+   This will send `tcp syn` packets with the same 5-tuple. You can play with the sleep time (third parameter). If you set it bigger than your gap, packets should change
    paths, if you set it smaller (set it quite smaller since the software model is not very precise) you will see all the packets cross the same interfaces.
 
 #### Some notes on debugging and troubleshooting
