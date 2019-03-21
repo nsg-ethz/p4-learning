@@ -103,11 +103,11 @@ To successfully complete the p4 program you have to:
 1. Define a forwarding table that forwards packets from port 1 to port 2 and vice-versa. This is exactly what we did in the `repeater` exercise, thus you can
 copy your solution from there. The table should match the `ingress_port` and in case of match call a `set_egress_port` action.
 
-2. Define the `set_egress_port` action. The action gets an `bit<9> ingress_port` number and sets it as `egress_spec`.
+2. Define the `set_egress_port` action. The action gets an `bit<9> egress_port` number and sets it as `egress_spec`.
 
 3. Define the `s1-commands.txt` file to fill the table. You just need two entries.
 
-4. Define `N` registers. To set the with of each register cell use the constant `SKETCH_CELL_BIT_WIDTH`.
+4. Define `N` registers. To set the width of each register cell use the constant `SKETCH_CELL_BIT_WIDTH`.
 To set the register size use the `SKETCH_BUCKET_LENGTH` constant (which you have to define depending on your needs). In order to easily
 read the registers from the computer name them as follows: `sketch<num>` for example: `sketch0`, `sketch1`,.., `sketchN`.
 

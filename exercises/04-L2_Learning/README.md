@@ -44,38 +44,10 @@ For this exercise the files we provide you are:
   * `l2_learning_controller.py`: since there is not much documentation on how to write controllers with P4 utils, we provide you some useful
   skeleton that you just have to fill with the l2 algorithm.
 
-**Important:**
-
-By mistake the VM comes with two `scapy` (python library we use to craft and receive packets) versions that we want to remove, and update.
-
-Uninstall the one that was installed using `apt-get` by:
-
-```bash
-sudo apt-get purge python-scapy
-```
-
-Uninstall the one we added from `p4lang` by:
-
-```bash
-cd ~/p4-tools/scapy-vxlan/
-sudo python setup.py install --record files.txt
-cat files.txt | sudo xargs rm -rf
-````
-
-Install latest scapy version:
-
-```bash
-cd /tmp
-wget --trust-server-names https://github.com/secdev/scapy/archive/master.zip master.zip
-unzip master
-cd scapy-master
-sudo python setup.py install
-```
-
 #### Notes about p4app.json
 
 Unlike in previous exercises, for this exercise we do not need the automatic ARP table population at each host.
-Actually, to during this exercise we want to disable this feature. Once our switches get the feature of broadcasting
+Actually, during this exercise we want to disable this feature. Once our switches get the feature of broadcasting
 packets ARP requests will be sent everywhere and thus ARP tables will be filled without any problem.
 
 To disable automatic ARP population we added the following line to the `topology` section of the `p4app.json`:
@@ -108,8 +80,8 @@ flood unknown packets you will be able to reuse code from the previous exercise 
 #### Learning Switch: cloning packets to controller
 
 To complete this exercise we will need to clone packets. When a learning packet needs to be sent to the controller the switch
-will have make a copy of the packet send it to the controller, and then continue the pipeline normally with the original packet.
-In order to help you with the cloning part, you will a section in the new `Simple Switch` documentation that explains how to clone packets
+will have to make a copy of the packet, send it to the controller, and then continue the pipeline normally with the original packet.
+In order to help you with the cloning part, a section in the new `Simple Switch` documentation explains how to clone packets
 using the simple switch target.
 
 Your tasks are:
@@ -124,7 +96,7 @@ that in a metadata field.
 
 4. Add the new header to the headers struct.
 
-5. Define a normal forwarding table, and called it `dmac`. The table should match to the packet's destination mac address, and
+5. Define a normal forwarding table, and call it `dmac`. The table should match to the packet's destination mac address, and
 call a function `forward` that sets the output port. Set `NoAction` as default. Copy this from the previous exercise.
 
 6. Define a table named `broadcast` that matches to `ingress_port` and calls the action `set_mcast_grp` which sets the
