@@ -10,3 +10,4 @@ bash /vagrant/bin/misc-install.sh
 
 # Install P4lang tools
 bash /vagrant/bin/install-p4-tools.sh
+

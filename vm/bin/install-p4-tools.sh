@@ -371,6 +371,14 @@ function do_p4-learning {
     cd ..
 }
 
+# Due to this bug: https://github.com/jafingerhut/p4-guide/tree/master/linux-veth-bug
+# we need to verify if the current kernel is buggy or not
+function do_verify-ubuntu-bug {
+
+#TODO
+
+}
+
 do_protobuf
 if [ "$ENABLE_P4_RUNTIME" = true ] ; then
     do_grpc
