@@ -374,9 +374,8 @@ function do_p4-learning {
 # Due to this bug: https://github.com/jafingerhut/p4-guide/tree/master/linux-veth-bug
 # we need to verify if the current kernel is buggy or not
 function do_verify-ubuntu-bug {
-
-#TODO
-
+    sudo pip install bs4
+    python /vagrant/bin/test_veth_intf.py
 }
 
 do_protobuf
@@ -395,5 +394,6 @@ do_ptf
 do_p4-utils
 do_install_scripts
 do_p4-learning
+do_verify-ubuntu-bug
 
 echo "Done with p4-tools install!"
