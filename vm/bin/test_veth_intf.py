@@ -129,9 +129,10 @@ def update_linux_kernel(version_url, build):
     current_dir = os.getcwd()
     os.chdir('/tmp/kernel_update/')
 
-    for download in urls.split():
+    for download in urls:
         subprocess.call(['wget', '-c', version_url+download.strip()])
-    subprocess.call("sudo dpkg -i *.deb".split())
+    subprocess.call("sudo dpkg -i *.deb", shell=True)
+    subprocess.call("rm *.deb", shell=True)
     os.chdir(current_dir)
 
 
