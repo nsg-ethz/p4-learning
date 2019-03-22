@@ -121,6 +121,15 @@ def get_kernel_urls(url, build):
 
     return links
 
+    def set_new_kernel_as_default(kernel_url):
+        kernel_version =kernel_url.split("/")[-2][1:]
+        cmd = """grep menuentry /boot/grub/grub.cfg | grep """+kernel_version +""" | grep -v recovery | awk -F "'" '{print $2}'"""
+
+        kernel_grub_string = subprocess.check_output(cmd, shell=True)
+
+        subprocess.call("sudo grub-set-default '{}'".format(kernel_grub_string), shell=True)
+        subprocess.call("sudo update-grub",shell=True)
+
 def update_linux_kernel(version_url, build):
 
     urls = get_kernel_urls(version_url, build)
@@ -197,10 +206,9 @@ def test_veth():
 
 if __name__ == "__main__":
 
-
     import sys
 
-    default_kernel_url = "https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.4.141/"
+    default_kernel_url = "https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.4.142/"
     build = "amd64"
 
     if sys.argv > 1:
