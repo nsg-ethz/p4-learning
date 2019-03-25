@@ -211,7 +211,7 @@ if __name__ == "__main__":
     default_kernel_url = "https://kernel.ubuntu.com/~kernel-ppa/mainline/v4.4.142/"
     build = "amd64"
 
-    if sys.argv > 1:
+    if len(sys.argv) > 1:
         default_kernel_url = sys.argv[1]
 
     # if fails update kernel
