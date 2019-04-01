@@ -391,6 +391,7 @@ do_p4c
 #do_scapy-vxlan
 do_scapy
 do_ptf
+do_mininet
 do_p4-utils
 do_install_scripts
 do_p4-learning
