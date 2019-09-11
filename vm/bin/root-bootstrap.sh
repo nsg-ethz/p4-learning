@@ -117,3 +117,7 @@ su p4 <<'EOF'
 cd /home/p4
 bash /vagrant/bin/user-bootstrap.sh
 EOF
+
+# Change Vagrant password. Otherwise if deployed in the wild it can be a vulnerability
+# Alternative would be to make vagrant and root users only sshable with a key
+echo "vagrant:gv82NEudNnp$w87[" | sudo chpasswd
