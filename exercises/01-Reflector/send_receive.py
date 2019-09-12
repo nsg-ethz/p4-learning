@@ -58,7 +58,7 @@ def get_if():
 
 def send_packet(iface, addr):
 
-    raw_input("Press any key to send a packet:")
+    raw_input("Press the return key to send a packet:")
     print "Sending on interface %s to %s\n" % (iface, str(addr))
     pkt =  Ether(src=get_if_hwaddr(iface), dst='00:01:02:03:04:05')
     pkt = pkt /IP(dst=addr)

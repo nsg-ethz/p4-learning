@@ -375,7 +375,7 @@ function do_p4-learning {
 # we need to verify if the current kernel is buggy or not
 function do_verify-ubuntu-bug {
     sudo pip install bs4
-    python /vagrant/bin/test_veth_intf.py
+    sudo python /vagrant/bin/test_veth_intf.py
 }
 
 do_protobuf
