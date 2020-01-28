@@ -6,7 +6,7 @@ Zurich (Fall 2018). For more information visit the lecture's [website](https://a
 #### Introduction: SDN history, developing P4
 
 * [Introduction to P4](./01_intro.pdf)
-* [Developing P4 Applications](./02_p4_Env.pdf)
+* [Developing P4 Applications](./02_p4_env.pdf)
 
 #### Stateful Programming and probabilistic data structures:
 
