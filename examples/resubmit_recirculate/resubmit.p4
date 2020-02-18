@@ -96,7 +96,7 @@ control MyIngress(inout headers hdr,
     register<bit<16>>(256) resubmit_register;
 
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     action ipv4_forward(macAddr_t dstAddr, egressSpec_t port) {

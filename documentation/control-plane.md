@@ -29,7 +29,7 @@ For example if we have the following table:
 ```
 action drop(){
      // drops packet
-     mark_to_drop();
+     mark_to_drop(standard_metadata);
 }
 
 table table_name {

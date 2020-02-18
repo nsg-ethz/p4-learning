@@ -15,7 +15,6 @@ following documents and links, or examples.
 1. [Build VM](../vm/README.md#build-vm-using-vagrant) Build The VM from scratch using Vagrant
 2. [Download VM](../vm/README.md#download-the-ova-package) Get the OVA Image to directly import it to VirtualBox
 3. [P4 Tutorials](https://github.com/p4lang/tutorials) Official P4 tutorials (they use the P4Runtime).
-4. [P4 Exercises](../exercises) List of exercises from this repository.
 4. [P4 Utils](https://github.com/nsg-ethz/p4-utils) Mininet Extension to build P4 networks
 
 #### P4 References

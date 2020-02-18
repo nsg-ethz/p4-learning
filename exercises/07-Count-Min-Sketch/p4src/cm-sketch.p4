@@ -28,7 +28,7 @@ control MyIngress(inout headers hdr,
     //TODO 4: define N registers
 
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     //TODO 5: Define the sketch_count action

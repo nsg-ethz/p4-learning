@@ -6,7 +6,8 @@
 <img src="images/heavy_hitter_topo.png" title="Small Topology"/>
 <p/>
 
-In today's first exercise we will implement very simple heavy hitter detector using a counting bloom filter.
+In today's first exercise we will play with probabilistic data structures. First we will implement very simple heavy hitter detector
+using a counting bloom filter.
 Heavy hitters can simply be defined as the traffic sources who send unusually large traffic.
 This can be categorized solely by source IP address or can be classified to each application,
 or application session that sends the traffic. As you have seen in the lecture, to implement a bloom filter
@@ -36,7 +37,7 @@ As usual, we provide you with the following files:
 
 #### Notes about p4app.json
 
-For this exercise (and the next two) we will use a new IP assignment strategy. If you have a look at `p4app.json` you will see that
+For this exercise we will use a the `mixed` IP assignment strategy. If you have a look at `p4app.json` you will see that
 the option is set to `mixed`. Therefore, only hosts connected to the same switch will be assigned to the same subnet. Hosts connected
 to a different switch will belong to a different `/24` subnet. If you use the namings `hY` and `sX` (e.g h1, h2, s1...), the IP assignment
 goes as follows: `10.x.x.y`. Where `x` is the switch id (upper and lower bytes), and `y` is the host id. For example, in the topology above,
@@ -64,10 +65,13 @@ in this exercise.
 of match the table should call `ipv4_forward` action.
 
 5. Define the `ipv4_forward` action. This action takes two parameters as input, destination mac address, and output port. Use the parameters to set the destination mac and
-`egress_spec`. Set the source mac as the previous destination mac (this is not what a real L3 switch would do, we just do it for simplicity. In a more realistic implementation we would create a table
+`egress_spec`. Since MAC addresses are not used in a switch to switch communication (as you already have seen last week) set the source mac as the previous destination mac (this is not what a real L3 switch would do,
+ we just do it for simplicity. In a more realistic implementation we would create a table
 that maps egress_ports to each switch interface mac address, however since this the source mac address is not very important for this exercise just do this swap).
-Finally, decrease the packet's TTL by 1. **Note:** since we are in a L3 network, when you send packets from `s1` to `s2` you have to use the dst mac of the switch interface not the mac address of the receiving host, that instead
-is done in the very last hop.
+Finally, decrease the packet's TTL by 1.
+
+**Important Note:** since we are in a L3 network, when you send packets from `s1` to `s2` you have to use the dst mac of the switch interface not the mac address of the receiving host, that instead
+is done in the very last hop. However, as said above, you can use any MAC address for switch to switch communication.
 
 6. At the beginning of the ingress control, define a register with 4096 fields and set the width of each field to 32. This register will be your counting
 bloom filter.
@@ -77,7 +81,7 @@ For this exercise you have to use two hash functions. Your update bloom filter o
 
     1. Define 4 metadata fields to store the hash output, and values you will read from the register. The size of each variable needs to be 32 bits.
     2. Compute two hash functions using two different algorithms (e.g., crc16 and crc32). Use the `hash` extern function to compute the hash of packets 5-tuple (src ip, dst ip, src port, dst port, protocol). The signature of a hash function is:
-   `hash(output_field, (crc16 or crc32), (bit<1>)0, {fields to hash}, (bit<16>)4096)`. You should hash the 5-tuple (src ip, dst ip, src port, dst port, protocol) of each packet.
+   `hash(output_field, (crc16 or crc32), (bit<1>)0, {fields to hash}, (bit<16>)4096)`.
     3. Using the two indexes you got from the hash function, read the register twice and store the values in metadata fields you defined in 1. **Note:** when using constant variables
     in P4 you must cast them otherwise the compiler can not guess the variable type.
     4. Increase the value of both by 1.
@@ -91,8 +95,8 @@ For this exercise you have to use two hash functions. Your update bloom filter o
     4. Check if the two values you read from the register are bigger than a `THRESHOLD` of 1000.
     If so, drop the packet, otherwise `apply` the `ipv4` forwarding table.
 
-9. In this exercise we modify a packet's field for the first time (remember we have to subtract 1 to the ip.ttl field). When doing so, the `ipv4` checksum field need
-to be updated otherwise other network devices (or receiving hosts) might drop the packet. To do that, the [`v1model`](https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4#L180) provides an `extern` function that can be called
+9. In this exercise we modify a packet's field for the first time (remember we have to subtract 1 to the ip.ttl field). When doing so, the `ipv4` checksum field needs
+to be updated otherwise other network devices (or receiving hosts) might drop the packet. To do that, the [`v1model`](https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4#L450) provides an `extern` function that can be called
 inside the `MyComputeChecksum` control to update checksum fields. Update the `hdr.ipv4.hdrChecksum` field hashing all the `ipv4` fields keeping the same order they are declared in the
 `ipv4` and excluding the `hdrChecksum` field, since its what we are computing here.
 
@@ -133,15 +137,15 @@ Once you have the `heavy_hitter.p4` program finished you can test its behaviour:
 2. Check that you can ping:
 
    ```bash
-   > mininet pingall
+   mininet> pingall
    ```
 
 3. Use the `receive.py` and `send.py` scripts:
 
-   Get a terminal in `h1` and `h2`. Run `python receive.py` in one of them, in the other run `python send.py <ip_dst> <number_of_packets>. The receiver
+   Get a terminal in `h1` and `h2`. Run `python receive.py` in one of them, in the other run `python send.py <ip_dst> <number_of_packets>`. The receiver
    will start getting packets, you will see that it does not receive more than 1000.
 
-4. Check that you can not `iperf`:
+4. Check that you can not finish an `iperf`:
 
    Run `iperf` in the mininet `cli` or getting a terminal. You will see that the first 1000 packets are sent, but then the connection gets blocked.
 

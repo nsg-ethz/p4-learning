@@ -9,7 +9,7 @@ small flows, but also but very few that are quite bigger. This makes ECMP suffer
 in which few big flows end up colliding in the same path. In this exercise we will use state and information provided by the simple_switch's
 `standard_metadata` to fix the collision problem of ECMP, by implementing flowlet switching on top.
 
-Flowlet switching leverages the burstness of TCP flows to achieve a better load balancing. TCP flows tend to come in bursts (for instance because
+Flowlet switching leverages the burstiness of TCP flows to achieve a better load balancing. TCP flows tend to come in bursts (for instance because
 a flow needs to wait to get window space). Every time there is gap which is big enough (i.e., 50ms) between packets from the same flow, flowlet switching
 will rehash the flow to another path (by hashing an ID value together with the 5-tuple).
 
@@ -27,8 +27,7 @@ As usual, we provide you with the following files:
   *  `p4app.json`: describes the topology we want to create with the help
      of mininet and p4-utils package.
   *  `p4src/flowlet_switching.p4`: p4 program skeleton to use as a starting point.
-  *  `p4src/includes`: In the includes
-  directory you will find `headers.p4` and `parsers.p4` (which also have to be completed).
+  *  `p4src/includes`: In the includes directory you will find `headers.p4` and `parsers.p4` (which also have to be completed).
   *  `send.py`: a small python script to send burst of packets that belong to the same flow.
 
 #### Notes about p4app.json
@@ -78,7 +77,7 @@ width size of 14 bits). Using the index you got from the hash function read flow
 also have to define them). Finally, update the timestamp register using `standard_metadata.ingress_global_timestamp`.
 
 7. Define another action to update the flowlet id (`update_flowlet_id`). We will use this action to update flowlet ids when needed.
-In this action you just have to generate a random number (or increase the previous id by 1), and then save it in the flowlet to id register (using the
+In this action you just have to generate a random number, and then save it in the flowlet to id register (using the
 id you already computed previously).
 
 8. Modify the `hash` function you defined in the ECMP exercise (`ecmp_group`), now instead of just hashing the 5-tuple, you have to
@@ -91,7 +90,7 @@ add the metadata field where you store the `flowlet_id` you read from the regist
     1. Read the flowlet registers (calling the action)
     2. Compute the time difference between now and the last packet observed for the current flow.
     3. Check if the time difference is bigger than `FLOWLET_TIMEOUT` (define at the beginning of the file with a default
-    value of 100ms).
+    value of 200ms).
     4. Update the flowlet id if the difference is bigger. Updating the flowlet id will make the hash function output a new value.
     5. Apply `ipv4_lpm` and `ecmp_group` is the same way you did in `ecmp`.
 

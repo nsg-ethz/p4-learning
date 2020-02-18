@@ -63,7 +63,7 @@ control MyIngress(inout headers hdr,
 
     action drop() {
 
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     //TODO 2: define a forwarding match-action table like the one from the previous exercise. This time you can remove

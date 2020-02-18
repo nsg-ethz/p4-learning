@@ -16,6 +16,8 @@ sudo make install
 sudo mv /home/vagrant/.tmux.conf ~/
 sudo chown p4:p4 /home/p4/.tmux.conf
 
+rm /home/p4/tmux-2.6.tar.gz
+
 cd ..
 
 # Install iperf3 (last version)

@@ -5,8 +5,8 @@
   "options": "--target bmv2 --arch v1model --std p4-16",
   "switch_cli": "simple_switch_CLI",
   "cli": true,
-  "pcap_dump": true,
-  "enable_log": true,
+  "pcap_dump": false,
+  "enable_log": false,
     "topo_module": {
     "file_path": "",
     "module_name": "p4utils.mininetlib.apptopo",

@@ -71,7 +71,7 @@ control MyIngress(inout headers hdr,
 
     action drop() {
 
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     action mac_learn(){

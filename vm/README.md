@@ -3,10 +3,9 @@
 In this document we show how to build a VM with all the necessary dependencies and software to 
 test and develop P4 applications.
 
-To build the VM we use Vagrant and a set of scripts that orchestrate the software installation. We also
-provide an OVA image that can be simply imported to VirtualBox.
+**RECOMMENDED**: We  provide an [OVA image](#download-the-ova-package) that can be simply imported to VirtualBox.
 
-If you don't want to use a VM and you already have ubuntu 16.04 installed natively in your laptop you can also install the software manually.
+**NOT RECOMMENDED**: If you don't want to use a VM and you already have ubuntu 16.04 installed natively in your laptop you can also install the software manually.
 For that you can have a look at [bin](./bin) directory. However you do it at your own risk and we will not be able to help you if something goes
 wrong during the installation.
 

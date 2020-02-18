@@ -46,7 +46,7 @@ control MyIngress(inout headers hdr,
     //SKETCH_REGISTER(4);
 
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     action sketch_count(){

@@ -66,7 +66,7 @@ control MyIngress(inout headers hdr,
 
     action drop() {
 
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     //TODO 4: copy the ingress code from the previous exercise. Modify the `mac_learn` action so now it digest the learn metadata

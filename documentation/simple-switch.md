@@ -315,7 +315,9 @@ the `simple_switch_CLI` or the thrift SimpleSwitchAPI provided by `P4 utils`:
    ```
 
    This function returns a `handle_id` which is some kind of identifier that needs to be used when associating the node with the multicast group. By default
-   the returned `handle_id` will be 0 for the first node we create, 1 for the next, and so on. Thus, we just have to remember in which order we added them.
+   the returned `handle_id` will be 0 for the first node we create, 1 for the next, and so on. Thus, we just have to remember in which order we added them. Note that
+   the `rid` and the `handle_id` are not the same. The `rid` can be set to the same for each node you create, and it is simply and identifier that will be attached to
+   every packet that gets multicasted using this `mc_node`. That value can be found at the egress by reading `standard_metadata.egress_rid`.
 
 
 3. Assign node with multicast group:
@@ -324,7 +326,7 @@ the `simple_switch_CLI` or the thrift SimpleSwitchAPI provided by `P4 utils`:
    mc_node_associate <mcast_grp_id> <node_handle_id>
    ```
 
- In the following example we will associate port 1,2 and 3 to the same multicast group using the `CLI`
+In the following example we will associate port 1,2 and 3 to the same multicast group using the `CLI`
 (translation to SimpleSwitchAPI is one to one):
 
 ```
@@ -347,10 +349,11 @@ mc_node_create 0 1 2 3
 mc_node_associate 1 0
 ```
 
-
 Finally, once you have programmed the replication engine and added multicast groups you can use them in your P4 program. For that
 you need to write the value of the multicast group id you want to use for multicasting in the `standard_metadata.mcast_grp` during the
 ingress pipeline. Following our example, to send a packet to ports 1, 2 and 3 we would `standard_metadata.mcast_grp = 1`.
+
+
 
 ### Cloning Packets
 
@@ -437,9 +440,6 @@ digest(1, meta.digest_data); //assume that metadata is called meta in the ingres
 
 Receiving digested packets is not trivial, since the switch adds some control header that needs to be
 parsed, furthermore, for each digested packet, the switch expects an acknowledgement message (used to filter duplicates).
-
-In the [`L2_learning`](../exercises/04-L2_Learning/l2_learning_controller.py)
-exercise we provided some example python code that uses the `nnpy` library to receive digest packets.
 
 
 ## Using Strict Priority Queues

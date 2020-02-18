@@ -22,7 +22,7 @@ control MyIngress(inout headers hdr,
                   inout metadata meta,
                   inout standard_metadata_t standard_metadata) {
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     action ecmp_group(bit<14> ecmp_group_id, bit<16> num_nhops){

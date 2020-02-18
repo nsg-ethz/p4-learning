@@ -135,7 +135,7 @@ function do_update_bmv2 {
         git pull
     fi
 
-    if [ "$PI_COMMIT" ]; then
+    if [ "$BMV2_COMMIT" ]; then
         git checkout master
         git pull
         git checkout ${BMV2_COMMIT}
@@ -172,7 +172,7 @@ function do_update_bmv2 {
     else #both false
         #Option removed until we use this commit: https://github.com/p4lang/behavioral-model/pull/673
         #./configure --with-pi --disable-logging-macros --disable-elogger --without-nanomsg
-        ./configure --disable-elogger --disable-logging-macros 'CFLAGS=-g -O2' 'CXXFLAGS=-g -O2'
+        ./configure --without-nanomsg --disable-elogger --disable-logging-macros 'CFLAGS=-g -O2' 'CXXFLAGS=-g -O2'
     fi
 
     make -j${NUM_CORES}

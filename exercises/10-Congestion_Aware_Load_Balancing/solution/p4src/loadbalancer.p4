@@ -37,7 +37,7 @@ control MyIngress(inout headers hdr,
     register <bit<REGISTER_WIDTH>>(REGISTER_SIZE) loadbalance_seed;
 
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     action set_egress_type (bit<4> egress_type){

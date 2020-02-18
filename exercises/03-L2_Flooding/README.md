@@ -3,14 +3,13 @@
 ## Introduction
 
 In the previous exercise we implemented a very basic l2 forwarding switch that only
-knows how to forward packets for which it knows the Mac destination address. In this exercise
-we will move one step forward to a more realistic l2 switch. When a l2 switch does not know to
-which port to forward a frame or the destination address is `ff:ff:ff:ff:ff:ff` the switch sends the
+knows how to forward packets for which it knows the MAC destination address. In this exercise
+we will move one step forward towards our more realistic l2 switch. When a l2 switch does not know to
+which port to forward a frame or the MAC destination address is `ff:ff:ff:ff:ff:ff` the switch sends the
 packet to all the ports but the one it came from.
 
-First you will have to implement a simplified version in
-which packets get forwarded to all ports, after that and once you know how to
-multicast packets, you will have to implement the real l2 flooding, in which packets do not get
+In this exercise, first you will have to implement a simplified version in
+which packets get forwarded to all ports, once that works, you will have to implement the real l2 flooding, in which packets do not get
 sent to the port they came from.
 
 <p align="center">
@@ -24,6 +23,7 @@ For this exercise the files we provide you are:
   *  `p4app-other-ports.json` and `p4app-all-ports.json`: p4 utils configuration files for each solution. Both files define the same topology.
   The only difference between them is the `program` and `cli_input` options.
   *  `p4src/l2_flooding_all_ports.p4` and `p4src/l2_flooding_other_ports.p4`: p4 program skeletons.
+  *  `send_broadcast.py`: small scapy script to send packets with the L2 broadcast destination address set.
 
 #### Notes about p4app.json
 
@@ -55,7 +55,7 @@ We will solve the flooding exercise in two steps. First we will implement the mo
 Then, we will implement a more realistic l2 flooding application that floods packets everywhere, but the
 port from where the packet came from. To keep your solutions separated solve each in a different p4 file (skeletons are provided).
 
-#### Flooding to all ports
+### Flooding to all ports
 
 To complete this exercise we will need to define multicast groups, a feature provided
 by the `simple_switch` target. Multicast enables us to forward packets to multiple ports. You can find
@@ -83,7 +83,7 @@ we want to use (in our case 1).
 
 6. Apply the table.
 
-#### Testing your solution
+### Testing your solution
 
 Once you have the `l2_flooding_all_ports.p4` program finished you can test its behaviour:
 
@@ -101,7 +101,8 @@ Once you have the `l2_flooding_all_ports.p4` program finished you can test its b
     sudo tcpdump -enn -i <interface_name>
     ```
 
-3. Send a single ping between h1 and h2:
+3. Send a single ping between h1 and h2. Alternatively if you can use the `send_broadcast.py` script to send broadcast
+packets from any host, remember to access the namespace before sending packets:
 
    ```bash
    *** Starting CLI:
@@ -115,9 +116,9 @@ Once you have the `l2_flooding_all_ports.p4` program finished you can test its b
    rtt min/avg/max/mdev = 6.254/6.254/6.254/0.000 ms
    ```
 
-Looking at the `tcpdump` outputs you should see how the ARP request from `h1` got flooded to all ports (even `s1-eth1`).
+If you used the ping to test, looking at the `tcpdump` outputs you should see how the ARP request from `h1` got flooded to all ports (even `s1-eth1`).
 
-4. Ping between all hosts using the cli, and check that you have complete connectivity:
+4. Furthermore you should have full connectivity. Thus, do a ping between all hosts using the cli, and check that you have complete connectivity:
 
    ```bash
    *** Starting CLI:
@@ -131,7 +132,7 @@ Looking at the `tcpdump` outputs you should see how the ARP request from `h1` go
    mininet>
    ```
 
-#### Flooding to other ports
+### Flooding to other ports
 
 Now that we know how to define multicast groups, and we saw that it does work its time to implement a more realistic flooding.
 For this exercise the switch will need to take into account the packet's input port and only broadcast to the other ports.
@@ -153,7 +154,7 @@ multicast group id.
 find more information about table hits and misses in the [P4 16 specification](https://p4.org/p4-spec/docs/P4-16-v1.0.0-spec.html#sec-invoke-mau). If there is a
 miss (packet needs to be broadcasted) you will have to apply new table defined in `TODO 3` which will set the multicast group.
 
-#### Testing your solution
+### Testing your solution
 
 Once you have the `l2_flooding_other_ports.p4` program finished you can test its behaviour:
 

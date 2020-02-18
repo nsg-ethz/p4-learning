@@ -23,7 +23,7 @@ make sure you have all the required software installed in your machine or VM. Fo
 ### Probabilistic Data Structures
 
  * [Heavy Hitter Detector](./06-Heavy_Hitter_Detector)
- * [Count-Min Sketch](../07-Count-Min-Sketch)
+ * [Count-Min Sketch](./07-Count-Min-Sketch)
 
 ### Advanced L3 Features
 
@@ -33,3 +33,7 @@ make sure you have all the required software installed in your machine or VM. Fo
 ### Congestion Aware Load Balancing
 
  * [Congestion Aware Load Balancing](./10-Congestion_Aware_Load_Balancing)
+
+### Packet Loss Detection
+
+ * [Detecting Packet Loss](./11-Packet-Loss-Detection)

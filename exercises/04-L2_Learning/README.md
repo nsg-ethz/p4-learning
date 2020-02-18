@@ -10,8 +10,8 @@ the feature of forwarding packets for unknown and broadcast destinations.
 <img src="images/l2_topology.png" title="L2 Star Topology">
 <p/>
 
-In this exercise we will add the cherry on the cake. We will make the switch a bit smarter and add the
-capability of learning Mac addresses to port mappings autonomously, as a regular L2 switch would do. Thus,
+In this exercise we will add the cherry on the cake. We will make the switch a bit smarter and add to it the
+capability of learning MAC addresses to port mappings autonomously, as a regular L2 switch would do. Thus,
 we will not need to add manually the `mac_address` to `output_port` mapping as we were doing in the previous
 exercises. Instead, now we will leave that table empty, and will let the switch (with the help of a controller)
 fill it automatically.
@@ -89,7 +89,8 @@ Your tasks are:
 1. Read the [documentation section](../../documentation/simple-switch.md#cloning-packets) that talks about packet cloning.
 
 2. Define a `cpu_t` header that will be added to our original packet. This header needs two fields, one for the source mac address,
-and one for the input port (48 and 16 bits respectively). Remember to cast the `standard_metadata.ingress_port` before assigning it to this header field.
+and one for the input port (48 and 16 bits respectively). Remember to cast the `standard_metadata.ingress_port` before assigning it to this header field (the
+standard metadata field is 9 bits, but we need to send a multiple of 8 to the controller, and thus we use 16 bits).
 
 3. Cloned packets get all the metadata reset. If we want to be able to know the `ingress_port` for our cloned packet we will need to put
 that in a metadata field.
@@ -105,6 +106,10 @@ multicast group for the packet, if needed. Define also the `set_mcast_grp` actio
 7. Define a third and new table (and name it `smac`). This new table will be used to match source mac addresses. If there
 is a match nothing should happen, if there is a miss, an action `mac_learn` should be called. The `mac_learn` action should
 set the metadata field you defined in 3 to `standard_metadata.ingress_port` and call `clone3` with `CloneType.I2E` and  mirroring ID = 100.
+
+**Note:** when using `clone3` with a non empty third parameter the compiler will complain with the following warning
+`[--Wwarn=unsupported] warning: clone3: clone with non-empty argument not supported`. This is due to a bug in the implementation of
+the software switch that they could not fix yet, however even if they say that it is not supported, the clone operation will work as intended.
 
 8. Write the apply logic. First apply the `smac` table. Then the `dmac` and if it does not have a hit, apply the `broadcast` table.
 

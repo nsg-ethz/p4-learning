@@ -58,33 +58,10 @@ sudo apt-get install -y --no-install-recommends \
 
 sudo -H pip install setuptools cffi ipaddr ipaddress pypcap
 
-#commit values from P4 Tutorials
-#BMV2_COMMIT="7e25eeb19d01eee1a8e982dc7ee90ee438c10a05"
-#P4C_COMMIT="48a57a6ae4f96961b74bd13f6bdeac5add7bb815"
-#PI_COMMIT="219b3d67299ec09b49f433d7341049256ab5f512"
-#PROTOBUF_COMMIT="v3.2.0"
-#GRPC_COMMIT="v1.3.2"
-
-#FROM ONOS
-# in case BMV2_COMMIT value is updated, the same variable in
-# protocols/bmv2/thrift-api/BUCK file should also be updated
-#BMV2_COMMIT="a3f0ebe4c0f10a656f8aa1ad68cb20402a62b0ee"
-#P4C_COMMIT="2d089af757212a057c6690998861ef67439305f4"
-#PI_COMMIT="7e94b025bac6db63bc8534e5dd21a008984e38bc"
-#PROTOBUF_COMMIT="v3.2.0"
-#GRPC_COMMIT="v1.3.2"
-
-#Advanced Topics in Communication networks 2018 Commits
-#BMV2_COMMIT="7e71a9bdd161afd63a162aaa96703bfa7ab1b3e1" #september 2018
-#P4C_COMMIT="5ae30eed11cd6ae2fcd54f01190b9e198f429420" #september 2018
-#PI_COMMIT="2b4a3ed73a8168d8adce48654a0f7bfc0fca875c"
-#PROTOBUF_COMMIT="v3.2.0"
-#GRPC_COMMIT="v1.3.2"
-
-#P4-teaching release commits
-BMV2_COMMIT="55713d534ce2d0fb86240b74582f31c15549738b" # Jan 19 2019
-P4C_COMMIT="1ab1c796677a3a2349df9619d82831a39a6e4437"  # Jan 18 2019
-PI_COMMIT="d338c522428b6256d7390d08781f8df8b204d1ee"   # Jan 16 2019
+# Advanced Topics in Communication networks 2019 Commits
+BMV2_COMMIT="b447ac4c0cfd83e5e72a3cc6120251c1e91128ab" # Aug 6 2019
+P4C_COMMIT="8742052c70836a8b0855e621aad9d6cc11b1f6ee"  # Sep 8 2019
+PI_COMMIT="41358da0ff32c94fa13179b9cee0ab597c9ccbcc"   # Aug 6 2019
 PROTOBUF_COMMIT="v3.2.0"
 GRPC_COMMIT="v1.3.2"
 

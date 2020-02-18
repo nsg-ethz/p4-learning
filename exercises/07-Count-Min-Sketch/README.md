@@ -8,9 +8,9 @@
 
 In today's exercise we will implement a new probabilistic data structure. The Count-Min Sketch. As you have seen during the lecture
 the Count-min sketch is a probabilistic algorithm that can be used to estimate occurrences of distinct elements (similar to the counting bloom filter
-we saw last week).
+we saw in last week lecture and previous exercise).
 
-To implement the count-min sketch we will use `registers` and `hash` functions as we already did last week. This time though, we will
+To implement the count-min sketch we will use `registers` and `hash` functions. This time though, we will
 have to define several registers and use a different hash function for each of them. To count packets belonging to a flow using the count-min
 sketch we have to hash every packet's 5-tuple (src,dst, sport, dport, proto) using N different hash functions. Each hash output is used to index a different register
 and increase its value by 1 (as you can see in the picture below). In order to read how many entries were counted for a given flow, we have to hash the 5-tuple, read
@@ -23,14 +23,6 @@ the value at every register and pick the minimum.
 In this exercise we will implement a count-min sketch with P4, a controller that will pull the counters from the switch and decode them, and finally play with the dimensions
 of the sketch.
 
-## Before Starting
-
-Before you start this exercise, update `p4-utils`, some new features and bugs were fixed during the last week:
-
-```bash
-cd ~/p4-tools/p4-utils
-git pull
-```
 
 ### Disabling debugging in the bmv2 switch
 
@@ -43,9 +35,9 @@ packets fast to the switch we can clone the repository again with a different na
 cd ~/p4-tools/
 git clone https://github.com/p4lang/behavioral-model.git bmv2-opt
 cd bmv2-opt
-git checkout 7e71a9bdd161afd63a162aaa96703bfa7ab1b3e1 <= substitute this with the commit used in p4-learning/vm/bin/install-p4-tools.sh
+git checkout b447ac4c0cfd83e5e72a3cc6120251c1e91128ab
 ./autogen.sh
-./configure --disable-elogger --disable-logging-macros 'CFLAGS=-g -O2' 'CXXFLAGS=-g -O2'
+./configure --without-nanomsg --disable-elogger --disable-logging-macros 'CFLAGS=-g -O2' 'CXXFLAGS=-g -O2'
 make -j 2
 sudo make install
 sudo ldconfig
@@ -109,7 +101,7 @@ copy your solution from there. The table should match the `ingress_port` and in 
 
 4. Define `N` registers. To set the width of each register cell use the constant `SKETCH_CELL_BIT_WIDTH`.
 To set the register size use the `SKETCH_BUCKET_LENGTH` constant (which you have to define depending on your needs). In order to easily
-read the registers from the computer name them as follows: `sketch<num>` for example: `sketch0`, `sketch1`,.., `sketchN`.
+read the registers from the controller name them as follows: `sketch<num>` for example: `sketch0`, `sketch1`,.., `sketchN`.
 
 5. Define the `sketch_count` action. In this action you should do the following for each register:
 
@@ -143,7 +135,7 @@ To successfully implement the controller you have to:
 return a list with all the register fields. The amount of registers available in the switch  (which should be the same than hashes) can be found in `self.register_num`. Remember that
 if you named your registers with the following pattern `sketch<num>` you can easily read them with a simple iteration.
 
-2. Define a function to get the count of a given flow. As an input the function needs the flow's 5-tuple and the length of the registers (to use it to modulo the output of the hash). To succesfully
+2. Define a function to get the count of a given flow. As an input the function needs the flow's 5-tuple and the length of the registers (to use it to modulo the output of the hash). To successfully
 implement this function you should hash the flow 5-tuple with all the different hash functions `self.hashes[i]` (remember to apply the modulo to the output to get the right index). For each hash `i` read the
 `self.registers[i][hash_output[i]]` and return the minimum of them. The hash function takes a bytestream as input, to generate the bytestream out of the 5-tuple use
 the function `flow_to_stream(flow)`, the input parameter has to be a list or tuple of the form ("10.0.1.1", "10.0.1.2", 5000, 7000). Note that the protocol is not needed and will be automatically added.
@@ -153,7 +145,7 @@ experiment, registers length, and a file with the flows sent during the experime
 you have to:
 
    1. Read the registers (call the function you defined in 1).
-   2. Load the `sent_flows.pickle` file. This file contains a python dictionary with the ground truth. The dictionary is of the form `{(flow): packet_count}`.
+   2. Load the `sent_flows.pickle` file. This file contains a python dictionary with the ground truth. The dictionary is of the form `{(flow): packet_count}`. To load a pickle file you need to use: `pickle.load(open(file_name, "r"))`
    3. For each flow read the count value out of the registers using the function defined in 2.
    4. For each flow you can check if you are inside the bound: counter <= (`real_counter` + ϵ*η).
    5. You can also determine if 4 holds with probability 1 - δ.
@@ -163,7 +155,7 @@ you have to:
 
 #### Dimensioning
 
-In today's lecture you have learned that a count-min sketch hold the following properties:
+In today's lecture you have learned that a count-min sketch holds the following properties:
 
    1. The estimated count value will be the same as the real or bigger.
    2. The error will be not bigger than `real_count` + ϵ*η with probability 1 - δ.  Where ϵ is the error factor, η is the number of
@@ -193,10 +185,33 @@ On top of sending the random flows, the script will save in a file a dictionary 
 can be used as a ground truth by the controller to compare the number of packets sent and the number counted by the count-min sketch.
 
 
+We will also use the controller we provided you and that you had to modify and enhance. The controller can be called using the following
+parameters:
+
+```
+parser.add_argument('--sw', help="switch name to configure" , type=str, required=False, default="s1")
+parser.add_argument('--eps', help="epsilon to use when checking bound", type=float, required=False, default=0.01)
+parser.add_argument('--n', help="number of packets sent by the send.py app", type=int, required=False, default=1000)
+parser.add_argument('--mod', help="number of cells in each register", type=int, required=False, default=4096)
+parser.add_argument('--flow-file', help="name of the file generated by send.py", type=str, required=False, default="sent_flows.pickle")
+parser.add_argument('--option', help="controller option can be either set_hashes, decode or reset registers", type=str, required=False, default="set_hashes")
+ ```
+
 #### Testing Correct behaviour
 
-Dimension your sketch using ϵ=0.1 and δ=0.05 (as shown above). Then start the topology, and from `h1` use send.py
-to send few flows (just to test).
+Dimension your sketch using ϵ=0.1 and δ=0.05 (as shown above). Then start the topology, configure the hash functions
+with the controller and send traffic from `h1` using send.py to send few flows (just to test).
+
+1. Star the topology with `sudo p4run`
+
+2. Set the hash functions polynomials by running the default controller with `set_hashes` as option parameter. This will set the right polynomials
+to the running switch so when we decode we are use the same exact hash.
+
+```bash
+python cm-sketch-controller.py --option "set_hashes"
+```
+
+3. Get a terminal in `h1` and send a bit of traffic (only 2 flows) to test if your decoder works.
 
 ```bash
 mx h1
@@ -208,6 +223,13 @@ a dictionary with the exact number of packets sent by each flow.
 
 The controller decoding function should read this file and try to extract the counters for those flows and check if the
 count is inside the boundary.
+
+4. Finally, run the controller with the `decode` option enabled and the right parameters for the decoding.
+
+```
+python cm-sketch-controller.py --eps 0.1 --n 1000 --mod 28 --option decode
+```
+
 
 #### Playing with dimensions
 

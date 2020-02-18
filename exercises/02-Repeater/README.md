@@ -71,7 +71,11 @@ You can find all the documentation about `p4app.json` in the `p4-utils` [documen
 
 To solve this exercise you only need to fill the gaps you will find in the
 `repeater.p4` skeleton. The places where you are supposed to write your own code
-are market with a `TODO`.
+are marked with a `TODO`. You will have to solve this exercise using two
+different approaches (for the sake of learning). First, and since the switch
+only has 2 ports you will have to solve the exercise by just using conditional statements
+and fixed logic. For the second solution, you will have to use a match-action table and
+populate it using the CLI.
 
 ### Using Conditional Statements
 
@@ -80,10 +84,16 @@ needed to make the switch act as a repeater. (only `TODO 3`)
 
 ### Using a Table
 
+> If for the second solution you want to use a different program name and
+> and topology file you can just define a new `p4` file and a different `.json`
+> topology configuration, then you can run `sudo p4run --config <json file name>`.
+
 1. Define a table of size 2, that matches packet's ingress_port and uses that
 to figure out which output port needs to be used (following the definition of repeater).
 
-2. Define the action that will be called from the table. This action needs to set the output port.
+2. Define the action that will be called from the table. This action needs to set the output port. The
+type of `ingress_port` is `bit<9>`. For more info about the `standard_metadata` fields see:
+the [`v1model.p4`](https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4) interface.
 
 3. Call (by using `apply`), the table you defined above.
 

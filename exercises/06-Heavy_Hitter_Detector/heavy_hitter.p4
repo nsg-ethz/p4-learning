@@ -103,7 +103,7 @@ control MyIngress(inout headers hdr,
     //TODO 6: define a the couting bloom filter using a register
 
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     action update_bloom_filter(){

@@ -63,7 +63,7 @@ control MyIngress(inout headers hdr,
     counter(512, CounterType.packets_and_bytes) port_counter;
 
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     apply {

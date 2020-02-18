@@ -2,17 +2,17 @@
 
 ## Introduction
 
-In this exercise, we extend our P4 router with an additional capability: responding to `traceroute` packets, i.e. packets where the IPv4 TTL (time to live)
+In this exercise, we will extend our P4 router with an additional feature: responding to `traceroute` packets, i.e. packets where the IPv4 TTL (time to live)
 value is equal to 1. If a router receives such a packet, it generates an ICMP `Time Exceeded` message and sends it back to the original sender of the expired packet.
-Thus, our objective is to make the `traceroute` (or similars) tool work within our network.
+Thus, our objective is to make the `traceroute` or similar tools work within our network.
 
-Traceroute works as follows: it ssends several packets starting with `TTL=1` and increases the TTL by 1 for each consequent packet. As you already know, each internet router
-decreases the IP TTL by 1 and sends back ICMP messages when it expires. By sending packets with an increasing TTL, traceroute is able to `trace` the path packets take from the source
+In brief, traceroute works as follows: it sends several packets starting with `TTL=1` and it increases the TTL by 1 for each consequent packet. As you already know, each internet router
+decreases the IP TTL by 1 and sends back ICMP messages when it reaches 0. By sending packets with an increasing TTL, traceroute is able to `trace` the path packets take from the source
 to a given destination.
 
 For a detailed description of how traceroute works, have a look at the [Wikipedia article](https://en.wikipedia.org/wiki/Traceroute).
 For more information about ICMP (i.e. the protocol that is used for the replies to expired traceroute packets), look at this
-[Wikipedia article](https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Time_exceeded) and the description in the [RFC](https://tools.ietf.org/html/rfc792).
+[Wikipedia article](https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Time_exceeded) or its [RFC](https://tools.ietf.org/html/rfc792).
 
 ## Before starting
 
@@ -23,7 +23,7 @@ cd ~/p4-tools/p4-utils
 git pull
 ```
 
-Further, you need the `traceroute` tool for this exercise. Install it by running this command in a terminal: 
+Further, you need the `traceroute` tool for this exercise (it might be installed already). Install it by running this command in a terminal:
 
 ```bash
 sudo apt-get install traceroute
@@ -35,7 +35,7 @@ For this exercise we provide you with the following files:
 
   *  `p4app.json`: describes the topology we want to create with the help
      of mininet and p4-utils package.
-  *  `p4src/ecmp.p4`: we will use the solution of the [05-ECMP](../05-ECMP) exercise as starting point.
+  *  `p4src/ecmp.p4`: we will use the solution of the [03-ECMP](../03-ECMP) exercise as starting point.
   *  `send.py`: a small python script to generate multiple packets with different tcp port.
   *  `routing-controller.py`: routing controller skeleton. The controller uses global topology
   information and the simple switch `runtime_API` to populate the routing tables.
@@ -63,28 +63,30 @@ You can find all the documentation about `p4app.json` in the `p4-utils` [documen
 
 ## Understanding traceroute
 
-Before starting with the implementation, we have a look at the packets that `traceroute` sends and receives.
-To do this, open a terminal and type `sudo wireshark &` to open Wireshark. Then, select the interface `eth0` and start capturing the traffic. You will see
-a lot of packets flow, to remove them you can apply the following filter at the filter bar: `ip.ttl < 10 || icmp`.
+Before starting with the implementation, we will have a look at the packets that `traceroute` sends and receives.
+To do this, open a terminal and type `sudo wireshark &` to open Wireshark. Then, select the interface `eth0` and start capturing traffic. You will see
+a lot of packets being sent and received, to remove them you can apply the following filter at the filter bar: `ip.ttl < 10 || icmp`.
 Now run the following command in the terminal:
 
 ```bash
 sudo traceroute -n -q 1 -f 1 -m 1 -T ethz.ch
 ```
 
-This will send a single traceroute (`TCP`) packet with `TTL=1` towards `ethz.ch`. In Wireshark, you should see this `TCP` packet as
-well as the corresponding `ICMP` reply. Take a close look at these to packets to understand how a router builds these `ICMP` replies. You will need to make
-your switches reply `ICMP` packets to the source when the `TTL=1`.
+This will send a single traceroute (`TCP`) packet with `TTL=1` towards `ethz.ch`. In Wireshark, you should see a `TCP` packet as
+well as the corresponding `ICMP` reply. Take a close look at these to packets to understand how a router builds these `ICMP` replies. You can use the
+`ICMP` replied by `ethz.ch` as a reference. For example, you can see how the `IP` header changes, what the `ICMP` header and body contain, etc.
+
 
 ## Implementing the traceroutable switch
 
 Take the solution from the previous exercise (both p4 code and `routing-controller.py`). To implement our traceroutable switch we will have to make two additions: first
 we will have to add a new table to the p4 program that maps egress_ports to the `IP` address of the switch for that port.  You will also have to extend the controller with
-a small function that populates this table for each switch. Second we will have to extend the p4 program so the switch replies packets with `TTL=1` with ICMP packets.
+a small function that populates this table for each switch. Second we will have to extend the p4 program so the switch replies to packets with `TTL=1` with ICMP packets to the original
+sender.
 
 #### Adding the output port to IP table
 
-Before we implement the generation of ICMP replies to expired packets in P4, we will have to add a new table to the P4 code from the previous exercise. This table will
+Before we implement the generation of ICMP replies to expired packets in P4, we will have to add a new table to the code we already have from the previous exercise. This table will
 be used during the ICMP reply process to set the `ipv4` source address for the packets that the switch generates. This IP address will then be used by the traceroute tool
 to identify which router (and interface) is the packet coming from.
 
@@ -148,21 +150,20 @@ Once you completed your implementation, you can test the program using the `trac
 3. Check that you can ping:
 
    ```bash
-   > mininet pingall
+   mininet> pingall
    ```
 
 4. Traceroute between two hosts:
 
    You can either use our own implementation (`traceroute.py`) or the default `traceroute` tool:
 
-   ```python
-   from traceroute import *
+   ```python -i traceroute.py
    for sport in range(6000,6020):
        print traceroute(dst="10.6.2.2",sport=sport, dport=80)
    ```
 
    ```bash
-   > mininet h1 traceroute -n -w 0.5 -q 1 -T --sport=63402 --port=80 <dst_ip>
+   mininet> h1 traceroute -n -w 0.5 -q 1 -T --sport=<src_port> --port=<dst_port> 10.6.2.2
    ```
    (to make it faster, we disable DNS lookups (`-n`), decrease the waiting time `-w`, send only one packet per TTL (`-q`) and a fixed source and destination port (`--sport`,`--dport`) to get the actual path of a flow despite ECMP)
 

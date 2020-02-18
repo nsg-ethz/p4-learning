@@ -9,7 +9,7 @@
 #define REGISTER_SIZE 8192
 #define TIMESTAMP_WIDTH 48
 #define ID_WIDTH 16
-#define FLOWLET_TIMEOUT 48w100000
+#define FLOWLET_TIMEOUT 48w200000
 
 
 /*************************************************************************
@@ -33,7 +33,7 @@ control MyIngress(inout headers hdr,
     register<bit<TIMESTAMP_WIDTH>>(REGISTER_SIZE) flowlet_time_stamp;
 
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     action read_flowlet_registers(){

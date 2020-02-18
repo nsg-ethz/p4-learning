@@ -63,7 +63,7 @@ control MyIngress(inout headers hdr,
     meter(32w16384, MeterType.packets) my_meter;
 
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     action m_action(bit<32> meter_index) {

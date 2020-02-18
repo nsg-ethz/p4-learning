@@ -52,10 +52,10 @@ For this exercise we provide you with the following files:
   *  `p4app-line.json`: describes the topology we want to create with the help
      of mininet and p4-utils package. This linear topology will be used for our first test.
   *  `p4app.json`: describes the topology we used in the `ecmp` exercise, 2 switches connected through 4 middle switches.
-  *  `p4src/loadbalancer.p4`: we will use the solution of the [08-Simple_Routing](../08-Simple_Routing) exercise as starting point.
+  *  `p4src/loadbalancer.p4`: we will use the solution of the [05-Simple_Routing](../05-Simple_Routing) exercise as starting point.
   *  `send.py`: a small python script to generate tcp probe packets to read queues.
   *  `receive.py`: a small python script to receive tcp probes that include a `telemetry` header.
-  *  `routing-controller.py`: routing controller of the [08-Simple_Routing](../08-Simple_Routing) exercise as starting point.
+  *  `routing-controller.py`: routing controller of the [05-Simple_Routing](../05-Simple_Routing) exercise as starting point.
   *  `nload_tmux_*.sh`: scripts that will create a tmux window, and `nload` in different panes.
   *  `send_traffic_*.py`: python scripts that use `iperf3` to automatically generate flows to test our solution.
 
@@ -89,7 +89,7 @@ You can find all the documentation about `p4app.json` in the `p4-utils` [documen
 
 #### Understanding the router's P4 program
 
-The data plane program of this exercise is identical to the solution of last week's [08-Simple_Routing](../08-Simple_Routing) exercise (you are free to use your own solution instead of the one we provide you if you prefer, however
+The data plane program of this exercise is identical to the solution of last week's [05-Simple_Routing](../05-Simple_Routing) exercise (you are free to use your own solution instead of the one we provide you if you prefer, however
 the following description will be based on the ECMP solution we provide).
 
 Take a moment to go through the P4 code again to remind yourself how the program works before continuing.

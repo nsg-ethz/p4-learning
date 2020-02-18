@@ -29,7 +29,7 @@ As usual, we provide you with the following files:
 
 #### Notes about p4app.json
 
-For this exercise (and the next two) we will use a new IP assignment strategy. If you have a look at `p4app.json` you will see that
+For this exercise (and next one) we will use a new IP assignment strategy. If you have a look at `p4app.json` you will see that
 the option is set to `mixed`. Therefore, only hosts connected to the same switch will be assigned to the same subnet. Hosts connected
 to a different switch will belong to a different `/24` subnet. If you use the namings `hX` and `sX` (e.g h1, h2, s1...), the IP assignment
 goes as follows: `10.x.x.y`. Where `x` is the switch id (upper and lower bytes), and `y` is the host id. For example, in the topology above,
@@ -50,28 +50,36 @@ and `p4src/include/parsers.p4`. Additionally, you will have to create a `cli` co
 
 To successfully complete the exercise you have to do the following:
 
-1. Like in the previous exercise, header definitions are already provided.
+1. Use the header definitions that are already provided.
 
 2. Define the parser that is able to parse packets up to `tcp`. Note that for simplicity we do not consider `udp` packets
 in this exercise. This time you must define the parser in: `p4src/include/parsers.p4`.
 
-3. Define the deparser. Just emit all the headers.
+3. Define the deparser. Just emit all the headers in the right order.
 
 4. Define a match-action table that matches the IP destination address of every packet and has three actions: `set_nhop`, `ecmp_group`, `drop`.
 Set the drop action as default.
 
 5. Define the action `set_nhop`. This action takes 2 parameters: destination mac and egress port.  Use the parameters to set the destination mac and
-`egress_spec`. Set the source mac as the previous destination mac (this is not what a real L3 switch would do, we just do it for simplicity). Finally,
-decrease the packet's TTL by 1. This table is the same than the previous exercise.
+`egress_spec`. Set the source mac as the previous destination mac (this is not what a real L3 switch would do, we just do it for simplicity). In a more realistic implementation we would create a table
+that maps egress_ports to each switch interface mac address, however since the source mac address is not very important for this exercise just do this swap). When sending packets from a switch to another switch, the destination
+address is not very important, and thus you can use a random one. However, keep in mind that when the packet is sent to a host needs to have the right destination MAC address.
+Finally, decrease the packet's TTL by 1. **Note:** since we are in a L3 network, when you send packets from `s1` to `s2` you have to use the dst mac of the switch interface not the mac address of the receiving host, that instead
+is done in the very last hop. Finally, decrease the packet's TTL by 1.
 
 6. Define the action `ecmp_group`. This action takes two parameters, the ecmp group id (14 bits), and the number of next hops (16 bits). This
 action is one of the key parts of the ECMP algorithm. You have to do several things:
 
    1. In this action we will compute a hash function. To store the output you need to define a metadata field. Define `ecmp_hash` (14 bits) inside
-   the metadata struct in `headers.p4`. As an input the hash function should use the packets 5-tuple (check the definition in the previous exercise).
+   the metadata struct in `headers.p4`. Use the `hash` extern function to compute the hash of packets 5-tuple (src ip, dst ip, src port, dst port, protocol). The signature of a hash function is:
+   `hash(output_field, (crc16 or crc32), (bit<1>)0, {fields to hash}, (bit<16>)modulo)`.
    2. Define another metadata field and call it `ecmp_group_id` (14 bits).
    3. Finally copy the value of the second action parameter ecmp group in the metadata field you just defined (`ecmp_group_id`) this will be used
    to match in the second table.
+
+**Note**: a lot of people asked why the`ecmp_group_id` is needed. In few words, it allows you to map from one ip address to a set of ports, which does not have to be
+the 4 ports we use in this exercise. For example, you could have that for `IP1` you use only the upper 2 ports and for `IP2` you loadbalance using the two lower ports. Thus, by
+creating two ecmp groups you can easily map any destination address to any set of ports.
 
 7. Define the second match-action table used to set `ecmp_groups` to real next hops. The table should have `exact` matches to the metadata fields
 your defined in the previous step. Thus, it should match to the `meta.ecmp_group_id` and then to the output of the hash function `meta.ecmp_hash` (which will be

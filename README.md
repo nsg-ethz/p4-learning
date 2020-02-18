@@ -14,6 +14,7 @@ a collection of examples and much more. Specifically:
 * [Slides](./slides): deck of slides that go from the story of SDN and introduction to data plane programming to advanced (research level) applications.
 * [Documentation](./documentation): list of links and documents with very useful information for P4 development.
 * [Examples](./examples): a collection of examples showing how to use almost all the simple switch features.
+* [Demos](./demos): a collection of demos with running examples.
 * [Exercises](./exercises):A set of P4 exercises with a long description and solutions.
 * [Environment Installation](./vm): a guide and scripts to install the required software to start developing P4 applications
 in your own machine
@@ -59,6 +60,13 @@ if you already have the required software and use your own machine/VM you can ma
 git clone https://github.com/nsg-ethz/p4-utils.git
 cd p4-utils
 sudo ./install.sh
+```
+
+To update you just simply:
+
+```bash
+cd /home/p4/p4-tools/p4-utils
+git pull
 ```
 
 **Note:** at the moment p4-utils does not support the `P4Runtime`, thus all the exercises and examples use the thrift `RuntimeAPI`

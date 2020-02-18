@@ -126,7 +126,7 @@ control MyIngress(inout headers hdr,
     register<bit<8>>(REGISTER_LENGTH) tos_register;
 
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
 

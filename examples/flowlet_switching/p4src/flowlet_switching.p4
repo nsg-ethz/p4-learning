@@ -33,7 +33,7 @@ control MyIngress(inout headers hdr,
     register<bit<TIMESTAMP_WIDTH>>(REGISTER_SIZE) flowlet_time_stamp;
 
     action drop() {
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     action read_flowlet_registers(){

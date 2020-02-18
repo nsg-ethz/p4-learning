@@ -4,8 +4,9 @@
 
 In today's first exercise we will implement a very basic layer 2 forwarding switch. In order to
 tell the switch how to forward frames, the switch needs to know in which port it can find a given MAC
-address. Real life switches automatically learn this mapping by using the l2 learning algorithm (we will see
-this later today). For this exercise we will provide the switch a fix mapping between addresses and ports.
+address (hosts). Real life switches automatically learn this mapping by using the l2 learning algorithm (we will see
+this later today). In order to familiarize ourselves with tables and how to map ethernet addresses to a given host (port)
+we will implement a very basic l2 forwarding that statically maps mac addresses to ports.
 
 <p align="center">
 <img src="images/l2_topology.png" title="L2 Star Topology">
@@ -27,7 +28,7 @@ help you through the exercise.
 
 Remember that if the `l2` assignment strategy is enabled all devices will be automatically placed in the same
 subnet and ARP tables get automatically populated. This was already explained in the previous exercise session, for
-more information check [here](../02-Repeater/README.md#note-about-p4appjson).
+more information check [here](../01-Repeater/README.md#note-about-p4appjson).
 
 In this exercise you will need to fill some table entries as we did last week.
 If you used the control plane documentation page to fill tables, you probably used
@@ -41,9 +42,9 @@ You can find all the documentation about `p4app.json` in the `p4-utils` [documen
 
 ## Implementing the L2 Basic Forwarding
 
-To solve this exercise you only need to fill the gaps you will find in the
+To solve this exercise you only need to fill the gaps that you will find in the
 `l2_basic_forwarding.p4` skeleton. The places where you are supposed to write your own code
-are market with a `TODO`. Furthermore, you will need to create a file called `s1-commands.txt`
+are marked with a `TODO`. Furthermore, you will need to create a file called `s1-commands.txt`
 with commands to fill your tables.
 
 In summary, your tasks are:
@@ -54,7 +55,7 @@ the headers `struct` with an ethernet header.
 2. Parse the ethernet header.
 
 3. Define a match-action table to make switch behave as a l2 packet forwarder. The destination
-Mac address of each packet should tell the switch witch output port use. You can use your last exercise
+Mac address of each packet should tell the switch which output port use. You can use your last exercise
 as a reminder, or check the [documentation](../../documentation/control-plane.md).
 
 4. Define the action the table will call for matching entries. The action should get

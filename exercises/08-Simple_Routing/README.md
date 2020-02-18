@@ -6,21 +6,12 @@ The goal of this exercise is to implement and provide a control plane to the ECM
 Unlike in the previous exercises where you specified the entries for the forwarding tables manually,
 we will now implement a controller that generates and installs forwarding rules automatically, based on the network topology.
 
-In traditional networks the control plane is the brain of any networking device. It is in charge of deciding
-where packets have to be sent. Devices's control planes exchange topology information with other devices and compute which is
+In traditional networks the control plane is the brain of any networking device. The control plane is in charge of deciding
+where packets have to be sent. Distributed control planes exchange topology information with other devices and compute which is
 the best way of sending traffic based on some routing protocol (RIP, OSPF, BGP).
 
 To simplify things a lot in this exercise we will not implement a distributed and dynamic control plane like the ones mentioned above, but something simple,
-centralized and static.
-
-## Before starting
-
-Before you start this exercise, update `p4-utils`, some new features and bugs were fixed during the last week:
-
-```bash
-cd ~/p4-tools/p4-utils
-git pull
-```
+centralized and static. However, your controller should be able to automatically populate the ECMP exercise tables for any topology.
 
 ### What is already provided
 
@@ -28,7 +19,7 @@ For this exercise we provide you with the following files:
 
   *  `p4app.json`: describes the topology we want to create with the help
      of mininet and p4-utils package. It is the same topology we used for the ECMP exercise.
-  *  `p4src/ecmp.p4`: we will use the solution of the [05-ECMP](../05-ECMP) exercise as starting point.
+  *  `p4src/ecmp.p4`: we will use the solution of the [03-ECMP](../03-ECMP) exercise as starting point.
   *  `send.py`: a small python script to generate multiple packets with different tcp port.
   *  `routing-controller.py`: routing controller skeleton. The controller uses global topology
   information and the simple switch `runtime_API` to populate the routing tables.
@@ -129,7 +120,7 @@ Once you completed your implementation of the `route` function of the controller
 3. Check that you can ping:
 
    ```bash
-   > mininet pingall
+   mininet> pingall
    ```
 
 4. check that ECMP works: monitor the 4 links from `s1` that will be used during `ecmp` (from `s1-eth2` to `s1-eth5`). Doing this you will be able to check which path is each flow
@@ -169,13 +160,19 @@ python topology_generator.py --output_name <name.json> --topo random -n <number 
 
 This will create a random topology with `n` switches that have on average `d` interfaces (depending on `n`, `d` might not be possible). Also each switch will have one host directly connected to it (so `n` hosts).
 
+For example you can create a random topology with 40 switches and an average degree of 4:
+
+```bash
+python topology_generator.py --output_name 40-switches.json --topo random -n 40 -d 4
+```
+
 Run the random topology:
 
 ```bash
-sudo p4run --config <name.json>
+sudo p4run --config 40-switches.json
 ```
 
-Run the controller, and check that your can send traffic to all the nodes. Furthermore, check that ECMP works.
+Now run the controller, and check that your can send traffic to all the nodes. Furthermore, check that ECMP works.
 
 #### Some notes on debugging and troubleshooting
 

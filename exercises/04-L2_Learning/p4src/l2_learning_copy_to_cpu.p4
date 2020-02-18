@@ -66,7 +66,7 @@ control MyIngress(inout headers hdr,
 
     action drop() {
 
-        mark_to_drop();
+        mark_to_drop(standard_metadata);
     }
 
     //TODO 7: Define the smac table and the mac_learn action
