@@ -92,7 +92,7 @@ The VM comes with two users, `vagrant` and `p4`, for both the password is the sa
 Building the vagrant image can take some time. If you want to have an already built VM you can download the Open Virtual 
 Appliance (OVA) package and import it with a x86 software virtualizer that supports the format (this has been tested with VirtualBox only).
 
-Pre-built OVA package: [ova](https://drive.google.com/file/d/1VLSstfcmx0o0Kc8M1HytQXBvSFqxlDG3/view?usp=sharing)
+Pre-built OVA package: [ova](https://drive.google.com/open?id=1tubqk0PGIbX759tIzJGXqex08igFfzpD)
 
 **Note:** During the course we might need to update the OVA package.
 
