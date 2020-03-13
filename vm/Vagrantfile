@@ -25,12 +25,6 @@ Vagrant.configure(2) do |config|
     #--stroagectl can be "IDE Controller" in other Operating Systems
   end
 
- # global configuration
- config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", disabled: true
- config.vm.network :forwarded_port, guest: 22, host: 2223, id: "ssh", auto_correct: true
- # for 'vagrant ssh'
- config.ssh.port = 2223
-
  #config.vm.network :private_network, ip: "192.168.200.10"
  #config.vm.synced_folder '.', '/vagrant', disabled: true #disables sharing
  config.vm.hostname = "p4"
