@@ -4,7 +4,7 @@ This repository contains a compilation of useful resources for data plane progra
 for the ones wanting to learn how to write **P4-16** programs and test them in a virtual environment.
 
 A big part of the materials come from the Advanced Topics in Communication Networks lecture taught
-at ETH Zurich. For more information visit our [website](https://adv-net.ethz.ch/).
+at ETH Zurich. For more information visit our [website](https://adv-net.ethz.ch/2019/).
 
 ## What will you find here ?
 
