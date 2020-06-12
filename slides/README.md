@@ -1,7 +1,7 @@
 # Advanced Topics In Communication Networks Slides
 
 Here you can find the slides used during the master level course at ETH
-Zurich (Fall 2018). For more information visit the lecture's [website](https://adv-net.ethz.ch/).
+Zurich (Fall 2019). For more information visit the lecture's [website](https://adv-net.ethz.ch/2019/).
 
 #### Introduction: SDN history, developing P4
 
