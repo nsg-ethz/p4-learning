@@ -113,9 +113,8 @@ class L2Controller(object):
     def recv_msg_cpu(self, pkt):
 
         packet = Ether(str(pkt))
-
         if packet.type == 0x1234:
-            cpu_header = CpuHeader(packet.payload)
+            cpu_header = CpuHeader(bytes(packet.payload))
             self.learn([(cpu_header.macAddr, cpu_header.ingress_port)])
 
     def run_cpu_port_loop(self):
