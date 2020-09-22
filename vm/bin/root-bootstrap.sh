@@ -63,7 +63,6 @@ sudo apt-get install -y --no-install-recommends \
   arping \
   gawk \
   iptables \
-  ipython \
   libprotobuf-c-dev \
   g++ \
   bash-completion \
@@ -77,6 +76,9 @@ python get-pip.py
 
 #python libraries
 pip install ipaddress
+
+# debugging
+pip install ipython ipdb
 
 #add swap memory
 bash /vagrant/bin/add_swap_memory.sh

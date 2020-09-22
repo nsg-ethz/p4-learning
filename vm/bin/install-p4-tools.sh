@@ -306,7 +306,7 @@ function do_scapy-vxlan {
 }
 
 function do_scapy {
-    # Installs normal scapy
+    # Installs normal scapy (installs latest version 2.4.4 right now)
     sudo pip install scapy
 }
 
