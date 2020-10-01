@@ -39,7 +39,7 @@ Similarly, and if you prefer, you can use `tcpdump` (also already installed in t
 To capture traffic with tcpdump run (shows link-layer information and does not resolve addresses):
 
 ```bash
-sudo tcpdump -en -i <interface_name>
+sudo tcpdump -l -enn -i <interface_name>
 ```
 
 ### Logging
