@@ -8,7 +8,7 @@ set -xe
 apt-get update
 
 KERNEL=$(uname -r)
-DEBIAN_FRONTEND=noninteractive sudo apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
+DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
 sudo apt-get install -y --no-install-recommends \
   autoconf \
   automake \
