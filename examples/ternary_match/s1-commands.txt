@@ -1,0 +1,6 @@
+table_set_default ternary_table drop
+table_add ternary_table ipv4_forward 0x00000000&&&0x80000000 => 00:00:00:00:00:01 2 5
+table_add ternary_table ipv4_forward 0x80000000&&&0x80000000 => 00:00:00:00:00:02 2 4
+table_add ternary_table ipv4_forward 0x80000000&&&0xc0000000 => 00:00:00:00:00:03 2 3
+table_add ternary_table ipv4_forward 0xe0000000&&&0xe0000000 => 00:00:00:00:00:04 2 2
+table_add ternary_table ipv4_forward 0xa0000000&&&0xe0000000 => 00:00:00:00:00:05 2 1
