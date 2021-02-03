@@ -1,0 +1,1 @@
+table_add FEC_tbl ipv4_forward 10.7.2.0/24 => 00:00:0a:07:02:02 3

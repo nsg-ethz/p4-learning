@@ -1,0 +1,2 @@
+table_add mpls_tbl mpls_forward 2 => 00:00:00:04:02:00 2 
+table_add mpls_tbl mpls_forward 1 => 00:00:00:01:02:00 1

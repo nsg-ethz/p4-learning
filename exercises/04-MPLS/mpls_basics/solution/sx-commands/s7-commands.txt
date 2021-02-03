@@ -1,0 +1,15 @@
+
+table_add mpls_tbl mpls_forward 2 => 00:00:0a:07:02:02 3
+table_add mpls_tbl mpls_forward 3 => 00:00:0a:07:03:02 4
+
+table_add check_is_ingress_border set_is_ingress_border 3 =>
+table_add check_is_ingress_border set_is_ingress_border 4 =>
+
+table_add check_is_egress_border is_egress_border 3 =>
+table_add check_is_egress_border is_egress_border 4 =>
+
+table_add fec_to_label add_mpls_header 10.1.1.2/32 => 1
+table_add mpls_tbl mpls_forward 1 => 00:00:00:06:07:00 2
+
+table_add ipv4_lpm ipv4_forward 10.7.2.2/32 =>  00:00:0a:07:02:02 3
+table_add ipv4_lpm ipv4_forward 10.7.3.2/32 =>  00:00:0a:07:03:02 4

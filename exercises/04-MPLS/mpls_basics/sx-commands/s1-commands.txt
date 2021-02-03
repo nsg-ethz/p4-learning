@@ -1,0 +1,9 @@
+table_add check_is_ingress_border set_is_ingress_border 1 =>
+
+# TODO 2.6: Add the forwarding entries for fec_to_label table
+
+table_add mpls_tbl mpls_forward 2 => 00:00:00:02:01:00 2 
+table_add mpls_tbl mpls_forward 3 => 00:00:00:03:01:00 3
+
+# TODO 5.1: Add the forwarding entries for check_is_egress_border table, for port 1
+            Add the forwarding entries for mpls_tbl table

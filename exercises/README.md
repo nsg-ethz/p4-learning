@@ -1,7 +1,8 @@
 # Exercises
 
-In this page, you find the [Advanced Topics in Communication Networks 2019](https://adv-net.ethz.ch/2019) exercises. Before running the exercises
-make sure you have all the required software installed in your machine or VM. For more information see [here](../README.md#required-software).
+In this page, you find the [Advanced Topics in Communication Networks](https://adv-net.ethz.ch/) exercises from the last three years.
+Before running the exercises make sure you have all the required software installed in your machine or VM. 
+For more information see [here](../README.md#required-software).
 
 ## Exercises
 
@@ -15,8 +16,12 @@ make sure you have all the required software installed in your machine or VM. Fo
  * [Broadcasting Packets](./03-L2_Flooding)
  * [Learning Switch](./04-L2_Learning)
 
-### Basic Load Balancing
+### MPLS & RSVP
 
+* [MPLS](./04-MPLS)
+* [RSVP](./04-RSVP)
+
+### Load Balancing
  * [ECMP](./05-ECMP)
  * [Flowlet Switching](./05-Flowlet_Switching)
 
@@ -37,3 +42,7 @@ make sure you have all the required software installed in your machine or VM. Fo
 ### Packet Loss Detection
 
  * [Detecting Packet Loss](./11-Packet-Loss-Detection)
+
+### Fast Reroute
+
+* [Fast Reroute](./12-Fast_reroute)
