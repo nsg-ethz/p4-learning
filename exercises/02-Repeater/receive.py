@@ -9,9 +9,9 @@ def get_if():
     for i in get_if_list():
         if "eth0" in i:
             iface=i
-            break;
+            break
     if not iface:
-        print "Cannot find eth0 interface"
+        print("Cannot find eth0 interface")
         exit(1)
     return iface
 
@@ -24,25 +24,25 @@ def isNotOutgoing(my_mac):
 
 def handle_pkt(pkt):
 
-    print "Packet Received:"
+    print("Packet Received:")
     ether = pkt.getlayer(Ether)
     ip = pkt.getlayer(IP)
     msg = ip.payload
 
-    print "###[ Ethernet ]###"
-    print "  src: {}".format(ether.src)
-    print "  dst: {}".format(ether.dst)
-    print "###[ IP ]###"
-    print "  src: {}".format(ip.src)
-    print "  dst: {}".format(ip.dst)
-    print "###[ MESSAGE ]###"
-    print "  msg: {}".format(str(msg))
-    print
+    print("###[ Ethernet ]###")
+    print("  src: {}".format(ether.src))
+    print("  dst: {}".format(ether.dst))
+    print("###[ IP ]###")
+    print("  src: {}".format(ip.src))
+    print("  dst: {}".format(ip.dst))
+    print("###[ MESSAGE ]###")
+    print("  msg: {}".format(str(msg)))
+    print()
 
 def main():
-    ifaces = filter(lambda i: 'eth' in i, os.listdir('/sys/class/net/'))
+    ifaces = [i for i in os.listdir('/sys/class/net/') if 'eth' in i]
     iface = ifaces[0]
-    print "sniffing on %s" % iface
+    print("sniffing on %s" % iface)
     sys.stdout.flush()
 
     my_filter = isNotOutgoing(get_if_hwaddr(get_if()))
