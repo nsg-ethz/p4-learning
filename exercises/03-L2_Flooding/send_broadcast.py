@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import socket
 import random
@@ -13,16 +13,16 @@ def get_if():
     for i in get_if_list():
         if "eth0" in i:
             iface=i
-            break;
+            break
     if not iface:
-        print "Cannot find eth0 interface"
+        print("Cannot find eth0 interface")
         exit(1)
     return iface
 
 def send_packet(iface):
 
-    raw_input("Press the return key to send a packet:")
-    print "Sending on interface %s\n" % (iface)
+    input("Press the return key to send a packet:")
+    print("Sending on interface %s\n" % (iface))
     pkt =  Ether(src=get_if_hwaddr(iface), dst='ff:ff:ff:ff:ff:ff:ff')
     pkt = pkt
     sendp(pkt, iface=iface, verbose=False)

@@ -36,7 +36,7 @@ class FloodingController(object):
         rid = 0
         for ingress_port in interfaces_to_port.values():
 
-            port_list = interfaces_to_port.values()[:]
+            port_list = list(interfaces_to_port.values())
             del(port_list[port_list.index(ingress_port)])
 
             #add multicast group
