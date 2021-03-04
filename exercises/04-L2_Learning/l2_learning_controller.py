@@ -2,7 +2,7 @@ import nnpy
 import struct
 from p4utils.utils.topology import Topology
 from p4utils.utils.sswitch_API import SimpleSwitchAPI
-from scapy.all import Ether, sniff, Packet, BitField
+from scapy.all import Ether, sniff, Packet, BitField, raw
 
 class CpuHeader(Packet):
     name = 'CpuPacket'
@@ -42,7 +42,7 @@ class L2Controller(object):
         rid = 0
         for ingress_port in interfaces_to_port.values():
 
-            port_list = interfaces_to_port.values()[:]
+            port_list = list(interfaces_to_port.values())
             del(port_list[port_list.index(ingress_port)])
 
             #add multicast group
@@ -63,7 +63,7 @@ class L2Controller(object):
     def learn(self, learning_data):
 
         for mac_addr, ingress_port in  learning_data:
-            print "mac: %012X ingress_port: %s " % (mac_addr, ingress_port)
+            print("mac: %012X ingress_port: %s " % (mac_addr, ingress_port))
             #TODO: Add an entry to smac
             #TODO: Add an entry to dmac
             #HINT: table_add(table_name, action_name, list of matches, list of action parameters)
@@ -71,7 +71,6 @@ class L2Controller(object):
     def unpack_digest(self, msg, num_samples):
 
         digest = []
-        print len(msg), num_samples
         starting_index = 32
         for sample in range(num_samples):
             mac0, mac1, ingress_port = struct.unpack(">LHH", msg[starting_index:starting_index+8])
@@ -105,10 +104,10 @@ class L2Controller(object):
 
     def recv_msg_cpu(self, pkt):
 
-        packet = Ether(str(pkt))
+        packet = Ether(raw(pkt))
 
         if packet.type == 0x1234:
-            cpu_header = CpuHeader(bytes(packet.payload))
+            cpu_header = CpuHeader(bytes(packet.load))
             self.learn([(cpu_header.macAddr, cpu_header.ingress_port)])
 
     def run_cpu_port_loop(self):
