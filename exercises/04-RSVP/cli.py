@@ -41,16 +41,16 @@ class RSVPCLI( Cmd ):
     def hello_msg(self):
         """
         """
-        print '======================================================================'
-        print 'Welcome to the RSVP CLI'
-        print '======================================================================'
-        print 'You can now make reservations for your hosts in the network.'
-        print 'To add a reservation run:'
-        print 'add_reservation <src> <dst> <duration> <bw> <priority>'
-        print ''
-        print 'To delete a reservation run: '
-        print 'del_reservation <src> <dst>'
-        print ''
+        print('======================================================================')
+        print('Welcome to the RSVP CLI')
+        print('======================================================================')
+        print('You can now make reservations for your hosts in the network.')
+        print('To add a reservation run:')
+        print('add_reservation <src> <dst> <duration> <bw> <priority>')
+        print('')
+        print('To delete a reservation run: ')
+        print('del_reservation <src> <dst>')
+        print('')
 
 
     @classmethod
