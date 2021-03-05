@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 import socket
 import random
 import os
@@ -6,13 +6,14 @@ import struct
 import fcntl
 import time
 import pickle
+import codecs
 
 # checksum functions needed for calculation checksum
 def checksum(msg):
     s = 0
     # loop taking 2 characters at a time
     for i in range(0, len(msg), 2):
-        w = (ord(msg[i]) << 8) + ( ord(msg[i+1]) )
+        w = (msg[i] << 8) + msg[i+1]
         s = s + w
 
     s = (s>>16) + (s & 0xffff)
@@ -31,8 +32,8 @@ def get_ip_address(ifname):
 
 
 def eth_header(src, dst, proto=0x0800):
-    src_bytes = "".join([x.decode('hex') for x in src.split(":")])
-    dst_bytes = "".join([x.decode('hex') for x in dst.split(":")])
+    src_bytes = b"".join([codecs.decode(x,'hex') for x in src.split(":")])
+    dst_bytes = b"".join([codecs.decode(x,'hex') for x in dst.split(":")])
     return src_bytes + dst_bytes + struct.pack("!H", proto)
 
 def ip_header(src,dst,ttl,proto,id=0):
@@ -50,7 +51,7 @@ def ip_header(src,dst,ttl,proto,id=0):
     elif proto == "udp":
         proto = socket.IPPROTO_UDP
     else:
-        print "proto unknown"
+        print("proto unknown")
         return
     check = 10  # python seems to correctly fill the checksum
     saddr = socket.inet_aton ( src )  #Spoof the source ip address if you want to
@@ -112,10 +113,9 @@ def getInterfaceName():
                                   'ss/net') if "eth0" in x][0]
 
 def send_n(s, packet, n):
-    i = 0
     for _ in range(n):
         s.send(packet)
-        time.sleep(0.0001)
+        time.sleep(0.001)
 
 
 def create_packet_ip_tcp(eth_h, src_ip, dst_ip, sport, dport):
@@ -154,18 +154,18 @@ def generate_test(n_packets, n_heavy_hitters, n_normal_flows, percentage_n_heavy
 
         #increase heavy hitters
         if p <= percentage_n_heavy_hitters:
-            flow = random.choice(heavy_hitters.keys())
+            flow = random.choice(list(heavy_hitters.keys()))
             heavy_hitters[flow] +=1
 
         #increase normal flows
         else:
-            flow = random.choice(normal_flows.keys())
+            flow = random.choice(list(normal_flows.keys()))
             normal_flows[flow] +=1
 
     return heavy_hitters, normal_flows
 
 def save_flows(flows):
-    with open("sent_flows.pickle", "w") as f:
+    with open("sent_flows.pickle", "wb") as f:
         pickle.dump(flows, f)
 
 def main(n_packets, n_heavy_hitters, n_small_flows, p_heavy_hitter):
@@ -196,10 +196,10 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--n-pkt', type=int, required=False, default=5000)
-    parser.add_argument('--n-hh', type=int, required=False, default=10)
-    parser.add_argument('--n-sfw', type=int, required=False, default=990)
-    parser.add_argument('--p-hh', type=float, required=False, default=0.9)
+    parser.add_argument('--n-pkt', help='number of packets', type=int, required=False, default=5000)
+    parser.add_argument('--n-hh', help='number of heavy hitters', type=int, required=False, default=10)
+    parser.add_argument('--n-sfw', help='number of small flows', type=int, required=False, default=990)
+    parser.add_argument('--p-hh', help='percentage of packets sent by heavy hitters',type=float, required=False, default=0.95)
     args= parser.parse_args()
 
     main(args.n_pkt, args.n_hh, args.n_sfw, args.p_hh)

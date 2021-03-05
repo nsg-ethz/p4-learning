@@ -58,7 +58,7 @@ class CMSController(object):
     def get_cms(self, flow, mod):
         values = []
         for i in range(self.register_num):
-            index = self.hashes[i].bit_by_bit_fast((self.flow_to_bytestream(flow))) % mod
+            index = self.hashes[i].bit_by_bit_fast(self.flow_to_bytestream(flow)) % mod
             values.append(self.registers[i][index])
         return min(values)
 
@@ -69,14 +69,14 @@ class CMSController(object):
         """
         self.read_registers()
         confidence_count = 0
-        flows = pickle.load(open(ground_truth_file, "r"))
+        flows = pickle.load(open(ground_truth_file, "rb"))
         for flow, n_packets in flows.items():
             cms = self.get_cms(flow, mod)
             print("Packets sent and read by the cms: {}/{}".format(n_packets, cms))
             if not (cms <(n_packets + (eps*n))):
                 confidence_count +=1
 
-        print "Not hold for {}%".format(float(confidence_count)/len(flows)*100)
+        print("Not hold for {}%".format(float(confidence_count)/len(flows)*100))
 
 
 if __name__ == "__main__":
