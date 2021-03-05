@@ -7,9 +7,9 @@ def get_if():
     for i in get_if_list():
         if "eth0" in i:
             iface=i
-            break;
+            break
     if not iface:
-        print "Cannot find eth0 interface"
+        print("Cannot find eth0 interface")
         exit(1)
     return iface
 
@@ -25,7 +25,7 @@ def send_random_traffic(dst_ip, num_packets):
     for i in range(num_packets):
         sendp(p, iface = iface)
         total_pkts += 1
-    print "Sent %s packets in total" % total_pkts
+    print("Sent %s packets in total" % total_pkts)
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
