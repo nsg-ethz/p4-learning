@@ -3,7 +3,7 @@ from p4utils.utils.sswitch_API import *
 from crc import Crc
 import socket, struct, pickle, os, time
 
-from scapy.all import Ether, sniff, Packet, BitField
+from scapy.all import Ether, sniff, Packet, BitField, raw
 
 class LossHeader(Packet):
     name = 'LossHeader'
@@ -16,8 +16,8 @@ NUM_PORTS = 2
 NUM_BATCHES = 2
 
 REGISTER_SIZE_TOTAL = 2048
-REGISTER_BATCH_SIZE  = REGISTER_SIZE_TOTAL/NUM_BATCHES
-REGISTER_PORT_SIZE = REGISTER_BATCH_SIZE/NUM_PORTS
+REGISTER_BATCH_SIZE  = int(REGISTER_SIZE_TOTAL/NUM_BATCHES) # It must be an integer
+REGISTER_PORT_SIZE = int(REGISTER_BATCH_SIZE/NUM_PORTS)     # It must be an integer
 
 class PacketLossController(object):
 
@@ -141,14 +141,13 @@ class PacketLossController(object):
     # When a batch_id changes the controller gets triggered
     def recv_msg_cpu(self, pkt):
         interface = pkt.sniffed_on
-        print interface
+        print(interface)
         switch_name = interface.split("-")[0]
-        packet = Ether(str(pkt))
+        packet = Ether(raw(pkt))
         if packet.type == 0x1234:
-            loss_header = LossHeader(packet.payload)
+            loss_header = LossHeader(packet.load)
             batch_id = loss_header.batch_id >> 7
-            print switch_name, batch_id
-
+            print(switch_name, batch_id)
             self.check_sw_links(switch_name, batch_id)
 
     def run_cpu_port_loop(self):
