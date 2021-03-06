@@ -19,7 +19,7 @@ class RerouteController(object):
         """Initializes the topology and data structures."""
 
         if not os.path.exists("topology.db"):
-            print "Could not find topology object!\n"
+            print("Could not find topology object!\n")
             raise Exception
 
         self.topo = Topology(db="topology.db")
@@ -53,8 +53,8 @@ class RerouteController(object):
         Note: Real switches would rely on L2 learning to achieve this.
         """
         for switch, control in self.controllers.items():
-            print "Installing MAC addresses for switch '%s'." % switch
-            print "=========================================\n"
+            print("Installing MAC addresses for switch '%s'." % switch)
+            print("=========================================\n")
             for neighbor in self.topo.get_neighbors(switch):
                 mac = self.topo.node_to_node_mac(neighbor, switch)
                 port = self.topo.node_to_node_port_num(switch, neighbor)
@@ -64,8 +64,8 @@ class RerouteController(object):
     def install_nexthop_indices(self):
         """Install the mapping from prefix to nexthop ids for all switches."""
         for switch, control in self.controllers.items():
-            print "Installing nexthop indices for switch '%s'." % switch
-            print "===========================================\n"
+            print("Installing nexthop indices for switch '%s'." % switch)
+            print("===========================================\n")
             control.table_clear('ipv4_lpm')
             for host in self.topo.get_hosts():
                 subnet = self.get_host_net(host)
@@ -170,8 +170,8 @@ class RerouteController(object):
                 try:
                     path = all_shortest_paths[switch][host]
                 except KeyError:
-                    print "WARNING: The graph is not connected!"
-                    print "'%s' cannot reach '%s'." % (switch, host)
+                    print("WARNING: The graph is not connected!")
+                    print("'%s' cannot reach '%s'." % (switch, host))
                     continue
                 nexthop = path[1]  # path[0] is the switch itself.
                 switch_results.append((host, nexthop))
@@ -187,7 +187,7 @@ class RerouteController(object):
         lfas = self.compute_lfas(nexthops, failures=failures)
 
         for switch, destinations in nexthops.items():
-            print "Updating nexthops for switch '%s'." % switch
+            print("Updating nexthops for switch '%s'." % switch)
             control = self.controllers[switch]
             for host, nexthop in destinations:
                 nexthop_id = self.get_nexthop_index(host)
@@ -201,8 +201,8 @@ class RerouteController(object):
 
             # LFA solution.
             # =============
-            print "Installing LFAs."
-            print "----------------"
+            print("Installing LFAs.")
+            print("----------------")
 
             for host, nexthop in destinations:
                 nexthop_id = self.get_nexthop_index(host)
@@ -212,8 +212,8 @@ class RerouteController(object):
                 try:
                     lfa_nexthop = lfas[switch][host]
                 except KeyError:
-                    print "WARNING: No LFA from %s to %s " % (switch, host) + \
-                          "if %s is not available!" % (nexthop)
+                    print("WARNING: No LFA from %s to %s " % (switch, host) + \
+                          "if %s is not available!" % (nexthop))
                     lfa_nexthop = nexthop  # Fallback to default nh.
 
                 lfa_port = self.get_port(switch, lfa_nexthop)

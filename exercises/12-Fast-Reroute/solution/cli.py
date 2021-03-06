@@ -26,15 +26,15 @@ class CLI(Cmd):
         self.inPoller.register(stdin)
         Cmd.__init__(self, *args, stdin=stdin, **kwargs)
 
-        print "Checking links and synchronizing with switches..."
+        print("Checking links and synchronizing with switches...")
         failed_links = self.check_all_links()
         if failed_links:
             formatted = ["%s-%s" % link for link in failed_links]
-            print "Currently failed links:", ", ".join(formatted)
+            print("Currently failed links:", ", ".join(formatted))
             # Notify the controller so the network will work after boot.
             self.do_notify()
         else:
-            print "Currently failed links: None."
+            print("Currently failed links: None.")
         self.do_synchronize()
 
         self.hello_msg()
@@ -63,11 +63,11 @@ class CLI(Cmd):
 
     def hello_msg(self):
         """Greet user."""
-        print
-        print self.header
-        print
-        print self.helpStr
-        print
+        print()
+        print(self.header)
+        print()
+        print(self.helpStr)
+        print()
 
     @classmethod
     def initReadline(cls):  # pylint: disable=invalid-name
@@ -99,7 +99,7 @@ class CLI(Cmd):
             except KeyboardInterrupt:
                 # Output a message - unless it's also interrupted
                 try:
-                    print '\nInterrupt\n'
+                    print('\nInterrupt\n')
                 except Exception:  # pylint: disable=broad-except
                     pass
 
@@ -111,7 +111,7 @@ class CLI(Cmd):
         "Describe available CLI commands."
         Cmd.do_help(self, arg)
         if arg == '':
-            print self.helpStr
+            print(self.helpStr)
 
     def do_exit(self, _line):
         "Exit"
@@ -124,7 +124,7 @@ class CLI(Cmd):
 
     def do_EOF(self, line):  # pylint: disable=invalid-name
         "Exit"
-        print '\n'
+        print('\n')
         return self.do_exit(line)
 
     def isatty(self):
@@ -143,26 +143,26 @@ class CLI(Cmd):
             node1, node2 = line.split()
             link = (node1, node2)
         except ValueError:
-            print "Provide exactly two arguments: node1 node2"
+            print("Provide exactly two arguments: node1 node2")
             return
 
         for node in (node1, node2):
             if node not in self.controller.controllers:
-                print "%s is not a valid node!" % node, \
-                    "You can only fail links between switches"
+                print("%s is not a valid node!" % node, \
+                    "You can only fail links between switches")
                 return
 
         if node2 not in self.controller.topo[node1]:
-            print "The link %s-%s does not exist." % link
+            print("The link %s-%s does not exist." % link)
             return
 
         failed_links = self.check_all_links()
         for failed_link in failed_links:
             if failed_link in [(node1, node2), (node2, node1)]:
-                print "The link %s-%s is already down!" % (node1, node2)
+                print("The link %s-%s is already down!" % (node1, node2))
                 return
 
-        print "Failing link %s-%s." % link
+        print("Failing link %s-%s." % link)
 
         self.update_interfaces(link, "down")
         self.update_linkstate(link, "down")
@@ -171,7 +171,7 @@ class CLI(Cmd):
         """Set all interfaces back up."""
         failed_links = self.check_all_links()
         for link in failed_links:
-            print "Resetting failure for link %s-%s." % link
+            print("Resetting failure for link %s-%s." % link)
             self.update_interfaces(link, "up")
             self.update_linkstate(link, "up")
 
@@ -182,9 +182,9 @@ class CLI(Cmd):
 
     def do_synchronize(self, line=""):  # pylint: disable=unused-argument
         """Ensure that all linkstate registers match the interface state."""
-        print "Synchronizing link state registers with link state..."
+        print("Synchronizing link state registers with link state...")
         switchgraph = self.controller.topo.network_graph.subgraph(
-            self.controller.controllers.keys()
+            list(self.controller.controllers.keys())
         )
         for link in switchgraph.edges:
             ifs = self.get_interfaces(link)
@@ -202,7 +202,7 @@ class CLI(Cmd):
         """Check the state for all link interfaces."""
         failed_links = []
         switchgraph = self.controller.topo.network_graph.subgraph(
-            self.controller.controllers.keys()
+            list(self.controller.controllers.keys())
         )
         for link in switchgraph.edges:
             if1, if2 = self.get_interfaces(link)
@@ -214,7 +214,7 @@ class CLI(Cmd):
     def if_up(interface):
         """Return True if interface is up, else False."""
         cmd = ["ip", "link", "show", "dev", interface]
-        return "state UP" in subprocess.check_output(cmd)
+        return b"state UP" in subprocess.check_output(cmd)
 
     def update_interfaces(self, link, state):
         """Set both interfaces on link to state (up or down)."""
@@ -225,7 +225,7 @@ class CLI(Cmd):
     @staticmethod
     def update_if(interface, state):
         """Set interface to state (up or down)."""
-        print "Set interface '%s' to '%s'." % (interface, state)
+        print("Set interface '%s' to '%s'." % (interface, state))
         cmd = ["sudo", "ip", "link", "set", "dev", interface, state]
         subprocess.check_call(cmd)
 
