@@ -45,7 +45,7 @@ class RoutingController(object):
                 elif node_type == 'switch':
                     node_type_num = 2
 
-                print "table_add at {}:".format(sw_name)
+                print("table_add at {}:".format(sw_name))
                 self.controllers[sw_name].table_add("egress_type", "set_egress_type", [str(port_number)], [str(node_type_num)])
 
 
@@ -64,7 +64,7 @@ class RoutingController(object):
                         host_mac = self.topo.get_host_mac(host)
 
                         #add rule
-                        print "table_add at {}:".format(sw_name)
+                        print("table_add at {}:".format(sw_name))
                         self.controllers[sw_name].table_add("ipv4_lpm", "set_nhop", [str(host_ip)], [str(host_mac), str(sw_port)])
 
                 #check if there are directly connected hosts
@@ -81,7 +81,7 @@ class RoutingController(object):
                                 dst_sw_mac = self.topo.node_to_node_mac(next_hop, sw_name)
 
                                 #add rule
-                                print "table_add at {}:".format(sw_name)
+                                print("table_add at {}:".format(sw_name))
                                 self.controllers[sw_name].table_add("ipv4_lpm", "set_nhop", [str(host_ip)],
                                                                     [str(dst_sw_mac), str(sw_port)])
 
@@ -96,7 +96,7 @@ class RoutingController(object):
                                 #ports used, thus we can use dst_macs_ports as key
                                 if switch_ecmp_groups[sw_name].get(tuple(dst_macs_ports), None):
                                     ecmp_group_id = switch_ecmp_groups[sw_name].get(tuple(dst_macs_ports), None)
-                                    print "table_add at {}:".format(sw_name)
+                                    print("table_add at {}:".format(sw_name))
                                     self.controllers[sw_name].table_add("ipv4_lpm", "ecmp_group", [str(host_ip)],
                                                                         [str(ecmp_group_id), str(len(dst_macs_ports))])
 
@@ -107,13 +107,13 @@ class RoutingController(object):
 
                                     #add group
                                     for i, (mac, port) in enumerate(dst_macs_ports):
-                                        print "table_add at {}:".format(sw_name)
+                                        print("table_add at {}:".format(sw_name))
                                         self.controllers[sw_name].table_add("ecmp_group_to_nhop", "set_nhop",
                                                                             [str(new_ecmp_group_id), str(i)],
                                                                             [str(mac), str(port)])
 
                                     #add forwarding rule
-                                    print "table_add at {}:".format(sw_name)
+                                    print("table_add at {}:".format(sw_name))
                                     self.controllers[sw_name].table_add("ipv4_lpm", "ecmp_group", [str(host_ip)],
                                                                         [str(new_ecmp_group_id), str(len(dst_macs_ports))])
 

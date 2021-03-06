@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import os
 
@@ -9,9 +9,9 @@ def get_if():
     for i in get_if_list():
         if "eth0" in i:
             iface=i
-            break;
+            break
     if not iface:
-        print "Cannot find eth0 interface"
+        print("Cannot find eth0 interface")
         exit(1)
     return iface
 
@@ -32,18 +32,18 @@ def handle_pkt(pkt):
     ether = pkt.getlayer(Ether)
 
     telemetry = pkt.getlayer(Telemetry)
-    print "Queue Info:"
-    print "enq_depth", telemetry.enq_depth
+    print("Queue Info:")
+    print("enq_depth", telemetry.enq_depth)
     #print "deq_depth", telemetry.deq_depth
-    print
+    print()
 
 bind_layers(Ether, Telemetry, type=0x7777)
 
 
 def main():
-    ifaces = filter(lambda i: 'eth' in i, os.listdir('/sys/class/net/'))
+    ifaces = [i for i in os.listdir('/sys/class/net/') if 'eth' in i]
     iface = ifaces[0]
-    print "sniffing on %s" % iface
+    print("sniffing on %s" % iface)
     sys.stdout.flush()
 
     my_filter = isNotOutgoing(get_if_hwaddr(get_if()))
