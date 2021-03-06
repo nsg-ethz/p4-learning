@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 import socket
 import random
 import os
@@ -149,7 +149,7 @@ def ip_header(src,dst,ttl,proto,id=0):
     elif proto == "udp":
         proto = socket.IPPROTO_UDP
     else:
-        print "proto unknown"
+        print("proto unknown")
         return
     check = 10  # python seems to correctly fill the checksum
     saddr = socket.inet_aton ( src )  #Spoof the source ip address if you want to

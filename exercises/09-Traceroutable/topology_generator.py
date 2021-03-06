@@ -63,7 +63,7 @@ def create_random_topo(degree=4, num_switches=10):
         g = networkx.random_regular_graph(degree, num_switches)
         trials +=1
         if trials >= 10:
-            print "Could not Create a connected graph"
+            print("Could not Create a connected graph")
             return
 
     # connect hosts with switches
