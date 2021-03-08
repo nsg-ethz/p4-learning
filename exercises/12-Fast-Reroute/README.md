@@ -237,6 +237,12 @@ As an example, we will consider a failure of the link between `S1` and `S2` and 
     sudo apt-get install speedometer
     ```
 
+    Since `speedometer` is not Python3 compliant we have to force its execution with Python2. This can be done by running the following command.
+
+    ```
+    sudo sed -i '1s+^.*$+#!/usr/bin/env python2+' $(which speedometer)
+    ```
+
     Then you can run the following command.
 
     ```
