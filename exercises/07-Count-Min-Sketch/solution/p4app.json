@@ -2,6 +2,7 @@
   "p4_src": "p4src/cm-sketch.p4",
   "cli": true,
   "pcap_dump": false,
+  "enable_log": false,
   "topology": {
     "assignment_strategy" : "mixed",
     "links": [["h1", "s1"], ["h2", "s1"]],
