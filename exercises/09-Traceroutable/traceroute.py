@@ -115,7 +115,7 @@ def checksum(msg):
     s = 0
     # loop taking 2 characters at a time
     for i in range(0, len(msg), 2):
-        w = (ord(msg[i]) << 8) + ( ord(msg[i+1]) )
+        w = (msg[i] << 8) + msg[i+1]
         s = s + w
 
     s = (s>>16) + (s & 0xffff)
@@ -130,7 +130,7 @@ def get_ip_address(ifname):
     return socket.inet_ntoa(fcntl.ioctl(
         s.fileno(),
         0x8915,  # SIOCGIFADDR
-        struct.pack('256s', ifname[:15])
+        struct.pack(b'256s', ifname[:15].encode())
     )[20:24])
 
 

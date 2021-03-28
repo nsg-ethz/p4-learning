@@ -1,11 +1,11 @@
-from p4utils.utils.topology import Topology
+from p4utils.utils.helper import load_topo
 from p4utils.utils.sswitch_API import SimpleSwitchAPI
 
 class RoutingController(object):
 
     def __init__(self):
 
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.controllers = {}
         self.init()
 
@@ -18,7 +18,7 @@ class RoutingController(object):
         [controller.reset_state() for controller in self.controllers.values()]
 
     def connect_to_switches(self):
-        for p4switch in self.topo.get_p4switches():
+        for p4switch in self.topo.P4Switches():
             thrift_port = self.topo.get_thrift_port(p4switch)
             self.controllers[p4switch] = SimpleSwitchAPI(thrift_port)
 
@@ -39,10 +39,10 @@ class RoutingController(object):
 
     def route(self):
 
-        switch_ecmp_groups = {sw_name:{} for sw_name in self.topo.get_p4switches().keys()}
+        switch_ecmp_groups = {sw_name:{} for sw_name in self.topo.P4Switches().keys()}
 
         for sw_name, controller in self.controllers.items():
-            for sw_dst in self.topo.get_p4switches():
+            for sw_dst in self.topo.P4Switches():
 
                 #if its ourselves we create direct connections
                 if sw_name == sw_dst:
