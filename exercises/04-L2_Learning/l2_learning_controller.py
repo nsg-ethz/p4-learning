@@ -52,7 +52,6 @@ class L2Controller(object):
             rid +=1
 
     def learn(self, learning_data):
-
         for mac_addr, ingress_port in  learning_data:
             print("mac: %012X ingress_port: %s " % (mac_addr, ingress_port))
             #TODO: Add an entry to smac
@@ -60,7 +59,6 @@ class L2Controller(object):
             #HINT: table_add(table_name, action_name, list of matches, list of action parameters)
 
     def unpack_digest(self, msg, num_samples):
-
         digest = []
         starting_index = 32
         for sample in range(num_samples):
@@ -72,37 +70,30 @@ class L2Controller(object):
         return digest
 
     def recv_msg_digest(self, msg):
-
         topic, device_id, ctx_id, list_id, buffer_id, num = struct.unpack("<iQiiQi",
                                                                           msg[:32])
         digest = self.unpack_digest(msg, num)
         self.learn(digest)
-
         #Acknowledge digest
         self.controller.client.bm_learning_ack_buffer(ctx_id, list_id, buffer_id)
 
 
     def run_digest_loop(self):
-
         sub = nnpy.Socket(nnpy.AF_SP, nnpy.SUB)
         notifications_socket = self.controller.client.bm_mgmt_get_info().notifications_socket
         sub.connect(notifications_socket)
         sub.setsockopt(nnpy.SUB, nnpy.SUB_SUBSCRIBE, '')
-
         while True:
             msg = sub.recv()
             self.recv_msg_digest(msg)
 
     def recv_msg_cpu(self, pkt):
-
         packet = Ether(raw(pkt))
-
         if packet.type == 0x1234:
             cpu_header = CpuHeader(bytes(packet.load))
             self.learn([(cpu_header.macAddr, cpu_header.ingress_port)])
 
     def run_cpu_port_loop(self):
-
         cpu_port_intf = str(self.topo.get_cpu_port_intf(self.sw_name).replace("eth0", "eth1"))
         sniff(iface=cpu_port_intf, prn=self.recv_msg_cpu)
 
