@@ -1,40 +1,39 @@
 import nnpy
 import struct
-from p4utils.utils.topology import Topology
+from p4utils.utils.topology import NetworkGraph
+from p4utils.utils.helper import load_topo
 from p4utils.utils.sswitch_API import SimpleSwitchAPI
 from scapy.all import Ether, sniff, Packet, BitField, raw
+
 
 class CpuHeader(Packet):
     name = 'CpuPacket'
     fields_desc = [BitField('macAddr',0,48), BitField('ingress_port', 0, 16)]
 
+
 class L2Controller(object):
 
     def __init__(self, sw_name):
-
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.sw_name = sw_name
         self.thrift_port = self.topo.get_thrift_port(sw_name)
         self.cpu_port =  self.topo.get_cpu_port_index(self.sw_name)
         self.controller = SimpleSwitchAPI(self.thrift_port)
-
         self.init()
 
     def init(self):
-
         self.controller.reset_state()
         self.add_boadcast_groups()
         self.add_mirror()
         #self.fill_table_test()
 
     def add_mirror(self):
-
         if self.cpu_port:
             self.controller.mirroring_add(100, self.cpu_port)
 
     def add_boadcast_groups(self):
 
-        interfaces_to_port = self.topo[self.sw_name]["interfaces_to_port"].copy()
+        interfaces_to_port = self.topo.NodeIntfs(fields=['port'])[self.sw_name]
         #filter lo and cpu port
         interfaces_to_port.pop('lo', None)
         interfaces_to_port.pop(self.topo.get_cpu_port_intf(self.sw_name), None)
@@ -67,16 +66,13 @@ class L2Controller(object):
         self.controller.table_add("dmac", "forward", ['00:00:0a:00:00:03'], ['3'])
         self.controller.table_add("dmac", "forward", ['00:00:0a:00:00:04'], ['4'])
 
-
     def learn(self, learning_data):
-
         for mac_addr, ingress_port in  learning_data:
             print("mac: %012X ingress_port: %s " % (mac_addr, ingress_port))
             self.controller.table_add("smac", "NoAction", [str(mac_addr)])
             self.controller.table_add("dmac", "forward", [str(mac_addr)], [str(ingress_port)])
 
     def unpack_digest(self, msg, num_samples):
-
         digest = []
         starting_index = 32
         for sample in range(num_samples):
@@ -84,40 +80,32 @@ class L2Controller(object):
             starting_index +=8
             mac_addr = (mac0 << 16) + mac1
             digest.append((mac_addr, ingress_port))
-
         return digest
 
     def recv_msg_digest(self, msg):
-
         topic, device_id, ctx_id, list_id, buffer_id, num = struct.unpack("<iQiiQi",
                                                                           msg[:32])
         digest = self.unpack_digest(msg, num)
         self.learn(digest)
-
         #Acknowledge digest
         self.controller.client.bm_learning_ack_buffer(ctx_id, list_id, buffer_id)
 
-
     def run_digest_loop(self):
-
         sub = nnpy.Socket(nnpy.AF_SP, nnpy.SUB)
         notifications_socket = self.controller.client.bm_mgmt_get_info().notifications_socket
         sub.connect(notifications_socket)
         sub.setsockopt(nnpy.SUB, nnpy.SUB_SUBSCRIBE, '')
-
         while True:
             msg = sub.recv()
             self.recv_msg_digest(msg)
 
     def recv_msg_cpu(self, pkt):
-
         packet = Ether(raw(pkt))
         if packet.type == 0x1234:
             cpu_header = CpuHeader(bytes(packet.load))
             self.learn([(cpu_header.macAddr, cpu_header.ingress_port)])
 
     def run_cpu_port_loop(self):
-
         cpu_port_intf = str(self.topo.get_cpu_port_intf(self.sw_name).replace("eth0", "eth1"))
         sniff(iface=cpu_port_intf, prn=self.recv_msg_cpu)
 
