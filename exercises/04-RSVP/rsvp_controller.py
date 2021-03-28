@@ -1,9 +1,10 @@
-from p4utils.utils.topology import Topology
-from p4utils.utils.sswitch_API import SimpleSwitchAPI
-from cli import RSVPCLI
 import os
 import threading
 import time
+from p4utils.utils.helper import load_topo
+from p4utils.utils.sswitch_API import SimpleSwitchAPI
+from cli import RSVPCLI
+
 
 class RSVPController(object):
 
@@ -11,11 +12,11 @@ class RSVPController(object):
         """Initializes the topology and data structures
         """
 
-        if not os.path.exists("topology.db"):
-            print("Could not find topology object!!!\n")
-            raise(Exception)
+        if not os.path.exists('topology.json'):
+            print('Could not find topology object!!!\n')
+            raise Exception
 
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.controllers = {}
         self.init()
 
@@ -44,7 +45,7 @@ class RSVPController(object):
         """Connects to all the switches in the topology and saves them
          in self.controllers.
         """
-        for p4switch in self.topo.get_p4switches():
+        for p4switch in self.topo.P4Switches():
             thrift_port = self.topo.get_thrift_port(p4switch)
             self.controllers[p4switch] = SimpleSwitchAPI(thrift_port)        
 
@@ -57,8 +58,8 @@ class RSVPController(object):
 
         links_capacity = {}
         # Iterates all the edges in the topology formed by switches
-        for src, dst in self.topo.network_graph.keep_only_p4switches().edges:
-            bw = self.topo.network_graph.edges[(src, dst)]['bw']
+        for src, dst in self.topo.keep_only_p4switches().edges:
+            bw = self.topo.edges[(src, dst)]['bw']
             # add both directions
             links_capacity[(src, dst)] = bw
             links_capacity[(dst, src)] = bw
@@ -303,7 +304,7 @@ class RSVPController(object):
             # PART 1, TASK 4.2 remove all the reservations            
     
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     controller = RSVPController()
     controller.set_mpls_tbl_labels()
     cli = RSVPCLI(controller)

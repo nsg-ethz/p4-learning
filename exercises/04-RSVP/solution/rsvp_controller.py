@@ -1,9 +1,10 @@
-from p4utils.utils.topology import Topology
-from p4utils.utils.sswitch_API import SimpleSwitchAPI
-from cli import RSVPCLI
 import os
 import threading
 import time
+from p4utils.utils.helper import load_topo
+from p4utils.utils.sswitch_API import SimpleSwitchAPI
+from cli import RSVPCLI
+
 
 class RSVPController(object):
 
@@ -11,11 +12,11 @@ class RSVPController(object):
         """Initializes the topology and data structures
         """
 
-        if not os.path.exists("topology.db"):
-            print("Could not find topology object!!!\n")
-            raise(Exception)
+        if not os.path.exists('topology.json'):
+            print('Could not find topology object!!!\n')
+            raise Exception
 
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.controllers = {}
         self.init()
 
@@ -44,7 +45,7 @@ class RSVPController(object):
         """Connects to all the switches in the topology and saves them
          in self.controllers.
         """
-        for p4switch in self.topo.get_p4switches():
+        for p4switch in self.topo.P4Switches():
             thrift_port = self.topo.get_thrift_port(p4switch)
             self.controllers[p4switch] = SimpleSwitchAPI(thrift_port)        
 
@@ -57,8 +58,8 @@ class RSVPController(object):
 
         links_capacity = {}
         # Iterates all the edges in the topology formed by switches
-        for src, dst in self.topo.network_graph.keep_only_p4switches().edges:
-            bw = self.topo.network_graph.edges[(src, dst)]['bw']
+        for src, dst in self.topo.keep_only_p4switches().edges:
+            bw = self.topo.edges[(src, dst)]['bw']
             # add both directions
             links_capacity[(src, dst)] = bw
             links_capacity[(dst, src)] = bw
@@ -109,7 +110,7 @@ class RSVPController(object):
                 host_mac = self.topo.get_host_mac(host)
 
                 # adds direct forwarding rule
-                controller.table_add("FEC_tbl", "ipv4_forward", ["0.0.0.0/0", str(host_ip)], [str(host_mac), str(sw_port)])
+                controller.table_add('FEC_tbl', 'ipv4_forward', ['0.0.0.0/0', str(host_ip)], [str(host_mac), str(sw_port)])
                 
             for switch in self.topo.get_switches_connected_to(sw_name):
                 sw_port = self.topo.node_to_node_port_num(sw_name, switch)
@@ -117,8 +118,8 @@ class RSVPController(object):
                 other_switch_mac = self.topo.node_to_node_mac(switch, sw_name)
 
                 # we add a normal rule and a penultimate one 
-                controller.table_add("mpls_tbl", "mpls_forward", [str(sw_port), '0'], [str(other_switch_mac), str(sw_port)])
-                controller.table_add("mpls_tbl", "penultimate", [str(sw_port), '1'], [str(other_switch_mac), str(sw_port)])
+                controller.table_add('mpls_tbl', 'mpls_forward', [str(sw_port), '0'], [str(other_switch_mac), str(sw_port)])
+                controller.table_add('mpls_tbl', 'penultimate', [str(sw_port), '1'], [str(other_switch_mac), str(sw_port)])
 
 
     def build_mpls_path(self, switches_path):
@@ -297,9 +298,9 @@ class RSVPController(object):
         # get ingress switch as the first node in the path
         src_gw = path[0]
         # compute the action name using the length of the labels path
-        action = "mpls_ingress_{}_hop".format(len(label_path))
+        action = 'mpls_ingress_{}_hop'.format(len(label_path))
         # src lpm address
-        src_ip = str(self.topo.get_host_ip(src) + "/32")
+        src_ip = str(self.topo.get_host_ip(src) + '/32')
         # dst exact address
         dst_ip = str(self.topo.get_host_ip(dst))
         # match list
@@ -310,24 +311,24 @@ class RSVPController(object):
 
             # If the entry is new we simply add it
             if not update:
-                entry_handle = self.controllers[src_gw].table_add("FEC_tbl", action, match, label_path)
-                self.set_direct_meter_bandwidth(src_gw, "rsvp_meter", entry_handle, bandwidth)
+                entry_handle = self.controllers[src_gw].table_add('FEC_tbl', action, match, label_path)
+                self.set_direct_meter_bandwidth(src_gw, 'rsvp_meter', entry_handle, bandwidth)
             # if the entry is being updated we modify if using its handle  
             else:
                 entry = self.current_reservations.get((src, dst), None)
-                entry_handle = self.controllers[src_gw].table_modify("FEC_tbl", action, entry['handle'], label_path)
-                self.set_direct_meter_bandwidth(src_gw, "rsvp_meter", entry_handle, bandwidth)
+                entry_handle = self.controllers[src_gw].table_modify('FEC_tbl', action, entry['handle'], label_path)
+                self.set_direct_meter_bandwidth(src_gw, 'rsvp_meter', entry_handle, bandwidth)
             
             # udpates controllers link and reservation structures if rules were added succesfully
             if entry_handle:
                 self.sub_link_capacity(path, bandwidth)
-                self.current_reservations[(src, dst)] = {"timeout": (duration), "bw": (bandwidth), "priority": (priority), 'handle': entry_handle, 'path': path}
-                print("Successful reservation({}->{}): path: {}".format(src, dst, "->".join(path)))
+                self.current_reservations[(src, dst)] = {'timeout': (duration), 'bw': (bandwidth), 'priority': (priority), 'handle': entry_handle, 'path': path}
+                print('Successful reservation({}->{}): path: {}'.format(src, dst, '->'.join(path)))
             else:
-                print("\033[91mFailed reservation({}->{}): path: {}\033[0m".format(src, dst, "->".join(path)))
+                print('\033[91mFailed reservation({}->{}): path: {}\033[0m'.format(src, dst, '->'.join(path)))
 
         else:
-            print("Warning: Hosts are connected to the same switch!")
+            print('Warning: Hosts are connected to the same switch!')
 
 
     def add_reservation(self, src, dst, duration, bandwidth, priority):
@@ -400,7 +401,7 @@ class RSVPController(object):
                                 path = data['path']
                                 bw = data['bw']
                                 self.sub_link_capacity(path, bw)
-                                print("\033[91mDeleting allocation {}->{} due to a higher priority allocation!\033[0m".format(src, dst))
+                                print('\033[91mDeleting allocation {}->{} due to a higher priority allocation!\033[0m'.format(src, dst))
                                 self.del_reservation(src, dst)
 
                 else:
@@ -412,9 +413,9 @@ class RSVPController(object):
                         path = data['path']
                         bw = data['bw']
                         self.sub_link_capacity(path, bw)
-                        print("Deleting new allocation. Does not fit anymore!")
+                        print('Deleting new allocation. Does not fit anymore!')
                         self.del_reservation(src, dst)
-                    print("\033[91mRESERVATION FAILURE: no bandwidth available!\033[0m")
+                    print('\033[91mRESERVATION FAILURE: no bandwidth available!\033[0m')
 
     def del_reservation(self, src, dst):
         """Deletes a reservation between src and dst, if exists. To 
@@ -435,14 +436,14 @@ class RSVPController(object):
             # gets src ingress switch
             sw_gw = self.topo.get_host_gateway_name(src)
             # removes table entry using the handle
-            self.controllers[sw_gw].table_delete("FEC_tbl", entry_handle, True)
+            self.controllers[sw_gw].table_delete('FEC_tbl', entry_handle, True)
             # updates links capacity
             self.add_link_capacity(entry['path'], entry['bw'])
             # removes the reservation from the controllers memory
             del(self.current_reservations[(src, dst)])
-            print("\nRSVP Deleted/Expired Reservation({}->{}): path: {}".format(src, dst, "->".join(entry['path'])))
+            print('\nRSVP Deleted/Expired Reservation({}->{}): path: {}'.format(src, dst, '->'.join(entry['path'])))
         else:
-            print("No entry for {} -> {}".format(src, dst))
+            print('No entry for {} -> {}'.format(src, dst))
 
     def del_all_reservations(self):
         """Deletes all the current reservations
@@ -458,7 +459,7 @@ class RSVPController(object):
                 self.del_reservation(src, dst)
     
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     controller = RSVPController()
     controller.set_mpls_tbl_labels()
     cli = RSVPCLI(controller)
