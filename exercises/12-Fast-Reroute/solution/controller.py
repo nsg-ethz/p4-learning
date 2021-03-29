@@ -4,12 +4,11 @@ In case of a link failure, paths are recomputed.
 """
 
 import os
+from cli import CLI
 from networkx.algorithms import all_pairs_dijkstra
 
-from p4utils.utils.topology import Topology
+from p4utils.utils.helper import load_topo
 from p4utils.utils.sswitch_API import SimpleSwitchAPI
-
-from cli import CLI
 
 
 class RerouteController(object):
@@ -18,11 +17,11 @@ class RerouteController(object):
     def __init__(self):
         """Initializes the topology and data structures."""
 
-        if not os.path.exists("topology.db"):
+        if not os.path.exists('topology.json'):
             print("Could not find topology object!\n")
             raise Exception
 
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.controllers = {}
         self.connect_to_switches()
         self.reset_states()
@@ -83,7 +82,7 @@ class RerouteController(object):
             str: IP and subnet in the format "address/mask".
         """
         gateway = self.topo.get_host_gateway_name(host)
-        return self.topo[host][gateway]['ip']
+        return self.topo.get_intfs()[host][gateway]['ip']
 
     def get_nexthop_index(self, host):
         """Return the nexthop index for a destination.
@@ -130,7 +129,7 @@ class RerouteController(object):
         Returns:
             tuple(dict, dict): First dict: distances, second: paths.
         """
-        graph = self.topo.network_graph
+        graph = self.topo
 
         if failures is not None:
             graph = graph.copy()
@@ -166,7 +165,7 @@ class RerouteController(object):
         results = {}
         for switch in self.controllers:
             switch_results = results[switch] = []
-            for host in self.topo.network_graph.get_hosts():
+            for host in self.topo.get_hosts():
                 try:
                     path = all_shortest_paths[switch][host]
                 except KeyError:

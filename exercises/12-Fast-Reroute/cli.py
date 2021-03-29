@@ -152,7 +152,7 @@ class CLI(Cmd):
                     "You can only fail links between switches")
                 return
 
-        if node2 not in self.controller.topo[node1]:
+        if node2 not in self.controller.topo.get_intfs()[node1]:
             print("The link %s-%s does not exist." % link)
             return
 
@@ -183,7 +183,7 @@ class CLI(Cmd):
     def do_synchronize(self, line=""):  # pylint: disable=unused-argument
         """Ensure that all linkstate registers match the interface state."""
         print("Synchronizing link state registers with link state...")
-        switchgraph = self.controller.topo.network_graph.subgraph(
+        switchgraph = self.controller.topo.subgraph(
             list(self.controller.controllers.keys())
         )
         for link in switchgraph.edges:
@@ -201,7 +201,7 @@ class CLI(Cmd):
     def check_all_links(self):
         """Check the state for all link interfaces."""
         failed_links = []
-        switchgraph = self.controller.topo.network_graph.subgraph(
+        switchgraph = self.controller.topo.subgraph(
             list(self.controller.controllers.keys())
         )
         for link in switchgraph.edges:
@@ -232,16 +232,16 @@ class CLI(Cmd):
     def get_interfaces(self, link):
         """Return tuple of interfaces on both sides of the link."""
         node1, node2 = link
-        if_12 = self.controller.topo[node1][node2]['intf']
-        if_21 = self.controller.topo[node2][node1]['intf']
+        if_12 = self.controller.topo.get_intfs()[node1][node2]['intfName']
+        if_21 = self.controller.topo.get_intfs()[node2][node1]['intfName']
         return if_12, if_21
 
     def get_ports(self, link):
         """Return tuple of interfaces on both sides of the link."""
         node1, node2 = link
         if1, if2 = self.get_interfaces(link)
-        port1 = self.controller.topo[node1]['interfaces_to_port'][if1]
-        port2 = self.controller.topo[node2]['interfaces_to_port'][if2]
+        port1 = self.controller.topo.get_node_intfs(fields=['port'])[node1][if1]
+        port2 = self.controller.topo.get_node_intfs(fields=['port'])[node2][if2]
         return port1, port2
 
     def update_linkstate(self, link, state):
