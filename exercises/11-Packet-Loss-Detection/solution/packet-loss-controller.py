@@ -1,4 +1,4 @@
-from p4utils.utils.topology import Topology
+from p4utils.utils.helper import load_topo
 from p4utils.utils.sswitch_API import *
 from crc import Crc
 import socket, struct, pickle, os, time
@@ -23,7 +23,7 @@ class PacketLossController(object):
 
     def __init__(self, num_hashes=3):
 
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.controllers = {}
         self.num_hashes = num_hashes
 
