@@ -1,9 +1,5 @@
 {
-  "program": "p4src/loadbalancer.p4",
-  "switch": "simple_switch",
-  "compiler": "p4c",
-  "options": "--target bmv2 --arch v1model --std p4-16",
-  "switch_cli": "simple_switch_CLI",
+  "p4_src": "p4src/loadbalancer.p4",
   "cli": true,
   "pcap_dump": true,
   "enable_log": true,
@@ -13,25 +9,12 @@
       "reboot_run": true
     }
   ],
-    "topo_module": {
-    "file_path": "",
-    "module_name": "p4utils.mininetlib.apptopo",
-    "object_name": "AppTopoStrategies"
-  },
-  "controller_module": null,
-  "topodb_module": {
-    "file_path": "",
-    "module_name": "p4utils.utils.topology",
-    "object_name": "Topology"
-  },
-  "mininet_module": {
-    "file_path": "",
-    "module_name": "p4utils.mininetlib.p4net",
-    "object_name": "P4Mininet"
-  },
   "topology": {
     "assignment_strategy": "l3",
-    "default_bw":10,
+    "default":
+    {
+      "bw": 10
+    },
     "links": [
       ["h1", "s1"], ["h2", "s1"], ["h3", "s2"], ["h4", "s2"], ["s1", "s9"], ["s1", "s10"], ["s2", "s9"], ["s2", "s10"], ["s9", "s17"], ["s9", "s18"], ["s10", "s19"], ["s10", "s20"],
       ["h5", "s3"], ["h6", "s3"], ["h7", "s4"], ["h8", "s4"], ["s3", "s11"], ["s3", "s12"], ["s4", "s11"], ["s4", "s12"], ["s11", "s17"], ["s11", "s18"], ["s12", "s19"], ["s12", "s20"],

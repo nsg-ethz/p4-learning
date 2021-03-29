@@ -1,11 +1,11 @@
-from p4utils.utils.topology import Topology
+from p4utils.utils.helper import load_topo
 from p4utils.utils.sswitch_API import SimpleSwitchAPI
 
 class RoutingController(object):
 
     def __init__(self):
 
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.controllers = {}
         self.init()
 
@@ -37,12 +37,11 @@ class RoutingController(object):
         for sw_name, controller in self.controllers.items():
 
             for intf, node in self.topo.get_interfaces_to_node(sw_name).items():
-                node_type = self.topo.get_node_type(node)
                 port_number = self.topo.interface_to_port(sw_name, intf)
 
-                if node_type == 'host':
+                if self.topo.isHost(node):
                     node_type_num = 1
-                elif node_type == 'switch':
+                elif self.topo.isP4Switch(node):
                     node_type_num = 2
 
                 print("table_add at {}:".format(sw_name))
