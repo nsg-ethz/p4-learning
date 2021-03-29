@@ -4,31 +4,10 @@ import networkx
 
 
 topo_base = {
-  "program": "p4src/traceroutable.p4",
-  "switch": "simple_switch",
-  "compiler": "p4c",
-  "options": "--target bmv2 --arch v1model --std p4-16",
-  "switch_cli": "simple_switch_CLI",
-  "exec_scripts": [],
+  "p4_src": "p4src/traceroutable.p4",
   "cli": True,
   "pcap_dump": True,
   "enable_log": True,
-  "topo_module": {
-    "file_path": "",
-    "module_name": "p4utils.mininetlib.apptopo",
-    "object_name": "AppTopoStrategies"
-  },
-  "controller_module": None,
-  "topodb_module": {
-    "file_path": "",
-    "module_name": "p4utils.utils.topology",
-    "object_name": "Topology"
-  },
-  "mininet_module": {
-    "file_path": "",
-    "module_name": "p4utils.mininetlib.p4net",
-    "object_name": "P4Mininet"
-  },
   "topology": {
       "assignment_strategy": "l3"
   }

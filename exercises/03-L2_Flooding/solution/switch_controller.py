@@ -1,11 +1,10 @@
-from p4utils.utils.topology import Topology
+from p4utils.utils.helper import load_topo
 from p4utils.utils.sswitch_API import SimpleSwitchAPI
 
 class FloodingController(object):
 
     def __init__(self, sw_name):
-
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.sw_name = sw_name
         self.thrift_port = self.topo.get_thrift_port(sw_name)
         self.cpu_port =  self.topo.get_cpu_port_index(self.sw_name)
@@ -13,7 +12,6 @@ class FloodingController(object):
         self.init()
 
     def init(self):
-
         self.controller.reset_state()
         self.fill_dmac_table()
         self.add_boadcast_groups()
@@ -26,8 +24,7 @@ class FloodingController(object):
         self.controller.table_set_default("dmac", "broadcast", [])
 
     def add_boadcast_groups(self):
-
-        interfaces_to_port = self.topo[self.sw_name]["interfaces_to_port"].copy()
+        interfaces_to_port = self.topo.get_node_intfs[self.sw_name]["interfaces_to_port"].copy()
         #filter lo and cpu port
         interfaces_to_port.pop('lo', None)
         interfaces_to_port.pop(self.topo.get_cpu_port_intf(self.sw_name), None)

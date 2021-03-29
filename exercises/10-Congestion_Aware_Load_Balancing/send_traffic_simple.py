@@ -9,7 +9,6 @@ topo = load_topo('topology.json')
 iperf_send = "mx {0} iperf3 -c {1} -M 9000 -t {2} --bind {3} --cport {4} -p {5} 2>&1 >/dev/null"
 iperf_recv = "mx {0} iperf3 -s -p {1} --one-off 2>&1 >/dev/null"
 
-
 Popen("sudo killall iperf iperf3", shell=True)
 
 dst_port1 = random.randint(1024, 65000)

@@ -230,7 +230,7 @@ how to receive digested packets, how to populate tables, how to automatically ad
 
 The implementation of the controller heavily uses two features from `p4-utils`. The `Topology` object and the `SimpleSwitchAPI` object:
 
-1. Topology object: when a topology is created with `p4run` all the useful topology information is encoded in a the `topolog.db` file which can be
+1. Topology object: when a topology is created with `p4run` all the useful topology information is encoded in a the `topology.json` file which can be
 then loaded by the p4-utils `Topology` object. Using this object you can get rich information about the topology. To check when is this object used
 in the controller's code look for `self.topology`. Documentation regarding this will be released soon.
 

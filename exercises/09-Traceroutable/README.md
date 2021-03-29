@@ -155,11 +155,11 @@ Once you completed your implementation, you can test the program using the `trac
 
 4. Traceroute between two hosts:
 
-   You can either use our own implementation (`traceroute.py`) or the default `traceroute` tool:
+   You can either use our own implementation (`traceroute.py`) in a host or the default `traceroute` Mininet tool:
 
    ```python -i traceroute.py
    for sport in range(6000,6020):
-       print traceroute(dst="10.6.2.2",sport=sport, dport=80)
+       print(traceroute(dst="10.6.2.2",sport=sport, dport=80))
    ```
 
    ```bash

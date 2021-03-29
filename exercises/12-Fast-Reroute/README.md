@@ -216,17 +216,22 @@ Keep in mind that you *first* need to look up the port of the primary, before yo
 Below, we'll give you some additional tips to debug your program.
 As an example, we will consider a failure of the link between `S1` and `S2` and will focus on the rerouting in `S2` for the traffic going to `10.4.4.2/24`, similar to the introduction above.
 
-1.  Start the topology (this will also compile and load the program).
+1.  Start the topology.
     ```
     sudo p4run
     ```
 
-2.  Verify that you can ping:
+2. Start the controller.
+    ```
+    sudo python controller.py
+    ```
+
+3.  Verify that you can ping:
     ```
     mininet> pingall
     ````
 
-3.  Let's run run the example in the figure above.
+4.  Let's run run the example in the figure above.
     We will monitor five links: S1-h1, S4-h4, and the three adjacent links of `S2`.
 
     To visualize these five links altogether, we could open separate tcpdumps, or we can use `speedometer`.
@@ -263,25 +268,25 @@ As an example, we will consider a failure of the link between `S1` and `S2` and 
     s4 lo:  s4-eth1:h4-eth0 s4-eth2:s3-eth3 s4-eth3:s1-eth3 s4-eth4:s2-eth4
     ```
 
-4.  Ping from h1 to h4 with a short interval to see more traffic
+5.  Ping from h1 to h4 with a short interval to see more traffic
 
     ```
     mininet> h2 ping h4 -i 0.01
     ```
 
-5.  Fail the link S1-S2. You can do that from the controller CLI:
+6.  Fail the link S1-S2. You can do that from the controller CLI:
 
     ```
     link-menu> fail s1 s2
     ```
 
-6.  Finally, notify the controller about the failure such that it recomputes the new path and update the primary routes in the switches. You can do that from the controller CLI.
+7.  Finally, notify the controller about the failure such that it recomputes the new path and update the primary routes in the switches. You can do that from the controller CLI.
 
     ```
     link-menu> notify
     ```
 
-7. With the default p4 code and controller code, the traffic will be lost
+8. With the default p4 code and controller code, the traffic will be lost
 between the failure and the time where you notify the controller and it updates the switches. See the following screenshot.
 
 <img src="images/speedometer_1.png" width="400" alt="centered image" />

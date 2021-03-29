@@ -313,7 +313,7 @@ To test the program:
 2. Start the controller so switches get configured and you start listening to batch id changes.
 
 ```
-sudo python packet-loss-controller --option run
+sudo python packet-loss-controller.py --option run
 ```
 
 This should populate the forwarding, remove_header table and mirroring id. At this point you should
