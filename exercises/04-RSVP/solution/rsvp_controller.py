@@ -45,7 +45,7 @@ class RSVPController(object):
         """Connects to all the switches in the topology and saves them
          in self.controllers.
         """
-        for p4switch in self.topo.P4Switches():
+        for p4switch in self.topo.get_p4switches():
             thrift_port = self.topo.get_thrift_port(p4switch)
             self.controllers[p4switch] = SimpleSwitchAPI(thrift_port)        
 

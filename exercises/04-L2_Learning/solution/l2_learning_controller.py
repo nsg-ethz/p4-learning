@@ -31,7 +31,7 @@ class L2Controller(object):
             self.controller.mirroring_add(100, self.cpu_port)
 
     def add_boadcast_groups(self):
-        interfaces_to_port = self.topo.NodeIntfs(fields=['port'])[self.sw_name]
+        interfaces_to_port = self.topo.get_node_intfs(fields=['port'])[self.sw_name]
         #filter lo and cpu port
         interfaces_to_port.pop('lo', None)
         interfaces_to_port.pop(self.topo.get_cpu_port_intf(self.sw_name), None)

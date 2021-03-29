@@ -18,7 +18,7 @@ class RoutingController(object):
         [controller.reset_state() for controller in self.controllers.values()]
 
     def connect_to_switches(self):
-        for p4switch in self.topo.P4Switches():
+        for p4switch in self.topo.get_p4switches():
             thrift_port = self.topo.get_thrift_port(p4switch)
             self.controllers[p4switch] = SimpleSwitchAPI(thrift_port)
 
