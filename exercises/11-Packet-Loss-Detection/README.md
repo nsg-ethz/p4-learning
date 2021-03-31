@@ -130,7 +130,7 @@ For this exercise we provide you with the following files:
   *  `p4src/loss-detection.p4`: p4 program skeleton to use as a starting point. Furthermore,
      we provide you an almost complete `headers.p4` and `parsers.p4` files.
   *  `send.py`: python program that uses raw sockets to send packets (`scapy` was not fast enough for what we needed in this exercise).
-  *  `packet-loss-controller.py`: controller that uses the `runtime_API` to communicate with the switch. You will use it to configure the switches, to receive
+  *  `packet-loss-controller.py`: controller that uses the `thrift_API` to communicate with the switch. You will use it to configure the switches, to receive
   event notifications and decode the IBLT.
   * `crc.py` a python `crc32` implementation that will be used by the controller to match the same hash functions that the switch used.
 

@@ -301,7 +301,7 @@ In order to use the packet replication engine of the simple switch several thing
 using the runtime interface or CLI.
 
 First of all you need to create multicast groups, multicast nodes and associate them to ports and groups. That can be done using
-the `simple_switch_CLI` or the thrift SimpleSwitchAPI provided by `P4 utils`:
+the `simple_switch_CLI` or the thrift SimpleSwitchThriftAPI provided by `P4 utils`:
 
 1. Create a multicast group:
 
@@ -327,7 +327,7 @@ the `simple_switch_CLI` or the thrift SimpleSwitchAPI provided by `P4 utils`:
    ```
 
 In the following example we will associate port 1,2 and 3 to the same multicast group using the `CLI`
-(translation to SimpleSwitchAPI is one to one):
+(translation to SimpleSwitchThriftAPI is one to one):
 
 ```
 mc_mgrp_create 1

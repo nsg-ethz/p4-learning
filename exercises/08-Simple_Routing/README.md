@@ -22,7 +22,7 @@ For this exercise we provide you with the following files:
   *  `p4src/ecmp.p4`: we will use the solution of the [03-ECMP](../03-ECMP) exercise as starting point.
   *  `send.py`: a small python script to generate multiple packets with different tcp port.
   *  `routing-controller.py`: routing controller skeleton. The controller uses global topology
-  information and the simple switch `runtime_API` to populate the routing tables.
+  information and the simple switch `thrift_API` to populate the routing tables.
   * `topology_generator.py`: python script that automatically generates `p4app` configuration files.
    It allows you to generate 3 types of topologies: linear, circular, and random (with a node number and degree). Run it with `-h` option to see the
    command line parameters.
@@ -73,10 +73,10 @@ table_add ecmp_group_to_nhop set_nhop 1 3 =>  00:00:00:05:01:00 5
 ```
 
 You have to write your controller application in the  `routing-controller.py` file that we already provided you. You will see that we already implemented some
-small functions that use the `Topology` and `SimpleSwitchAPI` objects from p4utils. Among others, the provided functions do:
+small functions that use the `Topology` and `SimpleSwitchThriftAPI` objects from p4utils. Among others, the provided functions do:
 
-   1. `connect_to_switches()`: function that establishes a connection with the simple switch `thrift` server using the `SimpleSwitchAPI` object and saves those
-   objects in the `self.controllers` dictionary. This dictionary has the form of: `{'sw_name' : SimpleSwitchAPI()}`.
+   1. `connect_to_switches()`: function that establishes a connection with the simple switch `thrift` server using the `SimpleSwitchThriftAPI` object and saves those
+   objects in the `self.controllers` dictionary. This dictionary has the form of: `{'sw_name' : SimpleSwitchThriftAPI()}`.
    2. `reset_states()`: iterates over the `self.controllers` object and runs the `reset_state` function which will empty the state (registers, tables, etc) for every switch.
    3. `set_table_defaults()`: for each p4 switch it sets the default action for `ipv4_lpm` and `ecmp_group_to_nhop` tables.
 

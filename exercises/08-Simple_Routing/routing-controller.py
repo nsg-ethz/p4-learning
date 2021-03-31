@@ -1,5 +1,5 @@
 from p4utils.utils.helper import load_topo
-from p4utils.utils.sswitch_API import SimpleSwitchAPI
+from p4utils.utils.sswitch_thrift_API import SimpleSwitchThriftAPI
 
 class RoutingController(object):
 
@@ -20,7 +20,7 @@ class RoutingController(object):
     def connect_to_switches(self):
         for p4switch in self.topo.get_p4switches():
             thrift_port = self.topo.get_thrift_port(p4switch)
-            self.controllers[p4switch] = SimpleSwitchAPI(thrift_port)
+            self.controllers[p4switch] = SimpleSwitchThriftAPI(thrift_port)
 
     def set_table_defaults(self):
         for controller in self.controllers.values():

@@ -1,7 +1,7 @@
 import nnpy
 import struct
 from p4utils.utils.topology import Topology
-from p4utils.utils.sswitch_API import SimpleSwitchAPI
+from p4utils.utils.sswitch_thrift_API import SimpleSwitchThriftAPI
 from scapy.all import Ether, sniff, Packet, BitField, raw
 
 class CpuHeader(Packet):
@@ -16,7 +16,7 @@ class L2Controller(object):
         self.sw_name = sw_name
         self.thrift_port = self.topo.get_thrift_port(sw_name)
         self.cpu_port =  self.topo.get_cpu_port_index(self.sw_name)
-        self.controller = SimpleSwitchAPI(self.thrift_port)
+        self.controller = SimpleSwitchThriftAPI(self.thrift_port)
 
         self.init()
 

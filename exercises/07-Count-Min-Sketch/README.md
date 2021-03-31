@@ -66,7 +66,7 @@ For this exercise we provide you with the following files:
   *  `p4src/cm-sketch.p4`: p4 program skeleton to use as a starting point. Furthermore, we provide you the `headers.p4` and `parsers.p4` file such that you do not
   have to write this again.
   *  `send.py`: python program that uses raw sockets to send packets (`scapy` was not fast enough for what we needed in this exercise).
-  *  `cm-sketch-controller.py`: controller that uses the `runtime_API` to communicate with the switch. You will find some util functions that
+  *  `cm-sketch-controller.py`: controller that uses the `thrift_API` to communicate with the switch. You will find some util functions that
   will help with the sketch decoding. Here you will also have to implement part of the algorithm.
   * `crc.py` a python `crc32` implementation that will be used by the controller to read the counters.
 

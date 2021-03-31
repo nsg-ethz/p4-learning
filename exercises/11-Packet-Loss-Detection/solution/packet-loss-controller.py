@@ -1,5 +1,5 @@
 from p4utils.utils.helper import load_topo
-from p4utils.utils.sswitch_API import *
+from p4utils.utils.sswitch_thrift_API import *
 from crc import Crc
 import socket, struct, pickle, os, time
 
@@ -48,7 +48,7 @@ class PacketLossController(object):
     def connect_to_switches(self):
         for p4switch in self.topo.get_p4switches():
             thrift_port = self.topo.get_thrift_port(p4switch)
-            self.controllers[p4switch] = SimpleSwitchAPI(thrift_port)
+            self.controllers[p4switch] = SimpleSwitchThriftAPI(thrift_port)
 
     def configure_switches(self):
 

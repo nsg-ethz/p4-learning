@@ -1,6 +1,6 @@
 import socket, struct, pickle, os
 from p4utils.utils.helper import load_topo
-from p4utils.utils.sswitch_API import *
+from p4utils.utils.sswitch_thrift_API import *
 from crc import Crc
 
 crc32_polinomials = [0x04C11DB7, 0xEDB88320, 0xDB710641, 0x82608EDB, 0x741B8CD7, 0xEB31D82E,
@@ -14,7 +14,7 @@ class CMSController(object):
         self.sw_name = sw_name
         self.set_hash = set_hash
         self.thrift_port = self.topo.get_thrift_port(sw_name)
-        self.controller = SimpleSwitchAPI(self.thrift_port)
+        self.controller = SimpleSwitchThriftAPI(self.thrift_port)
 
         self.custom_calcs = self.controller.get_custom_crc_calcs()
         self.register_num =  len(self.custom_calcs)

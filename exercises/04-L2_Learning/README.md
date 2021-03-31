@@ -228,13 +228,13 @@ Even though we provide you with the controller code almost finished, you should
 make the effort and try to understand it. This controller code has some good examples of how to receive CPU packets,
 how to receive digested packets, how to populate tables, how to automatically add the multicast groups, etc.
 
-The implementation of the controller heavily uses two features from `p4-utils`. The `Topology` object and the `SimpleSwitchAPI` object:
+The implementation of the controller heavily uses two features from `p4-utils`. The `Topology` object and the `SimpleSwitchThriftAPI` object:
 
 1. Topology object: when a topology is created with `p4run` all the useful topology information is encoded in a the `topology.json` file which can be
 then loaded by the p4-utils `Topology` object. Using this object you can get rich information about the topology. To check when is this object used
 in the controller's code look for `self.topology`. Documentation regarding this will be released soon.
 
-2. SimpleSwitchAPI: the simple switch API is python object that connects to a switch `thrift` server and provides you a Python API that is able
+2. SimpleSwitchThriftAPI: the simple switch API is python object that connects to a switch `thrift` server and provides you a Python API that is able
 to do the same than the `simple_switch_CLI`. However, the advantage here is that you can dynamically read, add and modify entries in the switch without
 having to use a CLI.
 

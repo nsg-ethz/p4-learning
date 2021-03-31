@@ -8,7 +8,7 @@ from cli import CLI
 from networkx.algorithms import all_pairs_dijkstra
 
 from p4utils.utils.helper import load_topo
-from p4utils.utils.sswitch_API import SimpleSwitchAPI
+from p4utils.utils.sswitch_thrift_API import SimpleSwitchThriftAPI
 
 
 class RerouteController(object):
@@ -37,7 +37,7 @@ class RerouteController(object):
         """Connects to all the switches in the topology."""
         for p4switch in self.topo.get_p4switches():
             thrift_port = self.topo.get_thrift_port(p4switch)
-            self.controllers[p4switch] = SimpleSwitchAPI(thrift_port)
+            self.controllers[p4switch] = SimpleSwitchThriftAPI(thrift_port)
 
     def reset_states(self):
         """Resets registers, tables, etc."""

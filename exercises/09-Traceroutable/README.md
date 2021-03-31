@@ -38,7 +38,7 @@ For this exercise we provide you with the following files:
   *  `p4src/ecmp.p4`: we will use the solution of the [03-ECMP](../03-ECMP) exercise as starting point.
   *  `send.py`: a small python script to generate multiple packets with different tcp port.
   *  `routing-controller.py`: routing controller skeleton. The controller uses global topology
-  information and the simple switch `runtime_API` to populate the routing tables.
+  information and the simple switch `thrift_API` to populate the routing tables.
   * `topology_generator.py`: python script that automatically generates `p4app` configuration files.
    It allows you to generate 3 types of topologies: linear, circular, and random (with a node number and degree). Run it with `-h` option to see the
    command line parameters.

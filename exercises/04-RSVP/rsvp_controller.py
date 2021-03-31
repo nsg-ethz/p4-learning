@@ -2,7 +2,7 @@ import os
 import threading
 import time
 from p4utils.utils.helper import load_topo
-from p4utils.utils.sswitch_API import SimpleSwitchAPI
+from p4utils.utils.sswitch_thrift_API import SimpleSwitchThriftAPI
 from cli import RSVPCLI
 
 
@@ -47,7 +47,7 @@ class RSVPController(object):
         """
         for p4switch in self.topo.get_p4switches():
             thrift_port = self.topo.get_thrift_port(p4switch)
-            self.controllers[p4switch] = SimpleSwitchAPI(thrift_port)        
+            self.controllers[p4switch] = SimpleSwitchThriftAPI(thrift_port)        
 
     def build_links_capacity(self):
         """Builds link capacities dictionary
