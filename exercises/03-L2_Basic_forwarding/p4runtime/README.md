@@ -28,7 +28,7 @@ help you through the exercise.
 
 Remember that if the `l2` assignment strategy is enabled all devices will be automatically placed in the same
 subnet and ARP tables get automatically populated. This was already explained in the previous exercise session, for
-more information check [here](../01-Repeater/README.md#note-about-p4appjson).
+more information check [here](../../01-Repeater/p4runtime/README.md#note-about-p4appjson).
 
 In this exercise you will need to fill some table entries as we did last week.
 If you used the control plane documentation page to fill tables, you probably used
@@ -56,7 +56,7 @@ the headers `struct` with an ethernet header.
 
 3. Define a match-action table to make switch behave as a l2 packet forwarder. The destination
 Mac address of each packet should tell the switch which output port use. You can use your last exercise
-as a reminder, or check the [documentation](../../documentation/control-plane.md).
+as a reminder, or check the [documentation](../../../documentation/control-plane.md).
 
 4. Define the action the table will call for matching entries. The action should get
 the output port index as a parameter and set it to the `egress_spec` switch's metadata field.
@@ -67,7 +67,7 @@ the output port index as a parameter and set it to the `egress_spec` switch's me
 
 7. Write the `s1-commands.txt` file. This file should contain all the `cli` commands needed to fill
 the forwarding table you defined in 3. For more information about adding entries to the table check the
-[control plane documentation](../../documentation/control-plane.md).
+[control plane documentation](../../../documentation/control-plane.md).
 
    **Important Note**: In order to fill the table you will need two things:
 
@@ -113,5 +113,5 @@ Once you have the `l2_basic_forwarding.p4` program finished you can test its beh
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](../../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
 expected.
