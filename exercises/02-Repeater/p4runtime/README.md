@@ -97,7 +97,7 @@ the [`v1model.p4`](https://github.com/p4lang/p4c/blob/master/p4include/v1model.p
 
 3. Call (by using `apply`), the table you defined above.
 
-4. Populate the table (using CLI or writing the commands in a file). For more information
+4. Populate the table (using the P4 Runtime controller). For more information
 about table population check the following [documentation](../../../documentation/control-plane.md).
 
 ## Testing your solution
