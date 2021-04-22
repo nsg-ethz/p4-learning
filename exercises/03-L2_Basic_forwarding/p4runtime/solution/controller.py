@@ -9,8 +9,8 @@ controllers = {}
 
 for switch, data in topo.get_p4rtswitches().items():
     controllers[switch] = SimpleSwitchP4RuntimeAPI(data['device_id'], data['grpc_port'],
-                                                  p4rt_path=data['p4rt_path'],
-                                                  json_path=data['json_path'])
+                                                   p4rt_path=data['p4rt_path'],
+                                                   json_path=data['json_path'])
 
 controller = controllers['s1']                        
 
