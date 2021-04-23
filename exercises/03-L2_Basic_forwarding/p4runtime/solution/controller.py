@@ -1,5 +1,3 @@
-import p4runtime_cli.api as api
-
 from p4utils.utils.helper import load_topo
 from p4utils.utils.sswitch_p4runtime_API import SimpleSwitchP4RuntimeAPI
 
