@@ -46,11 +46,10 @@ class L2Controller(object):
         self.reset()
         self.add_boadcast_groups()
         self.add_clone_session()
-        self.config_digest()
         #self.fill_table_test()
 
     def config_digest(self):
-        # Up to 10 digests can be sent. Max timeout set to 1 ms.
+        # Up to 10 digests can be sent in a single message. Max timeout set to 1 ms.
         self.controller.digest_enable('learn_t', 1000000, 10, 1000000)
 
     def add_clone_session(self):
@@ -100,6 +99,7 @@ class L2Controller(object):
         self.learn(learning_data)
 
     def run_digest_loop(self):
+        self.config_digest()
         while True:
             dig_list = self.controller.get_digest_list()
             self.recv_msg_digest(dig_list)
