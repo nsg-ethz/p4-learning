@@ -1,0 +1,74 @@
+{
+  "p4_src": "p4src/l2_learning_copy_to_cpu.p4",
+  "cli": true,
+  "pcap_dump": true,
+  "enable_log": true,
+  "switch_node":
+  {
+    "module_name": "p4utils.mininetlib.node",
+    "object_name": "P4RuntimeSwitch"
+  },
+  "compiler_module":
+  {
+    "options":
+    {
+      "p4rt": true
+    }
+  },
+  "exec_scripts": [
+    {
+      "cmd": "sudo python l2_learning_controller.py s1 cpu &",
+      "reboot_run": true
+    },
+    {
+      "cmd": "sudo python l2_learning_controller.py s2 cpu &",
+      "reboot_run": true
+    },
+    {
+      "cmd": "sudo python l2_learning_controller.py s3 cpu &",
+      "reboot_run": true
+    },
+    {
+      "cmd": "sudo python l2_learning_controller.py s4 cpu &",
+      "reboot_run": true
+    }
+  ],
+  "topology": {
+    "assignment_strategy": "l2",
+    "default":{
+      "auto_arp_tables": false
+    },
+    "links": [
+      ["h1", "s1"], ["h2", "s1"], ["h3", "s3"], ["h4", "s3"], ["h5", "s4"],
+      ["h6", "s4"], ["s1", "s2"], ["s2", "s3"], ["s2", "s4"]
+    ],
+    "hosts": {
+      "h1": {
+      },
+      "h2": {
+      },
+      "h3": {
+      },
+      "h4": {
+      },
+      "h5": {
+      },
+      "h6": {
+      }
+    },
+    "switches": {
+      "s1": {
+        "cpu_port":true
+      },
+      "s2": {
+        "cpu_port":true
+      },
+      "s3": {
+        "cpu_port":true
+      },
+      "s4": {
+        "cpu_port":true
+      }
+    }
+  }
+}
