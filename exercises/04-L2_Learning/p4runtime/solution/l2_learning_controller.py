@@ -12,7 +12,7 @@ class CpuHeader(Packet):
     fields_desc = [BitField('macAddr',0,48), BitField('ingress_port', 0, 16)]
 
 
-class L2Controller(object):
+class L2Controller:
 
     def __init__(self, sw_name):
         self.topo = load_topo('topology.json')
