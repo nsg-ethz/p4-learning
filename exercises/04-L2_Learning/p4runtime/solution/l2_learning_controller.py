@@ -17,11 +17,13 @@ class L2Controller:
     def __init__(self, sw_name):
         self.topo = load_topo('topology.json')
         self.sw_name = sw_name
-        self.sw_data = self.topo.get_p4rtswitches()[sw_name]
         self.cpu_port =  self.topo.get_cpu_port_index(self.sw_name)
-        self.controller = SimpleSwitchP4RuntimeAPI(self.sw_data['device_id'], self.sw_data['grpc_port'],
-                                                   p4rt_path=self.sw_data['p4rt_path'],
-                                                   json_path=self.sw_data['json_path'])
+        device_id = self.topo.get_p4switch_id(sw_name)
+        grpc_port = self.topo.get_grpc_port(sw_name)
+        sw_data = self.topo.get_p4rtswitches()[sw_name]
+        self.controller = SimpleSwitchP4RuntimeAPI(device_id, grpc_port,
+                                                   p4rt_path=sw_data['p4rt_path'],
+                                                   json_path=sw_data['json_path'])
         self.init()
 
     def reset(self):
