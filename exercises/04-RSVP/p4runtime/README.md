@@ -1,6 +1,6 @@
 # Traffic Engineering with RSVP (I)
 
-> **IMPORTANT:** This exercise builds upon the [MPLS Stacked](../04-MPLS/mpls_stac).
+> **IMPORTANT:** This exercise builds upon the [MPLS Stacked](../../04-MPLS/p4runtime/mpls_stac).
 > Make sure that your MPLS stacked implementation works before
 > continuing.
 
