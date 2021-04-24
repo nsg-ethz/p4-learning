@@ -61,8 +61,8 @@ class RSVPController(object):
             p4rt_path = data['p4rt_path']
             json_path = data['json_path']
             self.controllers[p4rtswitch] = SimpleSwitchP4RuntimeAPI(device_id, grpc_port,
-                                                                  p4rt_path=p4rt_path,
-                                                                  json_path=json_path)  
+                                                                    p4rt_path=p4rt_path,
+                                                                    json_path=json_path)  
 
     def build_links_capacity(self):
         """Builds link capacities dictionary
