@@ -125,11 +125,7 @@ class RSVPController(object):
                 host_mac = self.topo.get_host_mac(host)
 
                 # adds direct forwarding rule
-
-                # Don't care matches, e.g. 0.0.0.0/0, are now skipped in the P4 Runtime Specification
-                # so we have to replace '0.0.0.0/0' with 'None'.
-                # (see https://p4.org/p4runtime/spec/v1.3.0/P4Runtime-Spec.html#sec-match-format)
-                controller.table_add('FEC_tbl', 'ipv4_forward', [None, str(host_ip)], [str(host_mac), str(sw_port)])
+                controller.table_add('FEC_tbl', 'ipv4_forward', ['0.0.0.0/0', str(host_ip)], [str(host_mac), str(sw_port)])
                 
             for switch in self.topo.get_switches_connected_to(sw_name):
                 sw_port = self.topo.node_to_node_port_num(sw_name, switch)
