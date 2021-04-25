@@ -258,7 +258,7 @@ class RSVPController(object):
                 return path
         return False
 
-    def get_meter_rates_from_bw(self, bw, burst_size=500000):
+    def get_meter_rates_from_bw(self, bw, burst_size=700000):
         """Returns the CIR and PIR rates and bursts to configure 
           meters at bw.
 

@@ -216,7 +216,7 @@ class RSVPController(object):
         # PART 1, TASK 3.1 Implement this function and its helper check_if_reservation_fits
 
 
-    def get_meter_rates_from_bw(self, bw, burst_size=500000):
+    def get_meter_rates_from_bw(self, bw, burst_size=700000):
         """Returns the CIR and PIR rates and bursts to configure 
           meters at bw.
 
