@@ -19,7 +19,7 @@ For this exercise we provide you with the following files:
 
   *  `p4app.json`: describes the topology we want to create with the help
      of mininet and p4-utils package. It is the same topology we used for the ECMP exercise.
-  *  `p4src/ecmp.p4`: we will use the solution of the [03-ECMP](../03-ECMP) exercise as starting point.
+  *  `p4src/ecmp.p4`: we will use the solution of the [03-ECMP](../../03-ECMP/thrift) exercise as starting point.
   *  `send.py`: a small python script to generate multiple packets with different tcp port.
   *  `routing-controller.py`: routing controller skeleton. The controller uses global topology
   information and the simple switch `thrift_API` to populate the routing tables.
@@ -176,5 +176,5 @@ Now run the controller, and check that your can send traffic to all the nodes. F
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](../../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
 expected.
