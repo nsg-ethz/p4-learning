@@ -6,7 +6,7 @@ net = NetworkAPI()
 net.setLogLevel('info')
 
 # Network definition
-net.addP4RuntimeSwitch('s1')
+net.addP4Switch('s1')
 net.setP4Source('s1','repeater_without_table.p4')
 net.addHost('h1')
 net.addHost('h2')
