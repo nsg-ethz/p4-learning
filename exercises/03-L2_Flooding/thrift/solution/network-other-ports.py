@@ -9,7 +9,7 @@ net.execScript('python controller-other-ports.py', reboot=True)
 net.disableArpTable()
 
 # Network definition
-net.addP4RuntimeSwitch('s1')
+net.addP4Switch('s1')
 net.setP4Source('s1','./p4src/l2_flooding_other_ports.p4')
 net.setP4CliInput('s1', './s1-commands-other-ports.txt')
 net.addHost('h1')
