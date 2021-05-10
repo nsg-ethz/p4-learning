@@ -4,7 +4,6 @@ net = NetworkAPI()
 
 # Network general options
 net.setLogLevel('info')
-net.setCompiler(p4rt=False)
 
 # Network definition
 net.addP4Switch('s1')

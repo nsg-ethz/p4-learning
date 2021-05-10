@@ -4,7 +4,6 @@ net = NetworkAPI()
 
 # Network general options
 net.setLogLevel('info')
-net.setCompiler(p4rt=True)
 net.execScript('python controller-other-ports.py', reboot=True)
 net.disableArpTable()
 
