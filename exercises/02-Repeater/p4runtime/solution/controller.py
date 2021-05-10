@@ -15,4 +15,4 @@ controller = controllers['s1']
 controller.table_clear('repeater')
 
 controller.table_add('repeater', 'forward', ['1'], ['2'])
-controller.table_add('repeater', 'forward', ['2'], ['2'])
+controller.table_add('repeater', 'forward', ['2'], ['1'])
