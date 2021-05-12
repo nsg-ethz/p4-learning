@@ -17,8 +17,6 @@ net.addHost('h2')
 net.addHost('h3')
 net.addHost('h4')
 
-net.setBwAll(10)
-
 net.addLink("h1", "s1")
 net.addLink("h2", "s1")
 net.addLink("h3", "s3")
