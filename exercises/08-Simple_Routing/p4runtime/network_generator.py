@@ -2,7 +2,7 @@ import argparse
 import networkx
 
 def init_python(f):
-    f.write('from p4utils.utils.network_API import NetworkAPI\n')
+    f.write('from p4utils.mininetlib.network_API import NetworkAPI\n')
     f.write('\n')
     f.write('# Network general options\n')
     f.write('net = NetworkAPI()\n')
