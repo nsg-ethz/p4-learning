@@ -4,7 +4,7 @@ net = NetworkAPI()
 
 # Network general options
 net.setLogLevel('info')
-net.disableArpTable()
+net.disableArpTables()
 
 # Network definition
 net.addP4Switch('s1')

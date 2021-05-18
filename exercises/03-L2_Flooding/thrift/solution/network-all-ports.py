@@ -5,7 +5,7 @@ net = NetworkAPI()
 # Network general options
 net.setLogLevel('info')
 net.execScript('python controller-all-ports.py', reboot=True)
-net.disableArpTable()
+net.disableArpTables()
 
 # Network definition
 net.addP4Switch('s1')

@@ -5,7 +5,7 @@ net = NetworkAPI()
 # Network general options
 net.setLogLevel('info')
 net.setCompiler(p4rt=True)
-net.disableArpTable()
+net.disableArpTables()
 net.execScript('python l2_learning_controller.py s1 cpu &', reboot=True)
 net.execScript('python l2_learning_controller.py s2 cpu &', reboot=True)
 net.execScript('python l2_learning_controller.py s3 cpu &', reboot=True)
