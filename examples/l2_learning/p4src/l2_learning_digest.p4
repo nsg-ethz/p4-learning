@@ -77,7 +77,7 @@ control MyIngress(inout headers hdr,
     action mac_learn(){
         meta.learn.srcAddr = hdr.ethernet.srcAddr;
         meta.learn.ingress_port = standard_metadata.ingress_port;
-        digest(1, meta.learn);
+        digest<learn_t>(1, meta.learn);
     }
 
     table smac {
