@@ -6,12 +6,12 @@ net = NetworkAPI()
 net.setLogLevel('info')
 
 # Network definition
-net.addP4Switch('s1', conf_path='s1-commands.txt')
-net.addP4Switch('s2', conf_path='s2-commands.txt')
-net.addP4Switch('s3', conf_path='s3-commands.txt')
-net.addP4Switch('s4', conf_path='s4-commands.txt')
-net.addP4Switch('s5', conf_path='s5-commands.txt')
-net.addP4Switch('s6', conf_path='s6-commands.txt')
+net.addP4Switch('s1', cli_input='s1-commands.txt')
+net.addP4Switch('s2', cli_input='s2-commands.txt')
+net.addP4Switch('s3', cli_input='s3-commands.txt')
+net.addP4Switch('s4', cli_input='s4-commands.txt')
+net.addP4Switch('s5', cli_input='s5-commands.txt')
+net.addP4Switch('s6', cli_input='s6-commands.txt')
 net.setP4SourceAll('p4src/flowlet_switching.p4')
 
 net.addHost('h1')

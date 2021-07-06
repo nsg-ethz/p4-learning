@@ -6,8 +6,8 @@ net = NetworkAPI()
 net.setLogLevel('info')
 
 # Network definition
-net.addP4Switch('s1', conf_path='s1-commands.txt')
-net.addP4Switch('s2', conf_path='s2-commands.txt')
+net.addP4Switch('s1', cli_input='s1-commands.txt')
+net.addP4Switch('s2', cli_input='s2-commands.txt')
 net.setP4SourceAll('heavy_hitter.p4')
 
 net.addHost('h1')
