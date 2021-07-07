@@ -13,8 +13,8 @@ net.setP4SourceAll('copy_to_cpu.p4')
 net.addHost('h1')
 net.addHost('h2')
 
-net.addLink("h1", "s1")
-net.addLink("h2", "s1")
+net.addLink('h1', 's1')
+net.addLink('h2', 's1')
 
 # Assignment strategy
 net.l2()
