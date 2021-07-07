@@ -6,7 +6,7 @@ net = NetworkAPI()
 net.setLogLevel('info')
 
 # Network definition
-net.addP4Switch('s1', conf_path='s1-commands.txt')
+net.addP4Switch('s1', cli_input='s1-commands.txt')
 net.setP4SourceAll('p4src/cm-sketch.p4')
 
 net.addHost('h1')
