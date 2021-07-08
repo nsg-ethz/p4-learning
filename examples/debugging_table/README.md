@@ -31,7 +31,7 @@ sudo p4run
 
 Any packet will trigger the use of the debugging table, and thus
 just right after starting the topology we can already check the log file
-which is located at `./log/s1.log`:
+which is located at `./log/p4s.s1.log`:
 
 ```
 [20:16:38.545] [bmv2] [T] [thread 21879] [0.0] [cxt 0] Applying table 'MyIngress.debug.dbg_table'
