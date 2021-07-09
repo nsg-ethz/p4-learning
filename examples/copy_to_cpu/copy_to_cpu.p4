@@ -162,7 +162,7 @@ control MyEgress(inout headers hdr,
             cpu_counter.read(hdr.cpu.counter, (bit<32>)0);
             hdr.cpu.counter = hdr.cpu.counter + 1;
             cpu_counter.write((bit<32>)0, hdr.cpu.counter);
-            // Disable other layers
+            // Disable other headers
             hdr.ethernet.setInvalid();
             hdr.ipv4.setInvalid();
         }
