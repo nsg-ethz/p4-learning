@@ -101,13 +101,13 @@ control MyIngress(inout headers hdr,
 
     action ipv4_forward(macAddr_t dstAddr, egressSpec_t port) {
 
-        //set the src mac address as the previous dst, this is not correct right?
+        // Set the src mac address as the previous dst, this is not correct right?
         hdr.ethernet.srcAddr = hdr.ethernet.dstAddr;
 
-       //set the destination mac address that we got from the match in the table
+        // Set the destination mac address that we got from the match in the table.
         hdr.ethernet.dstAddr = dstAddr;
 
-        //set the output port that we also get from the table
+        // Set the output port that we also get from the table.
         standard_metadata.egress_spec = port;
 
         //decrease ttl by 1
@@ -130,10 +130,9 @@ control MyIngress(inout headers hdr,
 
     apply {
 
-        //only if IPV4 the rule is applied. Therefore other packets will not be forwarded.
+        // Only if IPV4 the rule is applied. Therefore other packets will not be forwarded.
         if (hdr.ipv4.isValid()){
             ipv4_lpm.apply();
-
         }
     }
 }
@@ -150,27 +149,23 @@ control MyEgress(inout headers hdr,
     register<bit<80>>(1) cpu_counter;
 
     apply {
-
-
-     //non clonned packets have an instance_type of 0, so then we clone it.
-     // using the mirror ID = 100. That in combination with the control plane, will
-     //select to which port the packet has to be cloned to.
-     if (standard_metadata.instance_type == 0 && hdr.ipv4.tos == 1){
-         clone(CloneType.E2E,100);
-         hdr.ipv4.tos = 100;
-     }
-
-     //sets the tos field of the cloned packet equal to instance_type
-     if (standard_metadata.instance_type != 0){
-        hdr.ipv4.tos = 0;
-        hdr.cpu.setValid();
-        hdr.cpu.device_id = 1;
-        hdr.cpu.reason = 200;
-        cpu_counter.read(hdr.cpu.counter, (bit<32>)0);
-        hdr.cpu.counter = hdr.cpu.counter +1;
-        cpu_counter.write((bit<32>)0, hdr.cpu.counter);
-        truncate((bit<32>)14);
-     }
+        // Non-cloned packets have an instance_type of 0, so then we clone them
+        // using the mirror ID = 100. That, in combination with the control plane, will
+        // select to which port the packet has to be cloned to.
+        if (standard_metadata.instance_type == 0 && hdr.ipv4.tos == 1){
+            clone(CloneType.E2E,100);
+        }
+        else if (standard_metadata.instance_type != 0){
+            hdr.cpu.setValid();
+            hdr.cpu.device_id = 1;
+            hdr.cpu.reason = 200;
+            cpu_counter.read(hdr.cpu.counter, (bit<32>)0);
+            hdr.cpu.counter = hdr.cpu.counter + 1;
+            cpu_counter.write((bit<32>)0, hdr.cpu.counter);
+            // Disable other layers
+            hdr.ethernet.setInvalid();
+            hdr.ipv4.setInvalid();
+        }
     }
 }
 

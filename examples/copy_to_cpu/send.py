@@ -11,7 +11,7 @@ from scapy.all import Ether, IP, UDP, TCP
 
 def get_if():
     ifs=get_if_list()
-    iface=None # "h1-eth0"
+    iface=None
     for i in get_if_list():
         if "eth0" in i:
             iface=i
@@ -31,7 +31,7 @@ def main():
     iface = get_if()
 
     print("sending on interface %s to %s" % (iface, str(addr)))
-    pkt =  Ether(src=get_if_hwaddr(iface),dst = "00:00:00:00:01:12")
+    pkt =  Ether(src=get_if_hwaddr(iface),dst = "00:00:00:00:00:00")
     pkt = pkt /IP(dst=addr, tos=1)
     pkt.show2()
     sendp(pkt, iface=iface, verbose=False)

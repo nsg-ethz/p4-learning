@@ -4,7 +4,7 @@
   "pcap_dump": true,
   "enable_log": true,
   "topology": {
-    "assignment_strategy": "l2",
+    "assignment_strategy": "l3",
     "links": [["h1", "s1"], ["s1", "h2"]],
     "hosts": {
       "h1": {

@@ -17,7 +17,7 @@ net.addLink('h1', 's1')
 net.addLink('h2', 's1')
 
 # Assignment strategy
-net.l2()
+net.l3()
 
 # Nodes general options
 net.enableCpuPortAll()

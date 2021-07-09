@@ -39,5 +39,5 @@ Generate packets using the `send.py` script which sets the TOS field to 1.
 
 ```
 mx h1
-sudo python send.py 10.0.1.2
+sudo python send.py 10.1.2.2
 ```
