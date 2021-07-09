@@ -50,7 +50,7 @@ Monitor all the interfaces connecting `s1` to the 4 middle switches. You can use
 sudo tshark -i s1-eth2
 ```
 
-(Do the same with the other three interfaces).
+(Do the same with the other three interfaces `s1-eth3`, `s1-eth4`, `s1-eth5`).
 
 Send packets with random ports from `h1`:
 
