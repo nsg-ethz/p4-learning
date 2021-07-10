@@ -56,7 +56,7 @@ Monitor all the interfaces connecting `s1` to the 4 middle switches. You can use
 sudo tshark -i s1-eth2
 ```
 
-(Do the same with the other three interfaces).
+(Do the same with the other three interfaces `s1-eth3`, `s1-eth4` and `s1-eth5`).
 
 Use the send script. The script will send TCP packets with the same 5-tuple
 but it will wait some time between them. Thus, since each packet will
@@ -64,5 +64,5 @@ belong to different flowlet they will be hashed to different output ports.
 
 ```
 mx h1
-python send.py 10.0.6.2 1000 <num_packets> <sleep_between_packets>
+python send.py 10.0.6.2 <num_packets> <sleep_between_packets>
 ```
