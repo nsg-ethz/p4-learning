@@ -44,3 +44,8 @@ python send.py
 
 Monitor all the interfaces and see that for each packet that is sent from `h1`
 four packets get replicated.
+```
+sudo tcpdump -i s1-eth2 -Q out
+sudo tcpdump -i s1-eth3 -Q out
+sudo tcpdump -i s1-eth4 -Q out
+```
