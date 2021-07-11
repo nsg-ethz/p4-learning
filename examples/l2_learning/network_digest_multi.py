@@ -42,4 +42,6 @@ net.l2()
 # Nodes general options
 net.enablePcapDumpAll()
 net.enableLogAll()
+
+# Start network
 net.startNetwork()

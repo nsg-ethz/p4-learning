@@ -16,7 +16,8 @@ net.addLink('s1', 'h1')
 net.addLink('s1', 'h2')
 
 # Nodes general options
-net.enableCpuPortAll()
 net.enablePcapDumpAll()
 net.enableLogAll()
+
+# Start network
 net.startNetwork()

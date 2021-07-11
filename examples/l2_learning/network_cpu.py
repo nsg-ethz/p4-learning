@@ -26,4 +26,6 @@ net.l2()
 net.enableCpuPortAll()
 net.enablePcapDumpAll()
 net.enableLogAll()
+
+# Start network
 net.startNetwork()
