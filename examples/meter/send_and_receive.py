@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from scapy.all import *
 import sys
 import threading
@@ -15,7 +15,7 @@ class Receiver(threading.Thread):
     def received(self, p):
         if p.haslayer(UDP):  # Ignore all other packets
             big_lock.acquire()
-            print "Received one"
+            print("Received one")
             big_lock.release()
 
     def run(self):
@@ -25,9 +25,9 @@ class Receiver(threading.Thread):
 def main():
     try:
         packet_int = int(sys.argv[1])
-        print "Sending packet with interval", packet_int
+        print("Sending packet with interval", packet_int)
     except:
-        print "Usage: sudo python send_and_receive.py <packet_int (seconds)>"
+        print("Usage: sudo python send_and_receive.py <packet_int (seconds)>")
         sys.exit(1)
 
     Receiver().start()
@@ -37,7 +37,7 @@ def main():
     while True:
         big_lock.acquire()
         sendp(p, iface="s1-eth1", verbose=0)
-        print "Sent one"
+        print("Sent one")
         big_lock.release()
         time.sleep(packet_int)
 
