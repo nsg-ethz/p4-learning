@@ -39,14 +39,14 @@ Run the receiver and the sending scripts in `h2` and `h1` respectively:
 
 ```
 mx h2
-python receive.py 5000
+python receive.py
 ```
 
-Send 1500 packets using the same 5-tuple. Only the first 1000 will be received by `h2`.
+Send 1500 packets from `h1` to `h2`. Only the first 1000 will be received.
 
 ```
 mx h1
-python send.py 10.0.2.2 5000 1500
+python send.py 10.0.2.2 1500
 ```
 
 

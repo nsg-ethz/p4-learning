@@ -1,31 +1,37 @@
-#!/usr/bin/env python
-import sys
-import time
-from p4utils.utils.tcp_utils import *
+from scapy.all import Ether, IP, sendp, get_if_hwaddr, get_if_list, TCP, Raw
+import sys, socket, random
 
-def main(ip, port, num_packets):
+def get_if():
+    ifs=get_if_list()
+    iface=None # "h1-eth0"
+    for i in get_if_list():
+        if "eth0" in i:
+            iface=i
+            break
+    if not iface:
+        print("Cannot find eth0 interface")
+        exit(1)
+    return iface
 
-    sender = Sender()
-    sender.connect(ip, port)
+def send_random_traffic(dst_ip, num_packets):
 
-    try:
-        while num_packets > 0:
-            sender.send(" ")
-            #needed so tcp does not aggregate messages
-            time.sleep(0.005)
-            num_packets -=1
-        sender.close()
-
-    except KeyboardInterrupt:
-        sender.close()
+    dst_addr = socket.gethostbyname(dst_ip)
+    total_pkts = 0
+    random_port = random.randint(1024,65000)
+    iface = get_if()
+    #For this exercise the destination mac address is not important. Just ignore the value we use.
+    p = Ether(dst="00:01:0a:02:02:00", src=get_if_hwaddr(iface)) / IP(dst=dst_addr)
+    p = p / TCP(dport=random_port)
+    for i in range(num_packets):
+        sendp(p, iface = iface)
+        total_pkts += 1
+    print("Sent %s packets in total" % total_pkts)
 
 if __name__ == '__main__':
-
-    if len(sys.argv) != 4:
-        print "Invalid number of arguments. Run as receive.py <dst_ip> <port> <packets>"
-
-    ip = sys.argv[1]
-    port = int(sys.argv[2])
-    n_packets = int(sys.argv[3])
-
-    main(ip, port, n_packets)
+    if len(sys.argv) < 2:
+        print("Usage: python send.py <dst_ip> <num_packets>")
+        sys.exit(1)
+    else:
+        dst_name = sys.argv[1]
+        num_packets = int(sys.argv[2])
+        send_random_traffic(dst_name, num_packets)
