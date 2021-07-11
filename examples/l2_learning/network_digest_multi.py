@@ -4,6 +4,7 @@ net = NetworkAPI()
 
 # Network general options
 net.setLogLevel('info')
+net.enableCli()
 net.disableArpTables()
 net.execScript('python l2_learning_controller.py s1 digest &', reboot=True)
 net.execScript('python l2_learning_controller.py s2 digest &', reboot=True)
@@ -41,5 +42,4 @@ net.l2()
 # Nodes general options
 net.enablePcapDumpAll()
 net.enableLogAll()
-net.enableCli()
 net.startNetwork()
