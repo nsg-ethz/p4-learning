@@ -34,7 +34,7 @@ thus you will also have to add that in the `v1model.p4` file.
     ```
 7. Copy the updated `v1model.p4` to the global path `/usr/local/share/p4c/p4include/`. Remember that every time you update `p4c` this file will be overwritten and the metadata fields might be removed. As an alternative, you can copy the preconfigured `v1model.p4` in the global path.
     ```
-    sudo wget https://raw.githubusercontent.com/nsg-ethz/p4-learning/junota/examples/multiqueueing/v1model.p4 -O /usr/local/share/p4c/p4include/v1model.p4
+    sudo wget https://raw.githubusercontent.com/nsg-ethz/p4-learning/master/examples/multiqueueing/v1model.p4 -O /usr/local/share/p4c/p4include/v1model.p4
     ```
 8. Now you are ready to go and test the simple_switch strict priority queues!
 
