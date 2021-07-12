@@ -36,17 +36,14 @@ thus you will also have to add that in the `v1model.p4` file.
     ```
 7. Copy the updated `v1model.p4` to the global path `/usr/local/share/p4c/p4include/`. Remember that every time you update `p4c` this file will be overwritten and the metadata fields might be removed. As an alternative, you can copy the preconfigured `v1model.p4` in the global path.
     ```
-    sudo wget https://raw.githubusercontent.com/nsg-ethz/p4-learning/master/examples/multiqueueing/v1model.p4 -O /usr/local/share/p4c/p4include/v1model.p4
+    sudo wget https://raw.githubusercontent.com/nsg-ethz/p4-learning/junota/examples/multiqueueing/v1model.p4 -O /usr/local/share/p4c/p4include/v1model.p4
     ```
 8. Now you are ready to go and test the simple_switch strict priority queues!
 
 
 ## How to run
 
-Packets from h1 and h2 towards h3 will be sent to two different priority queues 0 and 7.  To
-see that one queue gets priority over the other we can start to iperf sessions and see who gets
-the bandwidth.
-
+Packets from h1 and h2 towards h3 will be sent to two different priority queues 0 and 7, respectively. To see that one queue gets priority over the other we can start to iperf sessions and see who gets the bandwidth.
 ```
 sudo p4run
 ```
@@ -55,18 +52,18 @@ Start to iperf servers at `h3`:
 ```
 mx h3
 iperf -s -p 5000 -u -i 1
-iperf -s -p 5001
+iperf -s -p 5001 -u -i 1
 ```
 
-Send a UDP flow from `h1`:
+Send a UDP flow from `h1` to `h3`:
 ```
 mx h1
 iperf -c 10.0.1.3 -i 1 -t 10 -p 5000 -u -b 50M
 ```
 
-Send a TCP flow from `h2`:
+Send a UDP flow from `h2` to `h3`:
 ```
-mx h1
-iperf -c 10.0.1.3 -i 1 -t 10 -p 5001
+mx h2
+iperf -c 10.0.1.3 -i 1 -t 10 -p 5001 -u -b 50M
 ```
 
