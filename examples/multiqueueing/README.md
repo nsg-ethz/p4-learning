@@ -27,15 +27,15 @@ thus you will also have to add that in the `v1model.p4` file.
 4. Compile and install `bmv2` again.
 5. Go to the directory where you have downloaded `p4c`.
 6. Copy and edit `PATH_TO_P4C/p4include/v1model.p4` in another location. You will have to add the following metadata fields inside the `standard_metadata` struct. You can find an already configured `v1model.p4` in this directory.
-``` 
-//Priority queueing
-@alias("queueing_metadata.qid")           bit<5>  qid;
-@alias("intrinsic_metadata.priority")     bit<3> priority;
-```
+    ``` 
+    //Priority queueing
+    @alias("queueing_metadata.qid")           bit<5>  qid;
+    @alias("intrinsic_metadata.priority")     bit<3> priority;
+    ```
 7. Copy the updated `v1model.p4` to the global path `/usr/local/share/p4c/p4include/`. Remember that every time you update `p4c` this file will be overwritten and the metadata fields might be removed. As an alternative, you can copy the preconfigured `v1model.p4` in the global path.
-```
-sudo wget https://raw.githubusercontent.com/nsg-ethz/p4-learning/junota/examples/multiqueueing/v1model.p4 -O /usr/local/share/p4c/p4include/v1model.p4
-```
+    ```
+    sudo wget https://raw.githubusercontent.com/nsg-ethz/p4-learning/junota/examples/multiqueueing/v1model.p4 -O /usr/local/share/p4c/p4include/v1model.p4
+    ```
 8. Now you are ready to go and test the simple_switch strict priority queues!
 
 
