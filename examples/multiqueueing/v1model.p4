@@ -1,12 +1,9 @@
 /*
 Copyright 2013-present Barefoot Networks, Inc.
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +16,7 @@ limitations under the License.
 /* Note 1: More details about the definition of v1model architecture
  * can be found at the location below.
  *
- * https://github.com/p4lang/behavioral-model/blob/master/docs/simple_switch.md
+ * https://github.com/p4lang/behavioral-model/blob/main/docs/simple_switch.md
  *
  * Note 2: There were several discussions among P4 working group
  * members in early 2019 regarding exactly how resubmit, recirculate,
@@ -27,7 +24,7 @@ limitations under the License.
  * controls, but the values of the fields to be preserved is the value
  * they have when that control is finished executing.  That is how
  * these operations are defined in P4_14.  See
- * https://github.com/p4lang/behavioral-model/blob/master/docs/simple_switch.md#restrictions-on-recirculate-resubmit-and-clone-operations
+ * https://github.com/p4lang/behavioral-model/blob/main/docs/simple_switch.md#restrictions-on-recirculate-resubmit-and-clone-operations
  * for more details on the current state of affairs.
  *
  * Note 3: There are at least some P4_14 implementations where
@@ -51,6 +48,10 @@ limitations under the License.
 
 #include "core.p4"
 
+#ifndef V1MODEL_VERSION
+#define V1MODEL_VERSION 20180101
+#endif
+
 match_kind {
     range,
     // Either an exact match, or a wildcard (matching any value).
@@ -59,13 +60,25 @@ match_kind {
     selector
 }
 
+const bit<32> __v1model_version = V1MODEL_VERSION;
+
+#if V1MODEL_VERSION >= 20200408
+typedef bit<9>  PortId_t;       // should not be a constant size?
+#endif
+
 @metadata @name("standard_metadata")
 struct standard_metadata_t {
-    bit<9>  ingress_port;
-    bit<9>  egress_spec;
-    bit<9>  egress_port;
-    bit<32> instance_type;
-    bit<32> packet_length;
+#if V1MODEL_VERSION >= 20200408
+    PortId_t    ingress_port;
+    PortId_t    egress_spec;
+    PortId_t    egress_port;
+#else
+    bit<9>      ingress_port;
+    bit<9>      egress_spec;
+    bit<9>      egress_port;
+#endif
+    bit<32>     instance_type;
+    bit<32>     packet_length;
     //
     // @alias is used to generate the field_alias section of the BMV2 JSON.
     // Field alias creates a mapping from the metadata name in P4 program to
@@ -119,7 +132,11 @@ enum MeterType {
     bytes
 }
 
-extern counter {
+extern counter
+#if V1MODEL_VERSION >= 20200408
+<I>
+#endif
+{
     /***
      * A counter object is created by calling its constructor.  This
      * creates an array of counter states, with the number of counter
@@ -136,6 +153,8 @@ extern counter {
      * register.
      */
     counter(bit<32> size, CounterType type);
+    // FIXME -- size arg should be `int` but that breaks typechecking
+
     /***
      * count() causes the counter state with the specified index to be
      * read, modified, and written back, atomically relative to the
@@ -148,7 +167,11 @@ extern counter {
      *              size-1].  If index >= size, no counter state will be
      *              updated.
      */
+#if V1MODEL_VERSION >= 20200408
+    void count(in I index);
+#else
     void count(in bit<32> index);
+#endif
 }
 
 extern direct_counter {
@@ -187,7 +210,11 @@ extern direct_counter {
 #define V1MODEL_METER_COLOR_YELLOW 1
 #define V1MODEL_METER_COLOR_RED    2
 
-extern meter {
+extern meter
+#if V1MODEL_VERSION >= 20200408
+<I>
+#endif
+{
     /***
      * A meter object is created by calling its constructor.  This
      * creates an array of meter states, with the number of meter
@@ -203,6 +230,8 @@ extern meter {
      * packets contain (MeterType.bytes).
      */
     meter(bit<32> size, MeterType type);
+    // FIXME -- size arg should be `int` but that breaks typechecking
+
     /***
      * execute_meter() causes the meter state with the specified index
      * to be read, modified, and written back, atomically relative to
@@ -222,7 +251,11 @@ extern meter {
      *              range, the final value of result is not specified,
      *              and should be ignored by the caller.
      */
+#if V1MODEL_VERSION >= 20200408
+    void execute_meter<T>(in I index, out T result);
+#else
     void execute_meter<T>(in bit<32> index, out T result);
+#endif
 }
 
 extern direct_meter<T> {
@@ -261,7 +294,12 @@ extern direct_meter<T> {
     void read(out T result);
 }
 
-extern register<T> {
+#if V1MODEL_VERSION >= 20200408
+extern register<T, I>
+#else
+extern register<T>
+#endif
+{
     /***
      * A register object is created by calling its constructor.  This
      * creates an array of 'size' identical elements, each with type
@@ -272,7 +310,7 @@ extern register<T> {
      *
      * allocates storage for 512 values, each with type bit<32>.
      */
-    register(bit<32> size);
+    register(bit<32> size);  // FIXME -- arg should be `int` but that breaks typechecking
     /***
      * read() reads the state of the register array stored at the
      * specified index, and returns it as the value written to the
@@ -287,7 +325,12 @@ extern register<T> {
      *              value of result is not specified, and should be
      *              ignored by the caller.
      */
+    @noSideEffects
+#if V1MODEL_VERSION >= 20200408
+    void read(out T result, in I index);
+#else
     void read(out T result, in bit<32> index);
+#endif
     /***
      * write() writes the state of the register array at the specified
      * index, with the value provided by the value parameter.
@@ -310,7 +353,11 @@ extern register<T> {
      *              parameter's value is written into the register
      *              array element specified by index.
      */
+#if V1MODEL_VERSION >= 20200408
+    void write(in I index, in T value);
+#else
     void write(in bit<32> index, in T value);
+#endif
 }
 
 // used as table implementation attribute
@@ -377,12 +424,13 @@ extern void mark_to_drop();
  * packet to do something other than drop.
  *
  * See
- * https://github.com/p4lang/behavioral-model/blob/master/docs/simple_switch.md
+ * https://github.com/p4lang/behavioral-model/blob/main/docs/simple_switch.md
  * -- in particular the section "Pseudocode for what happens at the
  * end of ingress and egress processing" -- for the relative priority
  * of the different possible things that can happen to a packet when
  * ingress and egress processing are complete.
  */
+@pure
 extern void mark_to_drop(inout standard_metadata_t standard_metadata);
 
 /***
@@ -400,6 +448,7 @@ extern void mark_to_drop(inout standard_metadata_t standard_metadata);
  * @param T          Must be a type bit<W>
  * @param M          Must be a type bit<W>
  */
+@pure
 extern void hash<O, T, D, M>(out O result, in HashAlgorithm algo, in T base, in D data, in M max);
 
 extern action_selector {
@@ -460,6 +509,7 @@ extern void verify_checksum<T, O>(in bool condition, in T data, in O checksum, H
  *                   may be supported).  Must be a compile-time
  *                   constant.
  */
+@pure
 extern void update_checksum<T, O>(in bool condition, in T data, inout O checksum, HashAlgorithm algo);
 
 /***
@@ -482,6 +532,7 @@ extern void verify_checksum_with_payload<T, O>(in bool condition, in T data, in 
  * Calling update_checksum_with_payload is only supported in the
  * ComputeChecksum control.
  */
+@noSideEffects
 extern void update_checksum_with_payload<T, O>(in bool condition, in T data, inout O checksum, HashAlgorithm algo);
 
 /***
