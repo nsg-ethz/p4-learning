@@ -23,7 +23,6 @@ file (`log/s1.log`).
 ## How to run
 
 Start topology:
-
 ```
 sudo p4run
 ```
