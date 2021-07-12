@@ -4,7 +4,6 @@ net = NetworkAPI()
 
 # Network general options
 net.setLogLevel('info')
-net.disableArpTables()
 net.enableCli()
 
 # Network definition
