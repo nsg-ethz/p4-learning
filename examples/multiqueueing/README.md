@@ -38,7 +38,7 @@ thus you will also have to add that in the `v1model.p4` file.
     ```
     sudo wget https://raw.githubusercontent.com/nsg-ethz/p4-learning/junota/examples/multiqueueing/v1model.p4 -O /usr/local/share/p4c/p4include/v1model.p4
     ```
-8. Now you are ready to go and test the simple_switch strict priority queues!
+8. Now you are ready to go and test the `simple_switch` strict priority queues!
 
 
 ## How to run
