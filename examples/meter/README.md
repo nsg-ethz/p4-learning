@@ -41,8 +41,8 @@ demonstration below.
 There are two examples, one using a direct and one using an indirect meter.
 You can start them using:
 ```
-$ sudo p4run --config p4app_direct.json
-$ sudo p4run --config p4app_indirect.json
+sudo p4run --config p4app_direct.json
+sudo p4run --config p4app_indirect.json
 ```
 
 In the mininet CLI, you can start the demo script which periodically
