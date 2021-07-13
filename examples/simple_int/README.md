@@ -29,11 +29,9 @@ deparse the Options header use the `receiver.py` script.
 ## How to run
 
 Run the topology:
-
 ```
 sudo p4run
 ```
-
 
 Start the receiver script at `h2`:
 ```
@@ -41,9 +39,8 @@ mx h2
 python receive.py
 ```
 
-
-Send packets with Ipv4 Options header prepared:
+Send 1 packet with Ipv4 Options header prepared:
 ```
 mx h1
-python send.py 10.0.2.2 "hi h2"
+python send.py 10.0.2.2 "hi h2" 1
 ```
