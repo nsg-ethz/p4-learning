@@ -4,6 +4,7 @@ net = NetworkAPI()
 
 # Network general options
 net.setLogLevel('info')
+net.enableCli()
 
 # Network definition
 net.addP4Switch('s1')
@@ -20,5 +21,6 @@ net.l2()
 # Nodes general options
 net.enablePcapDumpAll()
 net.enableLogAll()
-net.enableCli()
+
+# Start network
 net.startNetwork()

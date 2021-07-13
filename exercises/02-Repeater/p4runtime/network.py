@@ -6,6 +6,7 @@ net = NetworkAPI()
 net.setLogLevel('info')
 net.setCompiler(p4rt=True)
 net.execScript('python controller.py', reboot=True)
+net.enableCli()
 
 # Network definition
 net.addP4RuntimeSwitch('s1')
@@ -21,5 +22,6 @@ net.l2()
 # Nodes general options
 net.enablePcapDumpAll()
 net.enableLogAll()
-net.enableCli()
+
+# Start network
 net.startNetwork()
