@@ -4,6 +4,7 @@
   "pcap_dump": true,
   "enable_log": true,
   "topology": {
+    "assignment_strategy": "l2",
     "links": [["h1", "s1"], ["h2", "s1"]],
     "hosts": {
       "h1": {
@@ -13,8 +14,7 @@
     },
     "switches": {
       "s1": {
-        "cli_input": "direct_commands.txt",
-        "program": "direct_meter.p4"
+        "cli_input": "direct_commands.txt"
       }
     }
   }
