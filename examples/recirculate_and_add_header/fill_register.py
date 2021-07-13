@@ -1,14 +1,12 @@
-#!/usr/bin/env python
-
-from p4utils.utils.topology import Topology
+#!/usr/bin/env python3
+from p4utils.utils.helper import load_topo
 from p4utils.utils.sswitch_thrift_API import SimpleSwitchThriftAPI
 
 
 class FillRegisters(object):
 
     def __init__(self, sw_name):
-
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.sw_name = sw_name
         self.thrift_port = self.topo.get_thrift_port(sw_name)
         self.controller = SimpleSwitchThriftAPI(self.thrift_port)
