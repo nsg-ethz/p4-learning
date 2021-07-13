@@ -9,14 +9,11 @@
 
 ## Introduction
 
-In this example we show you two different programs, one that resubmit packets and another that does recirculate them. The main
-objective of this example is to show the differences between them.
+In this example we show you two different programs, one that resubmit packets and another that does recirculate them. The main objective of this example is to show the differences between them.
 
 ### Resubmit
 
-We show by means of an example how resubmit can be used. The program sets the metadata field `resubmit_meta.i` to 0 and 
-resubmits the packet until `i` is equal to `ipv4.tos`. Every time the packet is resubmitted it writes the `ipv4.id` to 
-`resubmit_register[i]`. Finally it sends the packet using the normal `ipv4_lpm` table.
+We show by means of an example how resubmit can be used. The program sets the metadata field `resubmit_meta.i` to 0 and resubmits the packet until `i` is equal to `ipv4.tos`. Every time the packet is resubmitted it writes the `ipv4.id` to `resubmit_register[i]`. Finally it sends the packet using the normal `ipv4_lpm` table.
 
 ### How to run
 
@@ -54,16 +51,12 @@ MyIngress.resubmit_register= 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 2
 
 ### Recirculate
 
-For recirculate we also do something very simple just for the sake of showing the difference between `resubmit` and `recirculate`.
-You can see that the `recirculate.p4` program is almost the same than the `resubmit.p4` program, however we moved the logic to the `egress`
-block. This is because you can only tag a packet to be recirculated at the `egress` pipeline. This time the packet will be
-copied to the parser but it will keep all the modifications we have done to the header + deparsing state (so for example we
-can remove headers). This time in each iteration we will substract `-1` to `ipv4.id` and save that to `recirculate_register[i]`.
+For recirculate we also do something very simple just for the sake of showing the difference between `resubmit` and `recirculate`. You can see that the `recirculate.p4` program is almost the same than the `resubmit.p4` program, however we moved the logic to the `egress` block. This is because you can only tag a packet to be recirculated at the `egress` pipeline. This time the packet will be copied to the parser but it will keep all the modifications we have done to the header + deparsing state (so for example we can remove headers). This time in each iteration we will substract `-1` to `ipv4.id` and save that to `recirculate_register[i]`.
 
 Star the topology:
 
 ```
-sudo p4run --config resubmitApp.json
+sudo p4run --config recirculateApp.json
 ```
 
 Send one packet, with special fields:
@@ -73,7 +66,7 @@ mx h1
 python send.py 10.0.1.2 200
 ```
 
-To read the state of `resubmit_register` we can use the cli:
+To read the state of `recirculate_register` we can use the cli:
 
 ```
 RuntimeCmd: register_read MyEgress.recirculate_register
