@@ -42,20 +42,21 @@ logic of your P4 program.
 ## How to run
 
 Run the topology:
-
-```
+```bash
 sudo p4run
 ```
 
+or
+```bash
+sudo python network.py
+```
 
 Try to ping from one host to another:
-
 ```
 mininet> h1 ping h2
 ```
 
 Ping from all host pairs to test for connectivity:
-
 ```
 mininet> pingall
 ```

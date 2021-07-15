@@ -53,25 +53,18 @@ git pull
 ```
 
 Amongst others, you will get these files:
+- `p4app.json`: describes the topology that you will use throughout the exercise. See the figure below. We also added `p4app-simple.json` topology in case you want to use a smaller (triangle) topology.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `rsvp_controller.py`: skeleton for the controller (your task will be to implement the missing pieces).
+- `cli.py`: CLI to interact with the controller (already implemented).
 
--  `p4app.json`: describes the topology that you will use throughout the
-   exercise. See the figure below. We also added `p4app-simple.json` topology 
-   in case you want to use a smaller (triangle) topology.
--  `rsvp_controller.py`: skeleton for the controller (your task will be to
-   implement the missing pieces).
--  `cli.py`: CLI to interact with the controller (already implemented).
-
-Note that we do not provide a P4 template this time because you will re-use the
-code from the previous (MPLS stacked) exercise. Therefore, copy this code to
+Note that we do not provide a P4 template this time because you will re-use the code from the previous (MPLS stacked) exercise. Therefore, copy this code to
 `rsvp.p4` (if you did not finish the MPLS exercise, continue with it today):
-
 ```bash
 cp ~/adv-net-2020/02-MPLS/mpls_stacked/stacked.p4 ~/adv-net-2020/03-RSVP_1/rsvp.p4
 ```
 
-The controller requires new functionalities that we recently added for this exercise
-to `p4-utils`. To get them, update `p4-utils` as follows:
-
+The controller requires new functionalities that we recently added for this exercise to *P4-Utils*. To get them, update *P4-Utils* as follows:
 ```bash
 cd ~/p4-tools/p4-utils
 git pull
@@ -108,7 +101,6 @@ The skeleton already implements the following features:
 ### Running the Controller
 
 To start the controller CLI, first start your topology with `sudo p4run`, and then, simply run:
-
 ```bash
 python rsvp_controller.py
 ```
@@ -134,7 +126,6 @@ In order to be able to send packets fast to the switch we can clone the
 repository again with a different name and compile it with different flags.
 Since this process can take up to 10 minutes you can just leave it running in
 the background.
-
 ```bash
 cd ~/p4-tools/
 git clone https://github.com/p4lang/behavioral-model.git bmv2-opt
@@ -152,20 +143,17 @@ the switch will not generate log files, and thus it will be hard for you to
 properly debug your program. Since we keep the two compiled versions of `bmv2`
 in different folders, you can enable the one with the `debugging` enabled by
 just running the `make install` command again:
-
 ```bash
 cd ~/p4-tools/bmv2
 sudo make install
 sudo ldconfig
 ```
-Thus by running `sudo make install` in `~/p4-tools/bmv2` or
-`~/p4-tools/bmv2-opt` you can easily enable each compiled version.
+Thus by running `sudo make install` in `~/p4-tools/bmv2` or `~/p4-tools/bmv2-opt` you can easily enable each compiled version.
 
 ### Some Notes on Debugging and Troubleshooting
 
 At this point you probably know how to debug your programs. In any case, we 
-added  a [small
-guideline](https://github.com/nsg-ethz/p4-learning/blob/master/documentation/debugging-and-troubleshooting.md#debugging-and-troubleshooting)
+added  a [small guideline](https://github.com/nsg-ethz/p4-learning/blob/master/documentation/debugging-and-troubleshooting.md#debugging-and-troubleshooting)
 in the documentation section. Use it as a reference when things do not work as
 expected.
 
@@ -302,15 +290,11 @@ Below, we explain each of these steps in more detail.
 Reservations are sent to the controller through the CLI interface. For example,
 the following command should add a reservation for a flow from `h1` to `h2`
 lasting `10 s` with a bandwidth of `3 Mbps`:
-
-```bash
+```
 rsvp-menu> add_reservation h1 h2 10 3
 ```
 
-Internally, this CLI command calls the function 
-`self.add_reservation(src='h1', dst='h2', duration=10.0, bw=3.0,  priority=1)` 
-in `rsvp_controller.py`. For now, you can ignore the priority attribute. 
-We will look at this in a later exercise.
+Internally, this CLI command calls the function `self.add_reservation(src='h1', dst='h2', duration=10.0, bw=3.0,  priority=1)` in `rsvp_controller.py`. For now, you can ignore the priority attribute. We will look at this in a later exercise.
 
 A few hints which will help you to solve this task:
 
@@ -482,16 +466,23 @@ created. Right now the thread just sleeps every `refresh_rate` and does nothing.
 At this point, you should have a working RSVP controller!
 
 ## Testing your Solution
-To test your solution, run both `mininet` and the controller (e.g. in two terminal
-windows or tmux panes):
-
+To test your solution, run *P4-Utils*:
 ```bash
 sudo p4run
+```
+
+or
+```bash
+sudo python network.py
+```
+
+Then run the controller in a separated terminal (e.g. in two terminal
+windows or tmux panes).
+```bash
 python rsvp_controller.py
 ```
 
 Start ping in the `mininet` CLI:
-
 ```bash
 mininet> h1 ping h6
 PING 10.7.6.2 (10.7.6.2) 56(84) bytes of data.
@@ -689,7 +680,7 @@ rsvp-menu>
 
 3. Start an iperf server in `h5, h6`:
 
-```
+```bash
 iperf -s -p 5001
 ```
 

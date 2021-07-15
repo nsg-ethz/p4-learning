@@ -40,15 +40,21 @@ demonstration below.
 
 There are two examples, one using a direct and one using an indirect meter.
 You can start them using:
-```
+```bash
 sudo p4run --config p4app_direct.json
 sudo p4run --config p4app_indirect.json
+```
+
+or
+```bash
+sudo python network_direct.py
+sudo python network_indirect.py
 ```
 
 In the mininet CLI, you can start the demo script which periodically
 sends packets from the host 1 interface and listens for packets on the host 2
 interface. The script takes the time interface (in seconds) as argument, e.g.:
-```
+```bash
 mininet> sh ./send_and_receive.py 1
 ```
 
@@ -56,7 +62,7 @@ mininet> sh ./send_and_receive.py 1
 
 If you run the script with an interval of one second, you should observe the
 following output:
-```
+```bash
 Received one
 Sent one
 Sent one

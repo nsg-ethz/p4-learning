@@ -17,9 +17,9 @@ we will implement a very basic l2 forwarding that statically maps mac addresses 
 As we already did in the previous exercises we provide you some files that will
 help you through the exercise.
 
-  *  `p4app.json`: describes the topology we want to create with the help
-     of mininet and p4-utils package.
-  *  `p4src/l2_basic_forwarding.p4`: p4 program skeleton to use as a starting point.
+- `p4app.json`: describes the topology we want to create with the help of *Mininet* and the *P4-Utils* package.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4src/l2_basic_forwarding.p4`: p4 program skeleton to use as a starting point.
 
 
 **Note**: This time you will not be able to run `p4run` until you finish some of the `TODOs`.
@@ -28,7 +28,7 @@ help you through the exercise.
 
 Remember that if the `l2` assignment strategy is enabled all devices will be automatically placed in the same
 subnet and ARP tables get automatically populated. This was already explained in the previous exercise session, for
-more information check [here](../../01-Repeater/thrift/README.md#note-about-p4appjson).
+more information check [here](../../01-Repeater/p4runtime/README.md#note-about-p4appjson).
 
 In this exercise you will need to fill some table entries as we did last week.
 If you used the control plane documentation page to fill tables, you probably used
@@ -80,7 +80,7 @@ the forwarding table you defined in 3. For more information about adding entries
      the port assignment would be: {h1->1, h2->2, h3->3, h4->4}. However, this basic port assignment might not hold for more complex topologies. Another
      way of finding out port mappings is checking the messages printed by when running the `p4run` command:
 
-         ```bash
+         ```
          Switch port mapping:
          s1:  1:h1       2:h2    3:h3    4:h4
          ```
@@ -91,16 +91,18 @@ the forwarding table you defined in 3. For more information about adding entries
 
 Once you have the `l2_basic_forwarding.p4` program finished you can test its behaviour:
 
-1. Start the topology (this will also compile and load the program).
-
+1. Start the topology (this will also compile and load the program) using
    ```bash
    sudo p4run
    ```
+   
+   or
+   ```bash
+   sudo python network.py
+   ```
 
 2. Ping between all hosts using the cli:
-
-   ```bash
-   *** Starting CLI:
+   ```
    mininet> pingall
    *** Ping: testing ping reachability
    h1 -> h2 h3 h4
@@ -108,7 +110,6 @@ Once you have the `l2_basic_forwarding.p4` program finished you can test its beh
    h3 -> h1 h2 h4
    h4 -> h1 h2 h3
    *** Results: 0% dropped (12/12 received)
-   mininet>
    ```
 
 #### Some notes on debugging and troubleshooting

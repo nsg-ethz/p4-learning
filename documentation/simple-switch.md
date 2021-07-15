@@ -81,7 +81,7 @@ type `standard_metadata_t`.
   You can see the values of each instance type below, or copy this definitions
   at the beginning of your P4 code.
 
-  ```bash
+  ```
   #define PKT_INSTANCE_TYPE_NORMAL 0
   #define PKT_INSTANCE_TYPE_INGRESS_CLONE 1
   #define PKT_INSTANCE_TYPE_EGRESS_CLONE 2
@@ -168,7 +168,7 @@ multicast copies of the same ingress packet.
 
 - `parser_error`: indicates if something wrong happened during parsing. Possible values are:
 
-  ```bash
+  ```
   error {
       NoError,           /// No error.
       PacketTooShort,    /// Not enough bits in packet for 'extract'.
@@ -304,12 +304,11 @@ First of all you need to create multicast groups, multicast nodes and associate 
 the `simple_switch_CLI` or the thrift SimpleSwitchThriftAPI provided by `P4 utils`:
 
 1. Create a multicast group:
-
    ```
    mc_mgrp_create <id>
    ```
-2. Create a multicast node with a Replication id (rid)
 
+2. Create a multicast node with a Replication id (rid)
    ```
    mc_node_create <rid> <port_number>
    ```
@@ -321,7 +320,6 @@ the `simple_switch_CLI` or the thrift SimpleSwitchThriftAPI provided by `P4 util
 
 
 3. Assign node with multicast group:
-
    ```
    mc_node_associate <mcast_grp_id> <node_handle_id>
    ```

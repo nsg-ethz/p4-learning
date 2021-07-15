@@ -90,7 +90,7 @@ When using `P4 utils` to create the topology, each switch will automatically get
 `thrift-port`. There are several ways to find the mapping between switch and port, but the easiest is
 to check the `print` messages displayed by `p4run`. Try to find a line that looks like:
 
-```bash
+```
 s1 -> Thrift port: 9090
 ```
 

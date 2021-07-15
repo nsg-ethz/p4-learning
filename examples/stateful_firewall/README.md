@@ -22,9 +22,13 @@ would require the use of the Control Plane.
 ### How to run
 
 Start the topology:
-
-```
+```bash
 sudo p4run
+```
+
+or
+```bash
+sudo python network.py
 ```
 
 Inside the mininet CLI run two different iperfs:

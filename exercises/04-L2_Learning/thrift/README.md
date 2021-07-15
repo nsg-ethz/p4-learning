@@ -35,13 +35,11 @@ ways of sending packets to the controller.
 
 For this exercise the files we provide you are:
 
-  * `p4app_cpu.json` and `p4app_digest.json`: two p4 utils configuration files. They define the same star topology used in previous exercises.
-  `p4app_cpu.json` has an extra option enabled, `cpu_port` which tells P4 utils to add an extra port to connect with the controller.
-
-  *  `p4src/l2_learning_copy_to_cpu.p4` and `p4src/l2_learning_digest.p4`: p4 program skeletons. Each skeleton will be used for one version
+- `p4app_cpu.json` and `p4app_digest.json`: two p4 utils configuration files. They define the same star topology used in previous exercises. `p4app_cpu.json` has an extra option enabled, `cpu_port` which tells P4 utils to add an extra port to connect with the controller.
+- `network_cpu.py` and `network_digest.py`: *P4-Utils* topology initilization scripts that can be used instead of the JSON configuration files to run the network.
+- `p4src/l2_learning_copy_to_cpu.p4` and `p4src/l2_learning_digest.p4`: p4 program skeletons. Each skeleton will be used for one version
   of the solution.
-
-  * `l2_learning_controller.py`: since there is not much documentation on how to write controllers with P4 utils, we provide you some useful
+- `l2_learning_controller.py`: since there is not much documentation on how to write controllers with P4 utils, we provide you some useful
   skeleton that you just have to fill with the l2 algorithm.
 
 #### Notes about p4app.json
@@ -52,24 +50,32 @@ packets ARP requests will be sent everywhere and thus ARP tables will be filled 
 
 To disable automatic ARP population we added the following line to the `topology` section of the `p4app.json`:
 
-```bash
+```
 "auto_arp_tables": false
 ```
 
-Note that `p4app_cpu.json` adds a `cpu_port: true` option to `s1`. This will make P4 utils add an extra port to `s1`, this port then will be used
-by the controller to receive control plane packets.
+To disable automatic ARP population we added the following line in the Python scripts:
+```bash
+net.disableArpTables()
+```
+
+Note that `p4app_cpu.json` adds a `cpu_port: true` option to `s1`. This will make P4-Utils add an extra port to `s1`, this port then will be used by the controller to receive control plane packets. The same is done in `network_cpu.py` with the option `net.enableCpuPortAll()`.
 
 **Note:** This option is already disabled in the provided configuration files.
 
 Furthermore, during this exercise you will need to use the `--conf` option when calling `p4run`. By default, if you do not specify
 anything it tries to find a configuration file named `p4app.json`, which has to be located in the same path. Since in this exercise we
 provided you with two different configuration files you will have call it as follows:
-
 ```bash
 sudo p4run --conf <json conf file>
 ```
 
-You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+On the other hand, if you want to use the Python script to initialize the network, simply run:
+```bash
+sudo python <script path>
+```
+
+You can find all the documentation about `p4app.json` in the *P4-Utils* [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
 
 ## Implementing L2 Learning
 
@@ -144,9 +150,12 @@ the software switch that they could not fix yet, however even if they say that i
 Once you have the `l2_learning_copy_to_cpu.p4` program finished you can test its behaviour:
 
 1. Start the topology (this will also compile and load the program).
-
    ```bash
    sudo p4run --conf p4app_cpu.json
+   ```
+   or
+   ```bash
+   sudo python network_cpu.py
    ```
 
 2. Start the controller in another terminal window:
@@ -160,8 +169,7 @@ Once you have the `l2_learning_copy_to_cpu.p4` program finished you can test its
 
 3. Ping between all hosts using the cli, and check that you have complete connectivity:
 
-   ```bash
-   *** Starting CLI:
+   ```
    mininet> pingall
    *** Ping: testing ping reachability
    h1 -> h2 h3 h4
@@ -169,7 +177,6 @@ Once you have the `l2_learning_copy_to_cpu.p4` program finished you can test its
    h3 -> h1 h2 h4
    h4 -> h1 h2 h3
    *** Results: 0% dropped (12/12 received)
-   mininet>
    ```
 
 4. Verify that the switch table was populated:
@@ -206,13 +213,15 @@ documentation.
 Once you have the `l2_learning_digest.p4` program finished you can test its behaviour:
 
 1. Start the topology (this will also compile and load the program).
-
    ```bash
    sudo p4run --conf p4app_digest.json
    ```
+   or
+   ```bash
+   sudo python network_digest.py
+   ```
 
 2. Start the controller in another terminal window:
-
    ```bash
    sudo python l2_learning_controller.py s1 digest
    ```

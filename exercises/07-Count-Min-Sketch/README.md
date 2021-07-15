@@ -61,14 +61,12 @@ Thus by running `sudo make install` in `~/p4-tools/bmv2` or `~/p4-tools/bmv2-opt
 
 For this exercise we provide you with the following files:
 
-  *  `p4app.json`: describes the topology we want to create with the help
-     of mininet and p4-utils package.
-  *  `p4src/cm-sketch.p4`: p4 program skeleton to use as a starting point. Furthermore, we provide you the `headers.p4` and `parsers.p4` file such that you do not
-  have to write this again.
-  *  `send.py`: python program that uses raw sockets to send packets (`scapy` was not fast enough for what we needed in this exercise).
-  *  `cm-sketch-controller.py`: controller that uses the `thrift_API` to communicate with the switch. You will find some util functions that
-  will help with the sketch decoding. Here you will also have to implement part of the algorithm.
-  * `crc.py` a python `crc32` implementation that will be used by the controller to read the counters.
+- `p4app.json`: describes the topology we want to create with the help of mininet and p4-utils package.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4src/cm-sketch.p4`: p4 program skeleton to use as a starting point. Furthermore, we provide you the `headers.p4` and `parsers.p4` file such that you do not have to write this again.
+- `send.py`: python program that uses raw sockets to send packets (`scapy` was not fast enough for what we needed in this exercise).
+- `cm-sketch-controller.py`: controller that uses the `thrift_API` to communicate with the switch. You will find some util functions that will help with the sketch decoding. Here you will also have to implement part of the algorithm.
+- `crc.py` a python `crc32` implementation that will be used by the controller to read the counters.
 
 #### Notes about p4app.json
 
@@ -174,7 +172,7 @@ To test our solution we will use the `send.py` script you can find in the provid
 to generate random flows. The number of packets, flow size, and flow distribution can be configured by tuning the command line
 parameters:
 
-```
+```python
 parser.add_argument('--n-pkt', help='number of packets', type=int, required=False, default=5000)
 parser.add_argument('--n-hh', help='number of heavy hitters', type=int, required=False, default=10)
 parser.add_argument('--n-sfw', help='number of small flows', type=int, required=False, default=990)
@@ -188,7 +186,7 @@ can be used as a ground truth by the controller to compare the number of packets
 We will also use the controller we provided you and that you had to modify and enhance. The controller can be called using the following
 parameters:
 
-```
+```python
 parser.add_argument('--sw', help="switch name to configure" , type=str, required=False, default="s1")
 parser.add_argument('--eps', help="epsilon to use when checking bound", type=float, required=False, default=0.01)
 parser.add_argument('--n', help="number of packets sent by the send.py app", type=int, required=False, default=1000)
@@ -202,7 +200,7 @@ parser.add_argument('--option', help="controller option can be either set_hashes
 Dimension your sketch using ϵ=0.1 and δ=0.05 (as shown above). Then start the topology, configure the hash functions
 with the controller and send traffic from `h1` using send.py to send few flows (just to test).
 
-1. Star the topology with `sudo p4run`
+1. Start the topology with `sudo p4run` or `sudo python network.py`.
 
 2. Set the hash functions polynomials by running the default controller with `set_hashes` as option parameter. This will set the right polynomials
 to the running switch so when we decode we are use the same exact hash.
@@ -226,7 +224,7 @@ count is inside the boundary.
 
 4. Finally, run the controller with the `decode` option enabled and the right parameters for the decoding.
 
-```
+```bash
 python cm-sketch-controller.py --eps 0.1 --n 1000 --mod 28 --option decode
 ```
 

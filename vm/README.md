@@ -106,7 +106,7 @@ If you are using Ubuntu 16.04.5, you can simply copy all the scripts in `/bin` t
 before doing that you will have to copy all the files in `./vm_files` to your home directory, and edit all the lines in the scripts that try to use them. Finally, run
 the boostrap script:
 
-```
+```bash
 sudo root-bootstrap.sh
 ```
 

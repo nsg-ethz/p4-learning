@@ -10,17 +10,17 @@ As you will see, MPLS has numerous benefits such as the possibility of creating 
 
 Before we begin, we need some vocabulary to understand the concepts better:
 
-  * Multiprotocol Label Switching (MPLS): A highly scalable, data-carrying mechanism that is independent of any data link layer protocol.
-  * Label Edge Router (LER): A router that operates at the edges of an MPLS network. An LER determines and applies the appropriate labels and forwards the labeled packets into the MPLS domain.
-  * Label Switch Router (LSR): A router that switches the labels that are used to route packets through an MPLS network. You can understand LSRs as *all* the MPLS-capable switches in the network. LERs are also LSRs.
-  * Label Switched Path (LSP): A route through an MPLS network, defined by a signaling protocol such as the Border Gateway Protocol (BGP). The path is set up based on criteria in the forwarding equivalence class (FEC).
-  * Forwarding Equivalence Class (FEC): A set of packets with similar characteristics that might be bound to the same MPLS label. **An FEC tends to correspond to a label switched path (LSP); however, an LSP might be used for multiple FECs.**
+- Multiprotocol Label Switching (MPLS): A highly scalable, data-carrying mechanism that is independent of any data link layer protocol.
+- Label Edge Router (LER): A router that operates at the edges of an MPLS network. An LER determines and applies the appropriate labels and forwards the labeled packets into the MPLS domain.
+- Label Switch Router (LSR): A router that switches the labels that are used to route packets through an MPLS network. You can understand LSRs as *all* the MPLS-capable switches in the network. LERs are also LSRs.
+- Label Switched Path (LSP): A route through an MPLS network, defined by a signaling protocol such as the Border Gateway Protocol (BGP). The path is set up based on criteria in the forwarding equivalence class (FEC).
+- Forwarding Equivalence Class (FEC): A set of packets with similar characteristics that might be bound to the same MPLS label. **An FEC tends to correspond to a label switched path (LSP); however, an LSP might be used for multiple FECs.**
 
 ### MPLS Label Encoding
 
 In actual MPLS, the label stack is represented as a sequence of *label-stack entries*. Each label-stack entry is represented by 4 bytes:
 
-```
+```bash
 Label: Label Value, 20 bits
 Exp: Experimental Use, 3 bits
 S: Bottom of Stack, 1 bit
@@ -74,9 +74,10 @@ MPLS mainly relies on three features:
 As we do in order exercises, we provide you some files that will
 help you through the exercise.
 
-  *  `p4app.json`: describes the topology that you will use throughout the exercise.
-  *  `p4src/basics.p4`: contains the p4 program skeleton that you will use as a starting point for this first section of the exercise (mock MPLS).
-  *  `p4src/stacked.p4`: contains the p4 program skeleton that you will use as a starting point for the second section of the exercise (realistic MPLS).
+- `p4app.json`: describes the topology that you will use throughout the exercise.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4src/basics.p4`: contains the p4 program skeleton that you will use as a starting point for this first section of the exercise (mock MPLS).
+- `p4src/stacked.p4`: contains the p4 program skeleton that you will use as a starting point for the second section of the exercise (realistic MPLS).
 
 **Note**: This time you will not be able to run `p4run` until you finish some of the `TODOs`.
 
@@ -110,11 +111,12 @@ First, you need to identify packets accessing the MPLS network. To that end:
 
 3. Create the action `set_is_ingress_border` that sets the `is_ingress_border` metadata field to 1 whenever executed.
 
-4. If you take a look at `s1-commands.txt`, you can see how we have already filled the `check_is_ingress_border` table entries for you. In this case (switch s1), all packets entering from port 1 (i.e., coming from h1) will hit the entry, and therefore will be identified.
+4. If you take a look at `controller.py`, you can see how we have already filled the `check_is_ingress_border` table entries for you. In this case (switch s1), all packets entering from port 1 (i.e., coming from h1) will hit the entry, and therefore will be identified.
 
 ```
 table_add check_is_ingress_border set_is_ingress_border 1 =>
 ```
+
 Switch s1 will have to act as an ingress_border switch for those packets, and add an MPLS header to them, selecting the best label according to their forwarding equivalency class (FEC). Implementing this functionality will be your next task.
 
 We already give you the code for the ingress pipeline. Take a look at it and make sure you understand the logic.
@@ -141,7 +143,7 @@ As you can see, the code just checks whether the switch should act as an ingress
 
 5. Create the `fec_to_label` table. It should (lpm-) match on the `hdr.ipv4.dstAddr`, and should execute an action `add_mpls_header` in case it is hit, passing as parameter the label corresponding to the FEC to which it has matched. You should use two different label values to identify packets for each of the two FECs.
 
-6. Modify `s1-commands.txt` to include the two paths. If you used labels 2 and 3, you could fill it as follows:
+6. Modify `controller.py` to include the two paths. If you used labels 2 and 3, you could fill it as follows:
 
 ```
 table_add fec_to_label add_mpls_header 10.7.2.2/32 => 2
@@ -163,14 +165,14 @@ if(hdr.mpls.isValid()){
 }
 ```
 
-2. Create the `mpls_tbl` table, that (exact-) matches on the label field in the `mpls` header, and calls the action `mpls_forward` which sets the mac addresses and egress port accordingly. We already give you the action, and the table entries for `s1` as example. Note that `mac` addresses between switches do not really matter since they are not checked, but when the packet is sent to a real host, the `mac` has to match. If that is not the case, packets will be dropped and not reach the application layer of e.g., `ping` or `iperf`.
+2. Create the `mpls_tbl` table, that (exact-) matches on the label field in the `mpls` header, and calls the action `mpls_forward` which sets the mac addresses and egress port accordingly. We already give you the action, and the table entries for `s1` as example. Note that MAC addresses between switches do not really matter since they are not checked, but when the packet is sent to a real host, the MAC has to match. If that is not the case, packets will be dropped and not reach the application layer of e.g., `ping` or `iperf`.
 
-```
-table_add mpls_tbl mpls_forward 2 => 00:00:00:02:01:00 2
-table_add mpls_tbl mpls_forward 3 => 00:00:00:03:01:00 3
+```python
+controller.table_add('mpls_tbl', 'mpls_forward', ['2'], ['00:00:00:02:01:00','2'])
+controller.table_add('mpls_tbl', 'mpls_forward', ['3'], ['00:00:00:03:01:00','3'])
 ```
 
-3. Fill up the corresponding `sx-commands.txt` entries for the other switches in the path. Your objective is that packets follow the paths indicated in the topology figure. FEC corresponding to packets destined to h2 should follow the blue path, while packets destined to h3 should follow the red path.
+3. Fill up the corresponding entries for the other switches in the path using the script `controller.py`. Your objective is that packets follow the paths indicated in the topology figure. FEC corresponding to packets destined to h2 should follow the blue path, while packets destined to h3 should follow the red path.
 
 4. To be able to ping between `h2` and `h3` we need to add normal `ipv4` forwarding capabilities to the switches. For that, create an `ipv4_lpm` table that matches on `ipv4.dstAddr` (with an lpm match), and calls the action `ipv4_forward`. Finally, uncomment the lines of code that execute this table from the `apply` function in the ingress pipeline (look for TODO 3.4).
 
@@ -198,7 +200,7 @@ action is_egress_border(){
 
 As you might have guessed, it is removing the MPLS header. In p4, a header is removed is by setting it to invalid with the command `setInvalid()`. When the packet is deparsed, the deparser will see that the header is not valid and it will not emit it. Also note the importance of setting the EtherType back to `TYPE_IPV4`, so that future routers outside the MPLS network can correctly parse the packets. At this point, the packet exiting the MPLS network should be exactly the same as the one which entered it (i.e., all the packet processing executed by the MPLS network is completely transparent from the outside).
 
-3. Fill up the table entries in `s7-commands.txt`.
+3. Fill up the table entries using `controller.py`.
 
 4. At this point you should already be able to send ping requests from h1 to h2 and h3. You can run `tcpdump` from each of the two receiving hosts to see the result: (`tcpdump -enn -l -i <interface_name>`)
 
@@ -218,7 +220,7 @@ Although the ping request is arriving to both h2 and h3, their respective ping r
 
 It is your task now to modify your existing solution such that the ping responses from h2 and h3 get back to h1. To this end:
 
-1. First, let replies from both h2 and h3 follow the blue path: `s7->s6->s4->s2->s1->h1`. To do that, create a FEC for all packets with destination h1 (10.1.1.2). You can use a new label (e.g., 1) to represent such traffic along all the switches. Note that you do not need to change anything from the p4-code itself. The only thing you have to do is to add more table entries in the `sx-commands.txt` files. Don't forget to also configure s7 as ingress border switch, for packets coming from ingress ports 3 and 4, and s1 as egress border switch for packets exiting from egress 1. Please, note that `sx-commands.txt` are only read when the switches are initialized. Therefore, to update your switch table entries you can either rerun the network again, or you can type `p4switches_reboot` in the mininet `cli`.
+1. First, let replies from both h2 and h3 follow the blue path: `s7->s6->s4->s2->s1->h1`. To do that, create a FEC for all packets with destination h1 (10.1.1.2). You can use a new label (e.g., 1) to represent such traffic along all the switches. Note that you do not need to change anything from the p4-code itself. The only thing you have to do is to add more table entries using `controller.py` script. Don't forget to also configure s7 as ingress border switch, for packets coming from ingress ports 3 and 4, and s1 as egress border switch for packets exiting from egress 1. Please, note that `controller.py` is only executed when the switches are initialized. Therefore, to update your switch table entries you can either rerun the network again, or you can type `p4switches_reboot` in the mininet `cli`.
 
 2. Test that your solution is working by "pinging" h2 and h3 from h1. You should see the responses arriving correctly back to h1, and a 0% of packet loss, as shown in the picture below. Feel free to do some further test your implementation with other tools such as `iperf`. You can find more details about `iperf` [here](https://iperf.fr/iperf-doc.php). If you implemented the `ipv4_lpm` that allows `h2` to talk with `h3` you can test your solution with `pingall` which will test if every host can ping all the others.
 
@@ -313,9 +315,9 @@ will be the first one in the header stack, while label1 should be the last one.
 
 ### Task 3. Enable communication between h1, h2, and h3:
 
-After having completed the data plane programming, you now should fill in the table entries in `sx-commands.txt` for your network to work. Same as in the previous section, you will find 7 different command files, one for each switch in the topology. In these, we already provide the necessary entries for the `h1 -> h2` connection. Your task is to: (i) understand the provided entries, and (ii) complete the command files with the required table entries such that bidirectional communication between any two hosts in the topology is possible.
+After having completed the data plane programming, you now should fill in the table entries using `controller.py` for your network to work. In this script, we already provide the necessary entries for the `h1 -> h2` connection. Your task is to: (i) understand the provided entries, and (ii) complete the script with the required table entries such that bidirectional communication between any two hosts in the topology is possible.
 
-1. Complete the `sx-commands.txt` files.
+1. Complete the `controller.py` script.
 
 ### Task 4. Test your solution:
 

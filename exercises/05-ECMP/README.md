@@ -19,13 +19,11 @@ For more information about ECMP see this [page](https://docs.cumulusnetworks.com
 ## Before Starting
 
 As usual, we provide you with the following files:
-
-  *  `p4app.json`: describes the topology we want to create with the help
-     of mininet and p4-utils package.
-  *  `p4src/ecmp.p4`: p4 program skeleton to use as a starting point.
-  *  `p4src/includes`: In today's exercise we will split our p4 code in multiple files for the first time. In the includes
-  directory you will find `headers.p4` and `parsers.p4` (which also have to be completed).
-  *  `send.py`: a small python script to generate multiple packets with different tcp port.
+- `p4app.json`: describes the topology we want to create with the help of mininet and p4-utils package.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4src/ecmp.p4`: p4 program skeleton to use as a starting point.
+- `p4src/includes`: In today's exercise we will split our p4 code in multiple files for the first time. In the includes directory you will find `headers.p4` and `parsers.p4` (which also have to be completed).
+- `send.py`: a small python script to generate multiple packets with different tcp port.
 
 #### Notes about p4app.json
 
@@ -44,8 +42,7 @@ possible next hop or more. For that we will use two tables: in the first table w
 depending on whether ECMP has to be applied (for that destination) we set the output port or a ecmp_group. For the later we
 will apply a second table that maps (ecmp_group, hash_output) to egress ports.
 
-This time you will have to fill the gaps in several files: `p4src/ecmp.p4`, `p4src/include/headers.p4`
-and `p4src/include/parsers.p4`. Additionally, you will have to create a `cli` command file for each switch and name them
+This time you will have to fill the gaps in several files: `p4src/ecmp.p4`, `p4src/include/headers.p4` and `p4src/include/parsers.p4`. Additionally, you will have to create a `cli` command file for each switch and name them
 `sX-commands.txt` (see inside the `p4app.json`).
 
 To successfully complete the exercise you have to do the following:
@@ -112,21 +109,24 @@ group towards `h2`. Set the ecmp group with `id = 1` and `num_hops = 4`. Then de
 Once you have the `ecmp.p4` program finished (and all the `commands.txt` files) you can test its behaviour:
 
 1. Start the topology (this will also compile and load the program).
-
    ```bash
    sudo p4run
+   ```
+   or
+   ```bash
+   sudo python network.py
    ```
 
 2. Check that you can ping:
 
    ```bash
-   > mininet pingall
+   mininet> pingall
    ```
 
 3. Monitor the 4 links from `s1` that will be used during `ecmp` (from `s1-eth2` to `s1-eth5`). Doing this you will be able to check which path is each flow
 taking.
 
-   ```bash
+   ```
    sudo tcpdump -enn -i s1-ethX
    ```
 

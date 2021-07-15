@@ -39,14 +39,18 @@ ports always hash to the same next hop.
 
 Run the topology:
 
-```
+```bash
 sudo p4run
 ```
 
+or
+```bash
+sudo python network.py
+```
 
 Monitor all the interfaces connecting `s1` to the 4 middle switches. You can use `tshark`, `tcpdump`:
 
-```
+```bash
 sudo tshark -i s1-eth2
 ```
 
@@ -54,7 +58,7 @@ sudo tshark -i s1-eth2
 
 Send packets with random ports from `h1`:
 
-```
+```bash
 mx h1
 python send.py 10.0.6.2 1000
 ```

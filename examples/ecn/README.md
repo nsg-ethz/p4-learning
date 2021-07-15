@@ -21,12 +21,17 @@ The link between `s1` and `h3` has a bandwidth of 0.5 Mbps and acts as a bottlen
 
 Run the topology:
 
-```
+```bash
 sudo p4run
 ```
 
-Monitor the traffic going from `s1` to `h3`.
+or
+```bash
+sudo python network.py
 ```
+
+Monitor the traffic going from `s1` to `h3`.
+```bash
 sudo tcpdump -i s1-eth3 -Q out -v
 ```
 

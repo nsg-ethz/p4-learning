@@ -49,7 +49,7 @@ table table_name {
 ```
 
 
-```bash
+```
 table_set_default table_name drop
 table_add table_name action_name 1 => 5
 ```
@@ -76,7 +76,7 @@ the file to populate and configure switches.
 
 To set default `cli` configuration files you need to define your switches like:
 
-```javascript
+```json
     "switches": {
       "s1": {
         "cli_input": "<path_to_cli_commands_file>"

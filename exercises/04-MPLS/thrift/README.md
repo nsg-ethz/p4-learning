@@ -10,11 +10,11 @@ As you will see, MPLS has numerous benefits such as the possibility of creating 
 
 Before we begin, we need some vocabulary to understand the concepts better:
 
-  * Multiprotocol Label Switching (MPLS): A highly scalable, data-carrying mechanism that is independent of any data link layer protocol.
-  * Label Edge Router (LER): A router that operates at the edges of an MPLS network. An LER determines and applies the appropriate labels and forwards the labeled packets into the MPLS domain.
-  * Label Switch Router (LSR): A router that switches the labels that are used to route packets through an MPLS network. You can understand LSRs as *all* the MPLS-capable switches in the network. LERs are also LSRs.
-  * Label Switched Path (LSP): A route through an MPLS network, defined by a signaling protocol such as the Border Gateway Protocol (BGP). The path is set up based on criteria in the forwarding equivalence class (FEC).
-  * Forwarding Equivalence Class (FEC): A set of packets with similar characteristics that might be bound to the same MPLS label. **An FEC tends to correspond to a label switched path (LSP); however, an LSP might be used for multiple FECs.**
+- Multiprotocol Label Switching (MPLS): A highly scalable, data-carrying mechanism that is independent of any data link layer protocol.
+- Label Edge Router (LER): A router that operates at the edges of an MPLS network. An LER determines and applies the appropriate labels and forwards the labeled packets into the MPLS domain.
+- Label Switch Router (LSR): A router that switches the labels that are used to route packets through an MPLS network. You can understand LSRs as *all* the MPLS-capable switches in the network. LERs are also LSRs.
+- Label Switched Path (LSP): A route through an MPLS network, defined by a signaling protocol such as the Border Gateway Protocol (BGP). The path is set up based on criteria in the forwarding equivalence class (FEC).
+- Forwarding Equivalence Class (FEC): A set of packets with similar characteristics that might be bound to the same MPLS label. **An FEC tends to correspond to a label switched path (LSP); however, an LSP might be used for multiple FECs.**
 
 ### MPLS Label Encoding
 
@@ -74,9 +74,10 @@ MPLS mainly relies on three features:
 As we do in order exercises, we provide you some files that will
 help you through the exercise.
 
-  *  `p4app.json`: describes the topology that you will use throughout the exercise.
-  *  `p4src/basics.p4`: contains the p4 program skeleton that you will use as a starting point for this first section of the exercise (mock MPLS).
-  *  `p4src/stacked.p4`: contains the p4 program skeleton that you will use as a starting point for the second section of the exercise (realistic MPLS).
+- `p4app.json`: describes the topology that you will use throughout the exercise.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4src/basics.p4`: contains the p4 program skeleton that you will use as a starting point for this first section of the exercise (mock MPLS).
+- `p4src/stacked.p4`: contains the p4 program skeleton that you will use as a starting point for the second section of the exercise (realistic MPLS).
 
 **Note**: This time you will not be able to run `p4run` until you finish some of the `TODOs`.
 
@@ -115,6 +116,7 @@ First, you need to identify packets accessing the MPLS network. To that end:
 ```
 table_add check_is_ingress_border set_is_ingress_border 1 =>
 ```
+
 Switch s1 will have to act as an ingress_border switch for those packets, and add an MPLS header to them, selecting the best label according to their forwarding equivalency class (FEC). Implementing this functionality will be your next task.
 
 We already give you the code for the ingress pipeline. Take a look at it and make sure you understand the logic.

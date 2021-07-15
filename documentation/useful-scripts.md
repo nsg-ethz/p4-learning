@@ -12,7 +12,7 @@ P4 you can use the [install-p4-tools.sh](../vm/bin/install-p4-tools.sh) script.
 You can change the two following variables to enable/disable debugging or the
 required software for the P4runtime.
 
-```
+```bash
 DEBUG_FLAGS=true
 ENABLE_P4_RUNTIME=true
 ```
@@ -24,7 +24,7 @@ to a different commit, enable/disable debugging, multiqueuing and more. If you b
 using vagrant or use the provided VM this script will be already installed in `/bin/` and you
 directly used it.
 
-```
+```bash
 update-bmv2 -h
 
 update-bmv2 [OPTION]... [FILE]...
@@ -47,7 +47,7 @@ You can find the script [here](../vm/bin/update-bmv2.sh).
 
 We also provide a similar script to update `p4c`, the P4 code compiler.
 
-```
+```bash
 update-p4c -h
 
 update-p4c [OPTION]... [FILE]...

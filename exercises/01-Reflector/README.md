@@ -10,15 +10,11 @@ the packets came from.
 
 ## First Steps
 
-Since this is a first contact with the environment, we will provide some
- files
-that will help you solving the exercise:
-
-  *  `p4app.json`: describes the topology we want to create with the help
-     of mininet and the p4-utils package.
-  *  `send_receive.py`: script to send and receive packets.
-  *  `reflector.p4`: p4 program skeleton to use as a starting point.
-
+Since this is a first contact with the environment, we will provide some files that will help you solving the exercise:
+- `p4app.json`: describes the topology we want to create with the help of *Mininet* and the *P4-Utils* package.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `send_receive.py`: script to send and receive packets.
+- `reflector.p4`: p4 program skeleton to use as a starting point.
 
 The provided files are enough to start a topology with one host and
 one switch connected between each other. However, since the p4 program
@@ -27,24 +23,25 @@ send to it.
 
 Follow these instructions to create a mininet network and run `reflector.p4`:
 
-1. To create the topology described in `p4app.json`, you just have to call `p4run`, which
-by default will check if the file `p4app.json` exists in the path:
-
+1. To create the topology described in `p4app.json`, you just have to call `p4run`, which by default will check if the file `p4app.json` exists in the path:
    ```bash
    sudo p4run
    ```
 
    This will call a python script that parses the configuration file, creates
-   a virtual network of hosts and p4 switches using mininet, compile the p4 program
-   and load it in the switch. You can find the p4-utils documentation [here](https://github.com/nsg-ethz/p4-utils).
-+
-   After running `p4run` you will get the `mininet` CLI prompt (you can find some documentation about the CLI [here](../../documentation/control-plane.md)):
+   a virtual network of hosts and p4 switches using mininet, compile the p4 program and load it in the switch. You can find the *P4-Utils* documentation [here](https://github.com/nsg-ethz/p4-utils).  
+
+   Otherwise, one can simply execute the Python script provided:
+   ```bash
+   sudo python network.py
+   ```
+
+   After running the network with one of the two aforementioned methods, you will get the `mininet` CLI prompt (you can find some documentation about the CLI [here](../../documentation/control-plane.md)):
 
    <img src="images/mininet_cli.png" title="Mininet CLI">
 
 2. At this point you will have a small topology that consists of a host `h1` and a p4 switch `s1`. You can get a terminal in `h1` by either
 typing `xterm h1` in the CLI, or by using the `mx` command that comes already installed in the VM:
-
    ```bash
    mx h1
    ```
@@ -54,7 +51,7 @@ and prints if the packets get reflected. Since the switch with the initial code 
 nothing will get reflected back to `h1`.
 
 4. Close all the host-terminals and type `quit` to leave the mininet CLI and clean the network.
-   ```bash
+   ```
    mininet> quit
    ```
 
@@ -67,7 +64,7 @@ writing your first p4 program and load it into the switch.
 
 You can load a new program into the switch without restarting the entire topology using the reboot command:
 
-```bash
+```
 mininiet> p4switch_reboot s1
 ```
 

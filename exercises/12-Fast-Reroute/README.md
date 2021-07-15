@@ -56,26 +56,17 @@ For additional consideration of node failures, links with shared risk, and more,
 We provide you with a basic setup that already implements basic forwarding,
 and the tools to introduce failures. Concretely, you'll find the following files:
 
-* `p4app.json` configures the topology introduced above with the help of mininet and the p4-utils package. Note that we disabled `pcap` logging to reduce disk usage. In case you want to use it, you will have to set the option to `true`.
-*   `p4src/fast_reroute.p4`: the p4 program to use as a starting point.
-    It already contains two register arrays: `primaryNH` allows looking up the port
-    for a next hop, and `linkState` contains the local link information for a
-    given port (you only need to read it): `0` if there are no issues, `1` if the
-    link is down.
-* `p4src/includes`: headers and parsers.
-* `controller.py`: the central controller, already capable of installing forwarding rules and reacting to failures.
-* `cli.py`: a CLI to introduce and reset link failures.
-* `topology_generator.py`: a script to generate random topologies.
+- `p4app.json` configures the topology introduced above with the help of mininet and the p4-utils package. Note that we disabled `pcap` logging to reduce disk usage. In case you want to use it, you will have to set the option to `true`.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4src/fast_reroute.p4`: the p4 program to use as a starting point. It already contains two register arrays: `primaryNH` allows looking up the port for a next hop, and `linkState` contains the local link information for a given port (you only need to read it): `0` if there are no issues, `1` if the link is down.
+- `p4src/includes`: headers and parsers.
+- `controller.py`: the central controller, already capable of installing forwarding rules and reacting to failures.
+- `cli.py`: a CLI to introduce and reset link failures.
+- `topology_generator.py`: a script to generate random topologies.
 
 ### Startup
 
-First, execute `sudo p4run`, which will start mininet and all p4 switches.
-When it's done, you'll be greeted by the mininet CLI.
-When mininet is running, open a second terminal or tab (this will be useful in a moment),
-and execute `python controller.py`.
-This will first start the python controller, which computes all shortest paths
-in the network and installs the corresponding forwarding rules.
-Afterwards, *reroute CLI* will start.
+First, execute `sudo p4run` (or `sudo python network.py`), which will start mininet and all p4 switches. When it's done, you'll be greeted by the mininet CLI. When mininet is running, open a second terminal or tab (this will be useful in a moment), and execute `python controller.py`. This will first start the python controller, which computes all shortest paths in the network and installs the corresponding forwarding rules. Afterwards, *reroute CLI* will start.
 
 ### Failing links
 
@@ -181,7 +172,7 @@ Finally, you need to make sure that you do not install just *any* backup, but an
 To check the LFA condition, you likely need the distances between nodes.
 The method `dijkstra` provides you with both the (shortest) distances and paths for each pair of nodes in the network:
 
-```
+```python
 failures = (given as input)
 distances, paths = self.dijkstra(failures=failures)
 
@@ -217,17 +208,22 @@ Below, we'll give you some additional tips to debug your program.
 As an example, we will consider a failure of the link between `S1` and `S2` and will focus on the rerouting in `S2` for the traffic going to `10.4.4.2/24`, similar to the introduction above.
 
 1.  Start the topology.
-    ```
+    ```bash
     sudo p4run
+    ```
+    or
+
+    ```bash
+    sudo python network.py
     ```
 
 2. Start the controller.
-    ```
+    ```bash
     sudo python controller.py
     ```
 
 3.  Verify that you can ping:
-    ```
+    ```bash
     mininet> pingall
     ````
 
@@ -237,25 +233,21 @@ As an example, we will consider a failure of the link between `S1` and `S2` and 
     To visualize these five links altogether, we could open separate tcpdumps, or we can use `speedometer`.
 
     First you need to install `speedometer` with:
-
-    ```
+    ```bash
     sudo apt-get install speedometer
     ```
 
     Since `speedometer` is not Python3 compliant, we have to force its execution with Python2. This can be done by running the following command.
-
-    ```
+    ```bash
     sudo sed -i '1s+^.*$+#!/usr/bin/env python2+' $(which speedometer)
     ```
 
     Then you can run the following command.
-
-    ```
+    ```bash
     speedometer -t s2-eth1 -t s2-eth2 -t s2-eth3 -t s2-eth4 -t s4-eth1
     ```
 
     :information_source: To see the interface names for all switches you can write `net` in the mininet CLI:
-
     ```
     mininet> net
     h1 h1-eth0:s1-eth1
@@ -269,19 +261,16 @@ As an example, we will consider a failure of the link between `S1` and `S2` and 
     ```
 
 5.  Ping from h1 to h4 with a short interval to see more traffic
-
     ```
     mininet> h2 ping h4 -i 0.01
     ```
 
 6.  Fail the link S1-S2. You can do that from the controller CLI:
-
     ```
     link-menu> fail s1 s2
     ```
 
 7.  Finally, notify the controller about the failure such that it recomputes the new path and update the primary routes in the switches. You can do that from the controller CLI.
-
     ```
     link-menu> notify
     ```
@@ -304,7 +293,7 @@ After the controller recomputes the shortest paths, `S2` forwards to traffic to 
 
 When you complete this exercise, you should have a controller that is able to populate the routing tables and registers of any topology. To test that your solution does work with other topologies, you can use the `topology_generator.py` to generate random topologies:
 
-```
+```bash
 python topology_generator.py --output_name <name.json> --topo random -n <number of switches to use> -d <average switch degree>
 ```
 
@@ -312,14 +301,25 @@ This will create a random topology with `n` switches that have on average `d` in
 
 For example, you can create a random topology with `10` switches and an average degree of `4`:
 
-```
+```bash
 python topology_generator.py --output_name 10-switches.json --topo random -n 10 -d 4
 ```
 
 Run the random topology:
 
-```
+```bash
 sudo p4run --config 10-switches.json
+```
+
+If you want to use Python scripts instead of JSON files, you may want to run:
+
+```bash
+python network_generator.py --output_name 10-switches.py --topo random -n 10 -d 4
+```
+
+and
+```bash
+sudo python 10-switches.py
 ```
 
 Now run the controller, and check that your can send traffic to all the nodes with `pingall`.

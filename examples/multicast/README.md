@@ -31,20 +31,25 @@ the following [documentation section](../../documentation/simple-switch.md#creat
 
 Run the topology:
 
-```
+```bash
 sudo p4run
+```
+
+or
+```bash
+sudo python network.py
 ```
 
 Send traffic with the special ethernet type using the `send.py` script.
 
-```
+```bash
 mx h1
 python send.py
 ```
 
 Monitor all the interfaces and see that for each packet that is sent from `h1`
 four packets get replicated.
-```
+```bash
 sudo tcpdump -i s1-eth2 -Q out
 sudo tcpdump -i s1-eth3 -Q out
 sudo tcpdump -i s1-eth4 -Q out

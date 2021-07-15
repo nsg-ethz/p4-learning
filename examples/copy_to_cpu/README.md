@@ -24,20 +24,24 @@ to a packet.
 ## How to run
 
 Run the topology:
-
-```
+```bash
 sudo p4run
+```
+
+or
+```bash
+sudo python network.py
 ```
 
 Run the very small controller code that receives packets from the switch:
 
-```
+```bash
 sudo python receive.py
 ```
 
 Generate packets using the `send.py` script which sets the TOS field to 1.
 
-```
+```bash
 mx h1
 sudo python send.py 10.1.2.2
 ```

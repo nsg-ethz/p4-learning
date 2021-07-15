@@ -17,15 +17,13 @@ centralized and static. However, your controller should be able to automatically
 
 For this exercise we provide you with the following files:
 
-  *  `p4app.json`: describes the topology we want to create with the help
-     of mininet and p4-utils package. It is the same topology we used for the ECMP exercise.
-  *  `p4src/ecmp.p4`: we will use the solution of the [03-ECMP](../../03-ECMP/thrift) exercise as starting point.
-  *  `send.py`: a small python script to generate multiple packets with different tcp port.
-  *  `routing-controller.py`: routing controller skeleton. The controller uses global topology
-  information and the simple switch `thrift_API` to populate the routing tables.
-  * `topology_generator.py`: python script that automatically generates `p4app` configuration files.
-   It allows you to generate 3 types of topologies: linear, circular, and random (with a node number and degree). Run it with `-h` option to see the
-   command line parameters.
+- `p4app.json`: describes the topology we want to create with the help of mininet and p4-utils package. It is the same topology we used for the ECMP exercise.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4src/ecmp.p4`: we will use the solution of the [03-ECMP](../../03-ECMP/p4runtime) exercise as starting point.
+- `send.py`: a small python script to generate multiple packets with different tcp port.
+- `routing-controller.py`: routing controller skeleton. The controller uses global topology information and the simple switch `thrift_API` to populate the routing tables.
+- `topology_generator.py`: Python script that automatically generates `p4app` configuration files. It allows you to generate 3 types of topologies: linear, circular, and random (with a node number and degree). Run it with `-h` option to see the command line parameters.
+- `network_generator.py`: Python script that automatically generates `network.py` scripts. It allows you to generate 3 types of topologies: linear, circular, and random (with a node number and degree). Run it with `-h` option to see the command line parameters.
 
 #### Notes about p4app.json
 
@@ -54,11 +52,9 @@ Take a moment to go through the P4 code again to remind yourself how the program
 ## Implementing the router's control plane program
 
 The main task of the controller (we provide a skeleton in `routing-controller.py`) is to translate the network topology
-(stored in `topology.db`) to match-action table entries. For example for the topology that we used in last week's ECMP exercise,
+(stored in `topology.json`) to match-action table entries. For example for the topology that we used in last week's ECMP exercise,
  it should run the following commands to fill the `ipv4_lpm` and `ecmp_group_to_nhop` tables in switch `s1` (note that the IPs used below follow the
  `l3` assignment strategy and not the `mixed` one so IPs will not match to the ones used in the previous exercise):
-
-
 ```
 table_set_default ipv4_lpm drop
 table_set_default ecmp_group_to_nhop drop
@@ -80,9 +76,7 @@ small functions that use the `Topology` and `SimpleSwitchThriftAPI` objects from
    2. `reset_states()`: iterates over the `self.controllers` object and runs the `reset_state` function which will empty the state (registers, tables, etc) for every switch.
    3. `set_table_defaults()`: for each p4 switch it sets the default action for `ipv4_lpm` and `ecmp_group_to_nhop` tables.
 
-In this exercise your task is to implement the `route` function which is in charge of
-populating the table entries such that you can route traffic using the shortest path in the network.
-Furthermore, if multiple equal cost paths are found you have to assign them to an ECMP group.
+In this exercise your task is to implement the `route` function which is in charge of populating the table entries such that you can route traffic using the shortest path in the network. Furthermore, if multiple equal cost paths are found you have to assign them to an ECMP group.
 
 At a high level, the `route` function should do the following:
 
@@ -94,11 +88,9 @@ At a high level, the `route` function should do the following:
    3. If there are multiple paths between src switch and destination switch and the destination switch has direct hosts connected: create a ecmp group (as in the example above) for all multiple next hops needed to reach
    the destination switch. If for the same source switch the same multiple hops have to be used for another destination use the already defined ecmp group.
 
-To get information about the shortest paths, ip addresses, mac addresses, port indexes and how nodes are connected between each other you will have to strongly utilize the topology object from `p4-utils`.
-To implement the routing function you will have to strongly utilize the topology object from `p4-utils`.
+To get information about the shortest paths, ip addresses, mac addresses, port indexes and how nodes are connected between each other you will have to strongly utilize the topology object from `p4-utils`. To implement the routing function you will have to strongly utilize the topology object from `p4-utils`.
 
-You can find documentation about all the functions you have to use to solve this exercise in the
-p4-utils [documentation](https://github.com/nsg-ethz/p4-utils#topology-object) page (all the functions documented should be enough to solve the exercise). However, if you want to, you can also find the topology object
+You can find documentation about all the functions you have to use to solve this exercise in the P4-Utils [documentation](https://github.com/nsg-ethz/p4-utils#topology-object) page (all the functions documented should be enough to solve the exercise). However, if you want to, you can also find the topology object
 source code [here](https://github.com/nsg-ethz/p4-utils/blob/master/p4utils/utils/topology.py) and use other functions.
 
 ## Testing your solution
@@ -106,26 +98,27 @@ source code [here](https://github.com/nsg-ethz/p4-utils/blob/master/p4utils/util
 Once you completed your implementation of the `route` function of the controller, you can test the program the same way as the ECMP exercise last week:
 
 1. Start the topology (this will also compile and load the program).
-
    ```bash
    sudo p4run
    ```
 
-2. Run the controller.
+   or
+   ```bash
+   sudo python network.py
+   ```
 
+2. Run the controller.
    ```bash
    python routing-controller.py
    ```
 
 3. Check that you can ping:
-
    ```bash
    mininet> pingall
    ```
 
 4. check that ECMP works: monitor the 4 links from `s1` that will be used during `ecmp` (from `s1-eth2` to `s1-eth5`). Doing this you will be able to check which path is each flow
 taking.
-
    ```bash
    sudo tcpdump -enn -i s1-ethX
    ```
@@ -141,7 +134,6 @@ taking.
    Since all the packets belonging to the same flow have the same 5-tuple, and thus the hash always returns the same index.
 
 6. Get a terminal in `h1`. Use the `send.py`.
-
    ```bash
    python send.py 10.6.2.2 1000
    ```
@@ -172,9 +164,19 @@ Run the random topology:
 sudo p4run --config 40-switches.json
 ```
 
+If you want to use Python scripts instead of JSON files, you may want to run:
+
+```bash
+python network_generator.py --output_name 40-switches.json --topo random -n 40 -d 4
+```
+
+and
+```bash
+sudo python 40-switches.py
+```
+
 Now run the controller, and check that your can send traffic to all the nodes. Furthermore, check that ECMP works.
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
-expected.
+We have added a [small guideline](../../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as expected.

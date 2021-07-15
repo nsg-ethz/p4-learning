@@ -45,14 +45,19 @@ For more information about flowlet switching check out this [paper](https://www.
 
 Run the topology:
 
-```
+```bash
 sudo p4run
+```
+
+or
+```bash
+sudo python network.py
 ```
 
 
 Monitor all the interfaces connecting `s1` to the 4 middle switches. You can use `tshark`, `tcpdump`:
 
-```
+```bash
 sudo tshark -i s1-eth2
 ```
 
@@ -62,7 +67,7 @@ Use the send script. The script will send TCP packets with the same 5-tuple
 but it will wait some time between them. Thus, since each packet will
 belong to different flowlet they will be hashed to different output ports.
 
-```
+```bash
 mx h1
 python send.py 10.0.6.2 <num_packets> <sleep_between_packets>
 ```

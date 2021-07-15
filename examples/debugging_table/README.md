@@ -25,8 +25,13 @@ allowing us to see whats their value for each packet.
 
 Start the topology:
 
-```
+```bash
 sudo p4run
+```
+
+or
+```bash
+sudo python network.py
 ```
 
 Any packet will trigger the use of the debugging table, and thus

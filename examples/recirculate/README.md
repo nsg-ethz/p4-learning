@@ -23,8 +23,13 @@ file (`log/s1.log`).
 ## How to run
 
 Start topology:
-```
+```bash
 sudo p4run
+```
+
+or
+```bash
+sudo python network.py
 ```
 
 Send some traffic. And then check the log file at `log/s1.log`, you will see

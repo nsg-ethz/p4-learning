@@ -44,25 +44,31 @@ thus you will also have to add that in the `v1model.p4` file.
 ## How to run
 
 Packets from `h1` and `h2` towards `h3` will be sent to two different priority queues 0 and 7, respectively. To see that one queue gets priority over the other we can start to iperf sessions and see who gets the bandwidth.
-```
+
+```bash
 sudo p4run
 ```
 
-Start to iperf servers at `h3`:
+or
+```bash
+sudo python network.py
 ```
+
+Start to iperf servers at `h3`:
+```bash
 mx h3
 iperf -s -p 5000 -u -i 1
 iperf -s -p 5001 -u -i 1
 ```
 
 Send a 50 Mbps UDP flow from `h1` to `h3` that lasts 60 seconds:
-```
+```bash
 mx h1
 iperf -c 10.0.1.3 -i 1 -t 60 -p 5000 -u -b 50M
 ```
 
 Send a 50 Mbps UDP flow from `h2` to `h3` that lasts 10 seconds:
-```
+```bash
 mx h2
 iperf -c 10.0.1.3 -i 1 -t 10 -p 5001 -u -b 50M
 ```

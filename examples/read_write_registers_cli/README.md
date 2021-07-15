@@ -16,18 +16,23 @@ This example shows how to read and write registers using the Runtime CLI. You ca
 ## How to run
 
 Start topology
-```
+```bash
 sudo p4run
 ```
 
-Send a packet with a modified tos field from `h1`:
+or
+```bash
+sudo python network.py
 ```
+
+Send a packet with a modified tos field from `h1`:
+```bash
 mx h1
 python send.py 10.0.1.2 50
 ```
 
 Open CLI
-```
+```bash
 simple_switch_CLI --thrift-port 9090
 ```
 

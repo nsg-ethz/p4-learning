@@ -20,10 +20,10 @@ sent to the port they came from.
 
 For this exercise the files we provide you are:
 
-  *  `p4app-other-ports.json` and `p4app-all-ports.json`: p4 utils configuration files for each solution. Both files define the same topology.
-  The only difference between them is the `program` and `cli_input` options.
-  *  `p4src/l2_flooding_all_ports.p4` and `p4src/l2_flooding_other_ports.p4`: p4 program skeletons.
-  *  `send_broadcast.py`: small scapy script to send packets with the L2 broadcast destination address set.
+- `p4app-other-ports.json` and `p4app-all-ports.json`: *P4-Utils* configuration files for each solution. Both files define the same topology. The only difference between them is the `program` and `cli_input` options.
+- `network-all-ports.py` and `network-other-ports.py`: *P4-Utils* topology initilization scripts that can be used instead of the JSON configuration files to run the network.
+- `p4src/l2_flooding_all_ports.p4` and `p4src/l2_flooding_other_ports.p4`: p4 program skeletons.
+- `send_broadcast.py`: small scapy script to send packets with the L2 broadcast destination address set.
 
 #### Notes about p4app.json
 
@@ -32,22 +32,28 @@ Actually, during this exercise we want to disable this feature. Once our switche
 packets, ARP requests will be sent everywhere and thus ARP tables will be filled without any problem.
 
 To disable automatic ARP population we added the following line to the `topology` section of the `p4app.json`:
-
-```bash
+```
 "auto_arp_tables": false
+```
+
+To disable automatic ARP population we added the following line in the Python scripts:
+```bash
+net.disableArpTables()
 ```
 
 **Note:** This option is already disabled in the provided configuration files.
 
-Furthermore, during this exercise you will need to use the `--conf` option when calling `p4run`. By default, if you do not specify
-anything it tries to find a configuration file named `p4app.json`, which has to be located in the same path. Since in this exercise we
-provide you with two different configuration files you will have call it as follows:
-
+Furthermore, during this exercise you will need to use the `--conf` option when calling `p4run`. By default, if you do not specify anything it tries to find a configuration file named `p4app.json`, which has to be located in the same path. Since in this exercise we provide you with two different configuration files you will have call it as follows:
 ```bash
 sudo p4run --conf <json conf file>
 ```
 
-You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+On the other hand, if you want to use the Python script to initialize the network, simply run:
+```bash
+sudo python <script path>
+```
+
+You can find all the documentation about `p4app.json` in the *P4-Utils* [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
 
 ## Implementing L2 Flooding
 
@@ -88,9 +94,12 @@ we want to use (in our case 1).
 Once you have the `l2_flooding_all_ports.p4` program finished you can test its behaviour:
 
 1. Start the topology (this will also compile and load the program).
-
    ```bash
    sudo p4run --conf p4app-all-ports.json
+   ```
+   or
+   ```bash
+   sudo python network-all-ports.py
    ```
 
 2. Sniff interfaces traffic:
@@ -104,8 +113,7 @@ Once you have the `l2_flooding_all_ports.p4` program finished you can test its b
 3. Send a single ping between h1 and h2. Alternatively if you can use the `send_broadcast.py` script to send broadcast
 packets from any host, remember to access the namespace before sending packets:
 
-   ```bash
-   *** Starting CLI:
+   ```
    mininet> h1 ping h2 -c1
 
    PING 10.0.0.2 (10.0.0.2) 56(84) bytes of data.
@@ -120,8 +128,7 @@ If you used the ping to test, looking at the `tcpdump` outputs you should see ho
 
 4. Furthermore you should have full connectivity. Thus, do a ping between all hosts using the cli, and check that you have complete connectivity:
 
-   ```bash
-   *** Starting CLI:
+   ```
    mininet> pingall
    *** Ping: testing ping reachability
    h1 -> h2 h3 h4
@@ -129,7 +136,6 @@ If you used the ping to test, looking at the `tcpdump` outputs you should see ho
    h3 -> h1 h2 h4
    h4 -> h1 h2 h3
    *** Results: 0% dropped (12/12 received)
-   mininet>
    ```
 
 ### Flooding to other ports
@@ -159,9 +165,12 @@ miss (packet needs to be broadcasted) you will have to apply new table defined i
 Once you have the `l2_flooding_other_ports.p4` program finished you can test its behaviour:
 
 1. Start the topology (this will also compile and load the program).
-
    ```bash
    sudo p4run --conf p4app-other-ports.json
+   ```
+   or
+   ```bash
+   sudo python network-other-ports.py
    ```
 
 You can test this exercise by doing the same than in the simple solution. However, this time you should

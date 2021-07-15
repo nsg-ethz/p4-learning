@@ -16,11 +16,11 @@ it has to be leave from `port 2` and vice versa.
 As we already did in the previous exercise we provide you some files that will
 help you through the exercise.
 
-  *  `p4app.json`: describes the topology we want to create with the help
-     of mininet and p4-utils package.
-  *  `send.py`: script to send packets.
-  *  `receive.py`: script to receive packets.
-  *  `repeater.p4`: p4 program skeleton to use as a starting point.
+- `p4app.json`: describes the topology we want to create with the help of *Mininet* and the *P4-Utils* package.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `send.py`: script to send packets.
+- `receive.py`: script to receive packets.
+- `repeater.p4`: p4 program skeleton to use as a starting point.
 
 Again all these files are enough to start the topology. However packets will
 not flow through the switch until you complete the p4 code.
@@ -34,7 +34,7 @@ received packet.
 If you have a look at the `p4app.json` file we provide you, at the bottom you can find
 the description of the topology used in this exercise:
 
-```javascript
+```json
 "topology": {
     "assignment_strategy": "l2",
     "links": [
@@ -56,7 +56,7 @@ In order to assist us even further when creating a topology an `assignment_strat
 can be chosen. For this exercise we decided to use `l2`. This means that all the devices composing
 the topology are assumed to belong to the same subnetwork. Therefore hosts get automatically assigned
 with IPs belonging to the same subnet (starting from `10.0.0.1/16`). Furthermore, and unless disabled,
-`p4-utils` will automatically populate each host's ARP table with the MAC addresses of all the other hosts.
+*P4-Utils* will automatically populate each host's ARP table with the MAC addresses of all the other hosts.
 
 For example, after starting the topology, `h1` arp table is already loaded with h2's MAC address:
 
@@ -65,7 +65,7 @@ For example, after starting the topology, `h1` arp table is already loaded with 
 > Automatically populating the ARP Table is needed because our switches do
 > not know how to broadcast packets something strictly needed during the Address Resolution.
 
-You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+You can find all the documentation about `p4app.json` in the *P4-Utils* [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
 
 ## Implementing the Packet Repeater
 
@@ -97,17 +97,20 @@ the [`v1model.p4`](https://github.com/p4lang/p4c/blob/master/p4include/v1model.p
 
 3. Call (by using `apply`), the table you defined above.
 
-4. Populate the table (using CLI or writing the commands in a file). For more information
+4. Populate the table (using the Thrift client command file `s1-commands.txt`). For more information
 about table population check the following [documentation](../../../documentation/control-plane.md).
 
 ## Testing your solution
 
 Once you have the `repeater.p4` program finished you can test its behaviour:
 
-1. Start the topology (this will also compile and load the program).
-
+1. Start the topology (this will also compile and load the program) using
    ```bash
    sudo p4run
+   ```
+   or
+   ```bash
+   sudo python network.py
    ```
 
 2. Get a terminal in `h1` and `h2` using `mx`:
@@ -119,10 +122,9 @@ Once you have the `repeater.p4` program finished you can test its behaviour:
 
    Or directly from the mininet prompt using `xterm`:
 
-   ```bash
-   > mininet xterm h1 h2
    ```
-
+   mininet> xterm h1 h2
+   ```
 
 3. Run `receive.py` app in `h2`.
 
@@ -140,12 +142,12 @@ Once you have the `repeater.p4` program finished you can test its behaviour:
 the repeater with other applications such as: `ping`, `iperf`, etc. The mininet CLI provides some helpers
 that make very easy such kind of tests:
 
-   ```bash
-   > mininet h1 ping h2
+   ```
+   mininet> h1 ping h2
    ```
 
-   ```bash
-   > mininet iperf h1 h2
+   ```
+   mininet> iperf h1 h2
    ```
 
 #### Some notes on debugging and troubleshooting

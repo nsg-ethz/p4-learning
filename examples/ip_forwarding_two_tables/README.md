@@ -31,20 +31,22 @@ is a very simple extension of the `ip_forwarding` example.
 ## How to run
 
 Run the topology:
-
-```
+```bash
 sudo p4run
+```
+
+or
+```bash
+sudo network.py
 ```
 
 
 Try to ping from one host to another:
-
 ```
 mininet> h1 ping h2
 ```
 
 Ping from all host pairs to test for connectivity:
-
 ```
 mininet> pingall
 ```

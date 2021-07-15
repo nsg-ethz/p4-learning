@@ -13,8 +13,13 @@ Very simple forwarding program that uses a ternary match. See `s1-commands.txt` 
 # How to run
 
 To start the topology with the P4 switches:
-```
+```bash
 sudo p4run
+```
+
+or
+```bash
+sudo python network.py
 ```
 
 Check that there is connectivity among hosts by doing:

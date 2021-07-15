@@ -17,14 +17,20 @@ Simple example of direct and indirect counters that count the packets and bytes 
 ## How to run
 
 Run the topology, by starting either the direct or indirect examples:
-
-```
+```bash
 sudo p4run --config p4app_direct.json
 ```
-```
+```bash
 sudo p4run --config p4app_indirect.json
 ```
 
+or
+```bash
+sudo python network_direct.py
+```
+```bash
+sudo python network_indirect.py
+```
 
 ### Testing the counters
 

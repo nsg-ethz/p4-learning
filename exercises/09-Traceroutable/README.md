@@ -10,9 +10,7 @@ In brief, traceroute works as follows: it sends several packets starting with `T
 decreases the IP TTL by 1 and sends back ICMP messages when it reaches 0. By sending packets with an increasing TTL, traceroute is able to `trace` the path packets take from the source
 to a given destination.
 
-For a detailed description of how traceroute works, have a look at the [Wikipedia article](https://en.wikipedia.org/wiki/Traceroute).
-For more information about ICMP (i.e. the protocol that is used for the replies to expired traceroute packets), look at this
-[Wikipedia article](https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Time_exceeded) or its [RFC](https://tools.ietf.org/html/rfc792).
+For a detailed description of how traceroute works, have a look at the [Wikipedia article](https://en.wikipedia.org/wiki/Traceroute). For more information about ICMP (i.e. the protocol that is used for the replies to expired traceroute packets), look at this [Wikipedia article](https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Time_exceeded) or its [RFC](https://tools.ietf.org/html/rfc792).
 
 ## Before starting
 
@@ -33,16 +31,15 @@ sudo apt-get install traceroute
 
 For this exercise we provide you with the following files:
 
-  *  `p4app.json`: describes the topology we want to create with the help
-     of mininet and p4-utils package.
-  *  `p4src/ecmp.p4`: we will use the solution of the [03-ECMP](../03-ECMP) exercise as starting point.
-  *  `send.py`: a small python script to generate multiple packets with different tcp port.
-  *  `routing-controller.py`: routing controller skeleton. The controller uses global topology
+- `p4app.json`: describes the topology we want to create with the help of mininet and p4-utils package.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4src/ecmp.p4`: we will use the solution of the [03-ECMP](../03-ECMP) exercise as starting point.
+- `send.py`: a small python script to generate multiple packets with different tcp port.
+- `routing-controller.py`: routing controller skeleton. The controller uses global topology
   information and the simple switch `thrift_API` to populate the routing tables.
-  * `topology_generator.py`: python script that automatically generates `p4app` configuration files.
-   It allows you to generate 3 types of topologies: linear, circular, and random (with a node number and degree). Run it with `-h` option to see the
-   command line parameters.
-  * `traceroute.py`: python script that implements a simple version of traceroute using `tcp` probes. It can be used to script traceroute tests.
+- `topology_generator.py`: python script that automatically generates `p4app` configuration files. It allows you to generate 3 types of topologies: linear, circular, and random (with a node number and degree). Run it with `-h` option to see the command line parameters.
+- `network_generator.py`: Python script that automatically generates `network.py` scripts. It allows you to generate 3 types of topologies: linear, circular, and random (with a node number and degree). Run it with `-h` option to see the command line parameters.
+- `traceroute.py`: python script that implements a simple version of traceroute using `tcp` probes. It can be used to script traceroute tests.
 
 #### Notes about p4app.json
 
@@ -141,6 +138,11 @@ Once you completed your implementation, you can test the program using the `trac
    sudo p4run
    ```
 
+   or
+   ```bash
+   sudo python network.py
+   ```
+
 2. Run the controller.
 
    ```bash
@@ -149,7 +151,7 @@ Once you completed your implementation, you can test the program using the `trac
 
 3. Check that you can ping:
 
-   ```bash
+   ```
    mininet> pingall
    ```
 
@@ -187,7 +189,18 @@ Run the random topology:
 sudo p4run --config <name.json>
 ```
 
-Do the rest of the steps we did in the previous section. By running multiple traceroutes between two hosts you will be able to discover which path (or paths) are being used !
+If you want to use Python scripts instead of JSON files, you may want to run:
+
+```bash
+python network_generator.py --output_name <name.py> --topo random --n <number of switches to use> -d <average switch diamiter>
+```
+
+and
+```bash
+sudo python <name.py>
+```
+
+Do the rest of the steps we did in the previous section. By running multiple traceroutes between two hosts you will be able to discover which path (or paths) are being used!
 
 #### Some notes on debugging and troubleshooting
 
