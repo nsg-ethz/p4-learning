@@ -5,14 +5,14 @@ net = NetworkAPI()
 # Network general options
 net.setLogLevel('info')
 net.enableCli()
-net.execScript('sudo python controller_one_table.py populate 50000')
+net.execScript('sudo python controller_two_tables.py populate 50000')
 
 # Network definition
 net.addP4Switch('s1')
 net.addP4Switch('s2')
 net.addP4Switch('s3')
 net.addP4Switch('s4')
-net.setP4SourceAll('forwarding_one_table.p4')
+net.setP4SourceAll('forwarding_two_tables.p4')
 
 net.addHost('h1')
 net.setDefaultRoute('h1', '10.0.1.1')

@@ -39,9 +39,14 @@ By default choice, switch `s1` will forward packets using 1. So, if a failure ha
 
 ### One table approach
 
-Run the topology and populate (for the first time) the forwarding table of `s1` with this command. **Notice**: the process takes some time.
+Run the topology and populate (for the first time) the forwarding table of `s1` with this command. **Notice**: the process takes some time. Use one of the following commands:
 ```bash
 sudo p4run --config p4app_one_table.json
+```
+
+or
+```bash
+sudo python network_one_table.py
 ```
 
 Verify that there is connectivity among hosts:
@@ -73,9 +78,14 @@ This script will update all the entries of the forwarding table of `s1` making `
 
 ### Two tables approach
 
-Run the topology and populate (for the first time) the forwarding table of `s1` with this command. **Notice**: the process takes some time.
+Run the topology and populate (for the first time) the forwarding table of `s1` with this command. **Notice**: the process takes some time. Use one of the following commands:
 ```bash
 sudo p4run --config p4app_two_tables.json
+```
+
+or
+```bash
+sudo python network_two_tables.py
 ```
 
 Verify that there is connectivity among hosts:
