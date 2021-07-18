@@ -105,6 +105,6 @@ sudo python controller_two_tables.py reroute 50000
 
 This script will update all the entries of the forwarding table of `s1` making `h2` and `h3` reachable again (e.g. using ping). It is interesting to notice that now `h2` and `h3` are reachable again at the same time. The scripts also computes the updating time and shows it.
 
-## Assessment
+## Results
 
 One can easily notice that the hierarchical forwarding tables are more time efficient than the plain forwarding table. Moreover, the updating time of the hierarchical forwarding tables does not depend on the number of entries contained in the FIB, whereas the updating time required by the plain forwarding table is linearly dependent on such number.
