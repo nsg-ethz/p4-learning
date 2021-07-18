@@ -1,4 +1,4 @@
-# P4 Learning
+# P4-Learning
 
 This repository contains a compilation of useful resources for data plane programming, specially
 for the ones wanting to learn how to write **P4-16** programs and test them in a virtual environment.
