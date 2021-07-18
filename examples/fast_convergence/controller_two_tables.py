@@ -1,9 +1,10 @@
-from p4utils.utils.topology import Topology
-from p4utils.utils.sswitch_thrift_API import SimpleSwitchThriftAPI
-from p4utils.utils.utils import ip_address_to_mac
+import sys
+import time
 import ipaddress
 import subprocess
-import time
+from p4utils.utils.helper import load_topo
+from p4utils.utils.sswitch_thrift_API import SimpleSwitchThriftAPI
+
 
 class IterIPv4Network(ipaddress.IPv4Network):
 
@@ -20,9 +21,10 @@ class IterIPv4Network(ipaddress.IPv4Network):
         start = int(self.network_address)
         return int(self.broadcast_address) + 1 - start
 
+
 def generate_prefix_pool(prefix_base):
     import itertools as it
-    base = IterIPv4Network(unicode(prefix_base))
+    base = IterIPv4Network(str(prefix_base))
     for i in it.count():
         try:
             yield (base + (i+1)).compressed
@@ -34,28 +36,29 @@ class RoutingController(object):
 
     def __init__(self, subnets=0):
 
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.controllers = {}
 
+        print('Generating destination subnets...')
         destination_subnets = self.generate_ips("10.0.1.0/24", "10.250.250.0/24")
         h2 = destination_subnets[0]
         h3  = destination_subnets[-1]
-        #remove them
+        # Remove them
         destination_subnets = destination_subnets[1:-1]
-        #filter entries
+        # Filter entries
         destination_subnets = destination_subnets[:subnets]
-        # put them back
+        # Put them back
         destination_subnets = [h2] + destination_subnets + [h3]
-        self.destination_subnets= destination_subnets
+        self.destination_subnets = destination_subnets
 
     def init(self):
-        print "Start Controller"
+        print('Controller started.')
         self.connect_to_switches()
         self.reset_states()
         self.set_table_defaults()
 
     def reset_states(self):
-        [controller.reset_state() for controller in self.controllers.values()]
+        [controller.reset_state() for controller in list(self.controllers.values())]
 
     def connect_to_switches(self):
         for p4switch in self.topo.get_p4switches():
@@ -63,7 +66,7 @@ class RoutingController(object):
             self.controllers[p4switch] = SimpleSwitchThriftAPI(thrift_port)
 
     def set_table_defaults(self):
-        for controller in self.controllers.values():
+        for controller in list(self.controllers.values()):
             controller.table_set_default("ipv4_lpm", "drop", [])
 
     def generate_ips(self, start, finish):
@@ -81,9 +84,9 @@ class RoutingController(object):
 
     def initialize_tables(self, entries=0):
 
-        #set static rules
+        # Set static rules
         self.controllers["s1"].table_add("ipv4_lpm", "set_nhop_index", ["10.0.1.2/32"], ["1"])
-        self.controllers["s1"].table_add("forward", "_forward", ["1"], ["00:00:0a:00:01:02", "1"])
+        self.controllers["s1"].table_add("forward", "_forward", ["1"], [self.topo.get_host_mac('h1'), "1"])
 
         self.controllers["s2"].table_add("ipv4_lpm", "set_nhop_index", ["10.0.1.0/24"], ["1"])
         self.controllers["s2"].table_add("forward", "_forward", ["1"], ["00:00:0a:00:01:02", "1"])
@@ -98,50 +101,37 @@ class RoutingController(object):
         self.controllers["s4"].table_add("ipv4_lpm", "set_nhop_index", ["10.0.1.0/24"], ["2"])
         self.controllers["s4"].table_add("forward", "_forward", ["2"], ["00:00:0a:00:01:02", "2"])
         self.controllers["s4"].table_add("ipv4_lpm", "set_nhop_index", ["10.0.2.2/32"], ["3"])
-        self.controllers["s4"].table_add("forward", "_forward", ["3"], ["00:00:0a:00:02:02", "3"])
+        self.controllers["s4"].table_add("forward", "_forward", ["3"], [self.topo.get_host_mac('h2'), "3"])
         self.controllers["s4"].table_add("ipv4_lpm", "set_nhop_index", ["10.250.250.2/32"], ["4"])
-        self.controllers["s4"].table_add("forward", "_forward", ["4"], ["00:00:0a:fa:fa:02", "4"])
+        self.controllers["s4"].table_add("forward", "_forward", ["4"], [self.topo.get_host_mac('h3'), "4"])
 
-        #dynamic entries for s1
+        # Dynamic entries for s1
         self.controllers["s1"].table_add("forward", "_forward", ["2"], ["00:00:00:02:01:00", "2"])
 
         for entry in self.destination_subnets:
             self.controllers["s1"].table_add("ipv4_lpm", "set_nhop_index", [entry], ["2"])
 
-    def fail_link(self):
-        subprocess.call("sudo ifconfig s1-eth2 down", shell=True)
-
     def recover_from_failure(self, out):
         self.controllers["s1"].table_modify_match("forward", "_forward", ["2"], ["00:00:00:03:01:00", str(out)])
 
 
-    def fail_and_reroute(self):
-        self.fail_link()
-        time.sleep(2)
-        self.recover_from_failure(3)
-
-    def recover_link_reroute(self):
-        subprocess.call("sudo ifconfig s1-eth2 up", shell=True)
-        time.sleep(1)
-        self.recover_from_failure(2)
-
-    def main(self):
-        pass
-
-
 if __name__ == "__main__":
-    import sys
-
     subnets = int(sys.argv[2])
     action = sys.argv[1]
 
     if action == "populate":
         controller = RoutingController(subnets)
         controller.init()
+        print('Populating tables with forwarding rules...')
         controller.initialize_tables()
 
     elif action == "reroute":
         controller = RoutingController(subnets)
         controller.connect_to_switches()
+        print('Updating the forwarding table...')
+        startTime = time.time()
+        # Reroute packets through port 3 of switch s1
         controller.recover_from_failure(3)
+        endTime = time.time()
+        print('The update took {} seconds to complete!'.format(endTime - startTime))
 

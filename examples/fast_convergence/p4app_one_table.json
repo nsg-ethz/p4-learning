@@ -1,0 +1,37 @@
+{
+  "p4_src": "forwarding_one_table.p4",
+  "cli": true,
+  "pcap_dump": true,
+  "enable_log": false,
+  "exec_scripts": [
+    {
+      "cmd": "sudo python controller_one_table.py populate 50000",
+      "reboot_run": true
+    }
+  ],
+  "topology": {
+    "auto_gw_arp": true,
+    "links": [["h1", "s1", {"sw_ip2": "10.0.1.1/24", "params1": {"ip": "10.0.1.2/24"}}], ["s1", "s2"], ["s1", "s3"], ["s2", "s4"], ["s3", "s4"], ["s4", "h2", {"sw_ip1": "10.0.2.1/24", "params2": {"ip": "10.0.2.2/24"}}], ["s4", "h3", {"sw_ip1": "10.250.250.1/24", "params2": {"ip": "10.250.250.2/24"}}]],
+    "hosts": {
+      "h1": {
+        "defaultRoute":"via 10.0.1.1"
+      },
+      "h2": {
+        "defaultRoute":"via 10.0.2.1"
+      },
+      "h3": {
+        "defaultRoute":"via 10.250.250.1"
+      }
+    },
+    "switches": {
+      "s1": {
+      },
+      "s2": {
+      },
+      "s3": {
+      },
+      "s4": {
+      }
+    }
+  }
+}
