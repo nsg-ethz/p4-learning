@@ -7,7 +7,7 @@ A big part of the materials come from the *Advanced Topics in Communication Netw
 > **Attention: new update released!**  
 > As of 2021, a large update in the *P4-Utils* framework has been released. This entails several improvements that, unfortunately, make the new prototyping platform not backward compatible with the old exercises and examples contained in this repository. To overcome this problem, *P4-Learning* has been updated too. Please find all the relevant information about the migration from the old to the new version [here](#migrate-to-the-new-version).
 
-## What will you find here ?
+## What will you find here?
 
 You will find software installation guides, lecture slides, specific development documentation, exercises, a collection of examples and much more. Specifically:
 - [Slides](./slides): deck of slides that go from the story of SDN and introduction to data plane programming to advanced (research level) applications.
@@ -26,11 +26,11 @@ The recent update of *P4-Utils* introduced several improvements. Hereafter, we l
 - the legacy *Thrift* API and client have been kept for compytibility reasons.
 
 > **Notice**  
-> *P4Runtime* is only partially available because of some bugs in the implementation of [*PI*](https://github.com/p4lang/PI), the gRPC server used by the software switches provided by [bmv2](https://github.com/p4lang/behavioral-model). In particular, consider that registers cannot be read or written using the *P4Runtime* API.
+> *P4Runtime* is only partially available because of some bugs in the implementation of [*PI*](https://github.com/p4lang/PI), the gRPC server used by the software switches provided by [bmv2](https://github.com/p4lang/behavioral-model). In particular, consider that registers currently cannot be read or written using the *P4Runtime* API.
 
 All the exercises and examples have been already migrated to the new version and they are now compatible with the new framework. However, should you have ome customized example crafted from the old ones, please make sure that you have ported any controller to Python 3 and that the JSON network configuration file is compliant with the new specification.
 
-## How to start?
+## Getting started
 
 ### Clone this repository into your machine
 
@@ -40,6 +40,10 @@ git clone https://github.com/nsg-ethz/p4-learning.git
 ```
 
 We will periodically add new content to this repository (specially documentation and new examples), so make sure to check it regularly or `git pull` it from your machine.
+
+### Check out the Wiki
+
+The documentation of *P4-Learning* is available in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki). It contains helpful information that will help you getting started with the exercises and examples contained in this repository. Moreover, you will find documentation about the software switches used in the network topologies and how to configure them using their control plane.
 
 ### Required Software
 
@@ -54,7 +58,7 @@ Since the installation process can be a bit tedious and cumbersome we provide yo
 
 To run the exercises and examples we use [*P4-Utils*](https://github.com/nsg-ethz/p4-utils), an extension to *Mininet* to support P4 devices. It was strongly inspired by the original [*p4app*](https://github.com/p4lang/p4app) from the [p4lang](https://github.com/p4lang) repository.
 
-If you build the VM from the vagrant script we provide or directly download the OVA package you will have `p4-utils` already installed, however if you already have the required software and use your own machine/VM you can manally install it:
+If you build the VM from the vagrant script we provide or directly download the OVA package you will have *P4-Utils* already installed, however if you already have the required software and use your own machine/VM you can manally install it:
 ```bash
 git clone https://github.com/nsg-ethz/p4-utils.git
 cd p4-utils
