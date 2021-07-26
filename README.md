@@ -18,12 +18,12 @@ You will find software installation guides, lecture slides, specific development
 
 ## Migrate to the new version
 
-The recent update of *P4-Utils* introduced several improvements, affecting also *P4-Learning*. Hereafter, we list the most important ones:
-- the application is now fully based on Python 3,
-- the legacy JSON configuration file used to start the network has been simplified,
-- the network can now be started also using a Python script and the new API,
-- *P4Runtime* is currently available with a new API,
-- the legacy *Thrift* API and client have been kept for compytibility reasons.
+The recent update of *P4-Utils* introduced several improvements, affecting also *P4-Learning*. Hereafter, we list the most important ones.
+- The application is now fully based on Python 3.
+- The legacy JSON configuration file used to start the network has been simplified.
+- The network can now be started also using a Python script and the new API.
+- *P4Runtime* is currently available with a new API.
+- The legacy *Thrift* API and client have been kept for compytibility reasons.
 
 > **Notice**  
 > *P4Runtime* is only partially available because of some bugs in the implementation of [*PI*](https://github.com/p4lang/PI), the gRPC server used by the software switches provided by [bmv2](https://github.com/p4lang/behavioral-model). In particular, consider that registers currently cannot be read or written using the *P4Runtime* API.
