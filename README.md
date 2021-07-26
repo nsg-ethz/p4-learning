@@ -28,7 +28,7 @@ The recent update of *P4-Utils* introduced several improvements, affecting also 
 - The legacy *Thrift* API and client have been kept for compytibility reasons.
 
 > **Notice**  
-> *P4Runtime* is only partially available because of some bugs in the implementation of [*PI*](https://github.com/p4lang/PI), the gRPC server used by the software switches provided by [bmv2](https://github.com/p4lang/behavioral-model). In particular, consider that registers currently cannot be read or written using the *P4Runtime* API.
+> *P4Runtime* is only partially available because of some bugs in the implementation of [PI](https://github.com/p4lang/PI), the gRPC server used by the software switches provided by [BMv2](https://github.com/p4lang/behavioral-model). In particular, consider that registers currently cannot be read or written using the *P4Runtime* API.
 
 All the exercises and examples have been already migrated to the new version and they are now compatible with the new framework. However, should you have customized examples crafted from the old ones, please make sure that you have ported any controller to Python 3 and that the JSON network configuration file is compliant with the new specification.
 
