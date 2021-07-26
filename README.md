@@ -18,7 +18,7 @@ You will find software installation guides, lecture slides, specific development
 
 ## Migrate to the new version
 
-The recent update of *P4-Utils* introduced several improvements. Hereafter, we list the most important ones:
+The recent update of *P4-Utils* introduced several improvements, affecting also *P4-Learning*. Hereafter, we list the most important ones:
 - the application is now fully based on Python 3,
 - the legacy JSON configuration file used to start the network has been simplified,
 - the network can now be started also using a Python script and the new API,
@@ -28,7 +28,7 @@ The recent update of *P4-Utils* introduced several improvements. Hereafter, we l
 > **Notice**  
 > *P4Runtime* is only partially available because of some bugs in the implementation of [*PI*](https://github.com/p4lang/PI), the gRPC server used by the software switches provided by [bmv2](https://github.com/p4lang/behavioral-model). In particular, consider that registers currently cannot be read or written using the *P4Runtime* API.
 
-All the exercises and examples have been already migrated to the new version and they are now compatible with the new framework. However, should you have ome customized example crafted from the old ones, please make sure that you have ported any controller to Python 3 and that the JSON network configuration file is compliant with the new specification.
+All the exercises and examples have been already migrated to the new version and they are now compatible with the new framework. However, should you have one customized example crafted from the old ones, please make sure that you have ported any controller to Python 3 and that the JSON network configuration file is compliant with the new specification.
 
 ## Getting started
 
