@@ -16,6 +16,8 @@ You will find software installation guides, lecture slides, specific development
 - [Exercises](./exercises): a set of P4 exercises with a long description and solutions.
 - [Environment Installation](./vm): a guide and scripts to install the required software to start developing P4 applications in your own machine.
 
+The documentation of *P4-Learning* is available in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki). It contains helpful information that will help you getting started with the exercises and examples contained in this repository. Moreover, you will also find documentation about the software switches used in the network topologies and how to configure them using their control plane.
+
 ## Migrate to the new version
 
 The recent update of *P4-Utils* introduced several improvements, affecting also *P4-Learning*. Hereafter, we list the most important ones.
@@ -43,30 +45,4 @@ We will periodically add new content to this repository (specially documentation
 
 ### Check out the Wiki
 
-The documentation of *P4-Learning* is available in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki). It contains helpful information that will help you getting started with the exercises and examples contained in this repository. Moreover, you will find documentation about the software switches used in the network topologies and how to configure them using their control plane.
-
-### Required Software
-
-In order to be able to compile P4 code, run it in a software switch (bmv2) and create virtual topologies with hosts, several dependencies and open source tools need to be installed first.
-
-Since the installation process can be a bit tedious and cumbersome we provide you with a [Vagrant](https://www.vagrantup.com/intro/index.html) script that automatically builds a virtual machine with all required software already installed. You can find the VM setup instructions in the [P4 Virtual Machine Installation](vm/README.md) document.
-
-> **Important**  
-> Some exercises or examples will only work (due to bug fixes) if you use the same version of `bmv2` and `p4c` that we provide. See the following [installation](./vm/bin/install-p4-tools.sh) script and use the same `commits`.
-
-#### *P4-Utils*
-
-To run the exercises and examples we use [*P4-Utils*](https://github.com/nsg-ethz/p4-utils), an extension to *Mininet* to support P4 devices. It was strongly inspired by the original [*p4app*](https://github.com/p4lang/p4app) from the [p4lang](https://github.com/p4lang) repository.
-
-If you build the VM from the vagrant script we provide or directly download the OVA package you will have *P4-Utils* already installed, however if you already have the required software and use your own machine/VM you can manally install it:
-```bash
-git clone https://github.com/nsg-ethz/p4-utils.git
-cd p4-utils
-sudo ./install.sh
-```
-
-To update you just simply run:
-```bash
-cd /home/p4/p4-tools/p4-utils
-git pull
-```
+A more detailed user guide on how to start with *P4-Learning* is available in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki/Getting-Started). It contains helpful information about the dependencies and the installation process. Moreover, you will find also instructions on how to use the VM that we provide, so that the cumbersome installation of the various components can be skipped and you can directly start learning P4!
