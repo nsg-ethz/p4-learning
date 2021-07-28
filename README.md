@@ -25,7 +25,7 @@ The recent update of *P4-Utils* introduced several improvements, affecting also 
 > **Notice**  
 > Old network JSON configuration files are not compatible with the new version of *P4-Utils*.
 
-You can find further information about the update changelog and how the JSON configuration file specification has changed in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki/Migrate-to-the-new-version). Moreover, consider that, in the new version of *P4-Utils*, networks can be started also using a Python script and the new [`NetworkAPI`].
+You can find further information about the update changelog and how the JSON configuration file specification has changed in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki/Migrate-to-the-new-version). Moreover, consider that, in the new version of *P4-Utils*, networks can be started also using a Python script and the new `NetworkAPI`.
 
 ## Getting started
 
