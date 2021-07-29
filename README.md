@@ -7,6 +7,7 @@ A big part of the materials come from the *Advanced Topics in Communication Netw
 > **Attention: new update released!**  
 > As of 2021, a large update in the *P4-Utils* framework has been released. This entails several improvements that, unfortunately, make the new prototyping platform not backward compatible with the old exercises and examples contained in this repository. To overcome this problem, *P4-Learning* has been updated too. Please find all the relevant information about the migration from the old to the new version [here](#migrate-to-the-new-version).
 
+
 ## What will you find here?
 
 You will find software installation guides, lecture slides, specific development documentation, exercises, a collection of examples and much more. Specifically:
@@ -16,7 +17,8 @@ You will find software installation guides, lecture slides, specific development
 - [Exercises](./exercises): a set of P4 exercises with a long description and solutions.
 - [Environment Installation](./vm): a guide and scripts to install the required software to start developing P4 applications in your own machine.
 
-The documentation of *P4-Learning* is available in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki). It contains helpful information that will help you getting started with the exercises and examples contained in this repository. Moreover, you will also find documentation about the software switches used in the network topologies and how to configure them using their control plane.
+**The documentation of *P4-Learning* is available in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki).** It contains helpful information that will help you getting started with the exercises and examples contained in this repository. Moreover, you will also find documentation about the software switches used in the network topologies and how to configure them using their control plane.
+
 
 ## Migrate to the new version
 
@@ -27,17 +29,31 @@ The recent update of *P4-Utils* introduced several improvements, affecting also 
 
 You can find further information about the update changelog and how the JSON configuration file specification has changed in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki/Migrate-to-the-new-version). Moreover, consider that, in the new version of *P4-Utils*, networks can be started also using a Python script and the new `NetworkAPI`.
 
+
 ## Getting started
+
 
 ### Clone this repository into your machine
 
-If you want to solve the exercises, run the examples or simply download the content get a local copy of this repository in your machine:
+If you already have the required software and you want to solve the exercises, run the examples or simply download the content, get a local copy of this repository in your machine:
+
 ```bash
 git clone https://github.com/nsg-ethz/p4-learning.git
 ```
 
 We will periodically add new content to this repository (specially documentation and new examples), so make sure to check it regularly or `git pull` it from your machine.
 
-### Check out the Wiki
+**In case you have not installed the dependencies, make sure to check out [this section](#install-the-required-software) and follow the instructions.**
+
+
+### Install the required software
+
+*P4-Learning* depends on the following softwares that need to be installed before any exercises or example can be run.
+- [PI](https://github.com/p4lang/PI)
+- [*Behavioral Model* (BMv2)](https://github.com/p4lang/behavioral-model)
+- [P4C](https://github.com/p4lang/p4c)
+- [*Mininet*](http://mininet.org/)
+- [*FRRouting*](https://frrouting.org/)
+- [*P4-Utils*](https://github.com/nsg-ethz/p4-utils)
 
 A more detailed user guide on how to start with *P4-Learning* is available in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki/Getting-Started). It contains helpful information about the dependencies and the installation process. Moreover, you will find also instructions on how to use the virtual machine that we provide, so that the cumbersome installation of the various components can be skipped and you can directly start learning P4!
