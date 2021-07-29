@@ -43,12 +43,14 @@ git clone https://github.com/nsg-ethz/p4-learning.git
 
 We will periodically add new content to this repository (specially documentation and new examples), so make sure to check it regularly or `git pull` it from your machine.
 
-**In case you have not installed the dependencies, make sure to check out [this section](#install-the-required-software) and follow the instructions.**
+> **Notice**  
+> In case you have not installed the dependencies, make sure to check out [this section](#install-the-required-software) and follow the instructions.
 
 
 ### Install the required software
 
-*P4-Learning* depends on the following softwares that need to be installed before any exercises or example can be run.
+*P4-Learning* depends on the following software that needs to be installed before any exercises or example can be run. Please refer to these links to build and install them on your device.
+
 - [PI](https://github.com/p4lang/PI)
 - [*Behavioral Model* (BMv2)](https://github.com/p4lang/behavioral-model)
 - [P4C](https://github.com/p4lang/p4c)
