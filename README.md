@@ -49,7 +49,7 @@ We will periodically add new content to this repository (specially documentation
 
 ### Install the required software
 
-*P4-Learning* depends on the following software that needs to be installed before any exercises or example can be run. Please refer to these links to build and install them on your device.
+*P4-Learning* depends on the following software that needs to be installed before any exercises or example can be run. Please refer to these links to build and install it on your device.
 
 - [PI](https://github.com/p4lang/PI)
 - [*Behavioral Model* (BMv2)](https://github.com/p4lang/behavioral-model)
