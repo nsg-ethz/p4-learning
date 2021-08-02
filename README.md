@@ -5,14 +5,13 @@ This repository contains a compilation of useful resources for data plane progra
 A big part of the materials come from the *Advanced Topics in Communication Networks* lecture taught at ETH Zürich. For more information visit our [website](https://adv-net.ethz.ch/).
 
 > **Attention: new update released!**  
-> As of 2021, a large update in the *P4-Utils* framework has been released. This entails several improvements that, unfortunately, make the new prototyping platform not backward compatible with the old exercises and examples contained in this repository. To overcome this problem, *P4-Learning* has been updated too. Please find all the relevant information about the migration from the old to the new version [here](#migrate-to-the-new-version).
+> As of 2021, a large update in the *P4-Utils* framework has been released. This entails several improvements that, unfortunately, make the new prototyping platform not backward compatible with the old exercises and examples contained in this repository. Therefore, *P4-Learning* has been updated too: you can find all the relevant information about the migration from the old to the new version [here](#migrate-to-the-new-version).
 
 
 ## What will you find here?
 
 You will find software installation guides, lecture slides, specific development documentation, exercises, a collection of examples and much more. Specifically:
 - [Slides](./slides): deck of slides that go from the story of SDN and introduction to data plane programming to advanced (research level) applications.
-- [Documentation](./documentation): list of links and documents with very useful information for P4 development.
 - [Examples](./examples): a collection of examples showing how to use almost all the simple switch features.
 - [Exercises](./exercises): a set of P4 exercises with a long description and solutions.
 - [Environment Installation](./vm): a guide and scripts to install the required software to start developing P4 applications in your own machine.
