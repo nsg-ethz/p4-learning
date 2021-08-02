@@ -92,7 +92,7 @@ using the simple switch target.
 
 Your tasks are:
 
-1. Read the [documentation section](../../../documentation/simple-switch.md#cloning-packets) that talks about packet cloning.
+1. Read the [documentation section](https://github.com/nsg-ethz/p4-learning/wiki/BMv2-Simple-Switch#cloning-packets) that talks about packet cloning.
 
 2. Define a `cpu_t` header that will be added to our original packet. This header needs two fields, one for the source mac address,
 and one for the input port (48 and 16 bits respectively). Remember to cast the `standard_metadata.ingress_port` before assigning it to this header field (the
@@ -195,7 +195,7 @@ Now we will solve the same exercise but using the `extern` digest. To do this yo
 
 Your tasks are:
 
-1. Read the simple switch digest [documentation](../../../documentation/simple-switch.md#packet-digests) section.
+1. Read the simple switch digest [documentation](https://github.com/nsg-ethz/p4-learning/wiki/BMv2-Simple-Switch#packet-digests) section.
 
 2. Define a `struct` variable with a mac source address and ingress_port fields (48 and 16 bits respectively). Originally the `ingress_port` field is 9 bits, you will have to cast
 it to 16 bit so the controller can decode it.
@@ -254,5 +254,5 @@ a topology with several switches and run a controller for all of them, you shoul
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](../https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as
 expected.

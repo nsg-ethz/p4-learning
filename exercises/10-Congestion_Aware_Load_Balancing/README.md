@@ -261,7 +261,7 @@ mirror the packet. Here you have two options:
 switch (which it can then drop it).
 
 7. Hint 2: In order to differentiate between `NORMAL`, `CLONED` and `RECIRCULATED` packets when you implement your ingress and egress logic remember to use the `standard_metadata.instance_type` metadata field. Check the
-standard metadata [documentation for that field](../../documentation/simple-switch.md#standard-metadata-1).
+standard metadata [documentation for that field](https://github.com/nsg-ethz/p4-learning/wiki/BMv2-Simple-Switch#standard-metadata).
 
 To test if your implementation is sending feedback notifications to the ingress switch, try to generate congestion (for example using the line topology and `send_traffic_simple.py` script) and check if these notification
 packets are being sent to the ingress switch (filter packets using the special ethernet type you used for the notification packets).
@@ -323,5 +323,5 @@ paths and just move flows if there is space.
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as
 expected.

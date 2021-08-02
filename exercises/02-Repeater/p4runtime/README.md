@@ -89,7 +89,7 @@ to figure out which output port needs to be used (following the definition of re
 
 3. Call (by using `apply`), the table you defined above.
 
-4. Populate the table (using the P4 Runtime controller provided by the script `controller.py`). For more information about table population check the following [documentation](../../../documentation/control-plane.md).
+4. Populate the table (using the P4 Runtime controller provided by the script `controller.py`). For more information about table population check the following [documentation](https://github.com/nsg-ethz/p4-learning/wiki/Control-Plane).
 
 ## Testing your solution
 
@@ -146,5 +146,5 @@ that make very easy such kind of tests:
 You should not have had any trouble with these first introductory exercises. However, as things get
 more complicated you will most likely need to debug your programs and the behaviour of the switch and network.
 
-We have added a [small guideline](../../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as
 expected.

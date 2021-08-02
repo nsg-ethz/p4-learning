@@ -206,6 +206,6 @@ Do the rest of the steps we did in the previous section. By running multiple tra
 
 If you don't receive replies to your traceroute queries, you can use Wireshark to look at the packets (i.e. capture the host's interface). Wireshark will tell you if the packet cannot be parsed (e.g. because the structure is not correct) or if the checksums are incorrect.
 
-We have added a [small guideline](../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as
 expected.
 

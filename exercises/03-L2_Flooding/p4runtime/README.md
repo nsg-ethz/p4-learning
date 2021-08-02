@@ -63,7 +63,7 @@ port from where the packet came from. To keep your solutions separated solve eac
 
 ### Flooding to all ports
 
-To complete this exercise we will need to define multicast groups, a feature provided by the `simple_switch` target. Multicast enables us to forward packets to multiple ports. You can find some documentation on how to set multicast groups in the [simple switch](../../documentation/simple-switch.md#creating-multicast-groups) documentation.
+To complete this exercise we will need to define multicast groups, a feature provided by the `simple_switch` target. Multicast enables us to forward packets to multiple ports. You can find some documentation on how to set multicast groups in the [simple switch](https://github.com/nsg-ethz/p4-learning/wiki/BMv2-Simple-Switch#creating-multicast-groups) documentation.
 
 Your tasks are:
 
@@ -167,5 +167,5 @@ You can test this exercise by doing the same than in the simple solution. Howeve
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as
 expected.

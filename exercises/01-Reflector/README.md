@@ -36,7 +36,7 @@ Follow these instructions to create a mininet network and run `reflector.p4`:
    sudo python network.py
    ```
 
-   After running the network with one of the two aforementioned methods, you will get the `mininet` CLI prompt (you can find some documentation about the CLI [here](../../documentation/control-plane.md)):
+   After running the network with one of the two aforementioned methods, you will get the `mininet` CLI prompt (you can find some documentation about the CLI [here](https://github.com/nsg-ethz/p4-learning/wiki/Control-Plane)):
 
    <img src="images/mininet_cli.png" title="Mininet CLI">
 
@@ -88,7 +88,7 @@ Note that the definition of the `ethernet` header and the `headers` struct is al
 
 3. Use the *ingress_port* as *egress_port*. The value of the `ingress_port` will be stored in the packet
 metadata, in the variable `standard_metadata.ingress_port`. To set a packet's output port, you need to set
-`standard_metadata.egress_spec` metadata field. For more information about the standard metadata fields read: [simple switch documentation](../../documentation/simple-switch.md#standard-metadata).
+`standard_metadata.egress_spec` metadata field. For more information about the standard metadata fields read: [simple switch documentation](https://github.com/nsg-ethz/p4-learning/wiki/BMv2-Simple-Switch#standard-metadata).
 
 4. Deparse the `ethernet` header.
 

@@ -46,7 +46,7 @@ In summary, your tasks are:
 
 2. Parse the ethernet header.
 
-3. Define a match-action table to make switch behave as a l2 packet forwarder. The destination MAC address of each packet should tell the switch which output port use. You can use your last exercise as a reminder, or check the [documentation](../../../documentation/control-plane.md).
+3. Define a match-action table to make switch behave as a l2 packet forwarder. The destination MAC address of each packet should tell the switch which output port use. You can use your last exercise as a reminder, or check the [documentation](https://github.com/nsg-ethz/p4-learning/wiki/Control-Plane).
 
 4. Define the action the table will call for matching entries. The action should get
 the output port index as a parameter and set it to the `egress_spec` switch's metadata field.
@@ -55,7 +55,7 @@ the output port index as a parameter and set it to the `egress_spec` switch's me
 
 6. Deparse the ethernet header to add it back to the wire.
 
-7. Complete the `controller.py` script to fill the forwarding table you defined in 3. For more information about adding entries to the table check the [control plane documentation](../../../documentation/control-plane.md).
+7. Complete the `controller.py` script to fill the forwarding table you defined in 3. For more information about adding entries to the table check the [control plane documentation](https://github.com/nsg-ethz/p4-learning/wiki/Control-Plane).
 
    **Important Note**: In order to fill the table you will need two things:
 
@@ -102,4 +102,4 @@ Once you have the `l2_basic_forwarding.p4` program finished you can test its beh
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as expected.
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as expected.

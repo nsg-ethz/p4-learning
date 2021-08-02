@@ -153,7 +153,7 @@ Thus by running `sudo make install` in `~/p4-tools/bmv2` or `~/p4-tools/bmv2-opt
 ### Some Notes on Debugging and Troubleshooting
 
 At this point you probably know how to debug your programs. In any case, we 
-added  a [small guideline](https://github.com/nsg-ethz/p4-learning/blob/master/documentation/debugging-and-troubleshooting.md#debugging-and-troubleshooting)
+added  a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting)
 in the documentation section. Use it as a reference when things do not work as
 expected.
 

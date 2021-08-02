@@ -99,7 +99,7 @@ inside the `MyComputeChecksum` control to update checksum fields. Update the `hd
 
 10. Write the `s1-commands.txt` and `s2-commands.txt` file. This file should contain all the `cli` commands needed to fill
 the forwarding table you defined in 4. For more information about adding entries to the table check the
-[control plane documentation](../../documentation/control-plane.md).
+[control plane documentation](https://github.com/nsg-ethz/p4-learning/wiki/Control-Plane).
 
    **Important Note**: In order to fill the table you will need two things:
 
@@ -149,5 +149,5 @@ Once you have the `heavy_hitter.p4` program finished you can test its behaviour:
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as
 expected.
