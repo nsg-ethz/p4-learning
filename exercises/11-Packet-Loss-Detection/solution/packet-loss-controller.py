@@ -225,7 +225,7 @@ class PacketLossController(object):
         switch_name = interface.split("-")[0]
         packet = Ether(str(pkt))
         if packet.type == 0x1234:
-            loss_header = LossHeader(packet.payload)
+            loss_header = LossHeader(bytes(packet.payload))
             batch_id = loss_header.batch_id >> 7
             print switch_name, batch_id
             self.check_sw_links(switch_name, batch_id)
