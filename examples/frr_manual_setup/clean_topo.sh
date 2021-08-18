@@ -12,3 +12,6 @@ sudo ip netns del h3
 sudo ip netns del r1
 sudo ip netns del r2
 sudo ip netns del r3
+
+# Clean temporary files
+sudo rm /tmp/*.out /tmp/*.log /tmp/*.pid
