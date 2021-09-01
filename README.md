@@ -57,4 +57,4 @@ We will periodically add new content to this repository (specially documentation
 - [*FRRouting*](https://frrouting.org/)
 - [*P4-Utils*](https://github.com/nsg-ethz/p4-utils)
 
-A more detailed user guide on how to start with *P4-Learning* is available in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki/Getting-Started). It contains helpful information about the dependencies and the installation process. Moreover, you will find also instructions on how to use the virtual machine that we provide, so that the cumbersome installation of the various components can be skipped and you can directly start learning P4!
+**A more detailed user guide on how to start with *P4-Learning* is available in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki/Getting-Started).** It contains helpful information about the dependencies and the installation process. Moreover, you will find also instructions on how to use the virtual machine that we provide, so that the cumbersome installation of the various components can be skipped and you can directly start learning P4!
