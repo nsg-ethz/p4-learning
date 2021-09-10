@@ -1,0 +1,27 @@
+{
+    "p4_src": "p4src/l2_basic_forwarding.p4",
+    "cli": true,
+    "pcap_dump": false,
+    "enable_log": false,
+    "topology": {
+      "assignment_strategy": "l2",
+      "links": [["h1", "s1"], ["h2", "s1"], ["h3", "s1"], ["h4","s1"]],
+      "hosts": {
+        "h1": {
+        },
+        "h2": {
+        }
+        ,
+        "h3": {
+        }
+        ,
+        "h4": {
+        }
+      },
+      "switches": {
+        "s1": {
+          "cli_input": "s1-commands.txt"
+        }
+      }
+    }
+  }

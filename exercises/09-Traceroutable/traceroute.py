@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 import socket
 import random
 import os
@@ -115,7 +115,7 @@ def checksum(msg):
     s = 0
     # loop taking 2 characters at a time
     for i in range(0, len(msg), 2):
-        w = (ord(msg[i]) << 8) + ( ord(msg[i+1]) )
+        w = (msg[i] << 8) + msg[i+1]
         s = s + w
 
     s = (s>>16) + (s & 0xffff)
@@ -130,7 +130,7 @@ def get_ip_address(ifname):
     return socket.inet_ntoa(fcntl.ioctl(
         s.fileno(),
         0x8915,  # SIOCGIFADDR
-        struct.pack('256s', ifname[:15])
+        struct.pack(b'256s', ifname[:15].encode())
     )[20:24])
 
 
@@ -149,7 +149,7 @@ def ip_header(src,dst,ttl,proto,id=0):
     elif proto == "udp":
         proto = socket.IPPROTO_UDP
     else:
-        print "proto unknown"
+        print("proto unknown")
         return
     check = 10  # python seems to correctly fill the checksum
     saddr = socket.inet_aton ( src )  #Spoof the source ip address if you want to

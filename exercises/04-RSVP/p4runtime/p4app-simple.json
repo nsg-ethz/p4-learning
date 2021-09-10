@@ -1,0 +1,55 @@
+{
+  "p4_src": "rsvp.p4",
+  "cli": true,
+  "pcap_dump": false,
+  "enable_log": false,
+  "switch_node":
+  {
+    "module_name": "p4utils.mininetlib.node",
+    "object_name": "P4RuntimeSwitch"
+  },
+  "compiler_module":
+  {
+    "options":
+    {
+      "p4rt": true
+    }
+  },
+  "topology": {
+    "assignment_strategy": "l3",
+    "default": {
+      "bw": 10
+    },
+    "links": [["h1", "s1"],
+              ["h2", "s1"],
+              ["s1", "s2"],
+              ["s1", "s3"],
+              ["s2", "s3"],
+              ["h3", "s2"],
+              ["h4", "s2"],
+              ["h5", "s3"],
+              ["h6", "s3"]],
+    "hosts": {
+      "h1": {
+      },
+      "h2": {
+      },
+      "h3": {
+      },
+      "h4": {
+      }, 
+      "h5": {
+      },
+      "h6": {
+      }
+    },
+    "switches": {
+      "s1": {
+      },
+      "s2": {
+      },
+      "s3": {
+      }
+    }
+  }
+}

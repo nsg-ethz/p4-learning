@@ -1,0 +1,45 @@
+{
+    "p4_src": "p4src/l2_basic_forwarding.p4",
+    "cli": true,
+    "pcap_dump": false,
+    "enable_log": false,
+    "switch_node":
+    {
+      "module_name": "p4utils.mininetlib.node",
+      "object_name": "P4RuntimeSwitch"
+    },
+    "compiler_module":
+    {
+      "options":
+      {
+        "p4rt": true
+      }
+    },
+    "exec_scripts": 
+    [
+      {
+          "cmd": "python controller.py",
+          "reboot_run": true
+      }
+    ],
+    "topology": {
+      "assignment_strategy": "l2",
+      "links": [["h1", "s1"], ["h2", "s1"], ["h3", "s1"], ["h4","s1"]],
+      "hosts": {
+        "h1": {
+        },
+        "h2": {
+        }
+        ,
+        "h3": {
+        }
+        ,
+        "h4": {
+        }
+      },
+      "switches": {
+        "s1": {
+        }
+      }
+    }
+  }

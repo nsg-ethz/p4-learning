@@ -1,0 +1,51 @@
+{
+  "p4_src": "basics.p4",
+  "cli": true,
+  "pcap_dump": true,
+  "enable_log": true,
+  "topology": {
+    "assignment_strategy": "l3",
+    "links": [["h1", "s1"],
+              ["s1", "s2"],
+              ["s1", "s3"],
+              ["s2", "s4"],
+              ["s3", "s4"],
+              ["s4", "s5"],
+              ["s4", "s6"],
+              ["s5", "s7"],
+              ["s6", "s7"],
+              ["s7", "h2"],
+              ["s7", "h3"]],
+    "hosts": {
+      "h1": {
+      },
+      "h2": {
+      },
+      "h3": {
+      }
+    },
+    "switches": {
+      "s1": {
+        "cli_input": "sx-commands/s1-commands.txt"
+      },
+      "s2": {
+        "cli_input": "sx-commands/s2-commands.txt"
+      },
+      "s3": {
+        "cli_input": "sx-commands/s3-commands.txt"
+      },
+      "s4": {
+        "cli_input": "sx-commands/s4-commands.txt"
+      },
+      "s5": {
+        "cli_input": "sx-commands/s5-commands.txt"
+      },
+      "s6": {
+        "cli_input": "sx-commands/s6-commands.txt"
+      },
+      "s7": {
+        "cli_input": "sx-commands/s7-commands.txt"
+      }
+    }
+  }
+}

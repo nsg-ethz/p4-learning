@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import struct
 import os
@@ -15,9 +15,9 @@ def get_if():
     for i in get_if_list():
         if "eth0" in i:
             iface=i
-            break;
+            break
     if not iface:
-        print "Cannot find eth0 interface"
+        print("Cannot find eth0 interface")
         exit(1)
     return iface
 
@@ -34,16 +34,16 @@ class IPOption_MRI(IPOption):
                                    IntField("", 0),
                                    length_from=lambda pkt:pkt.count*4) ]
 def handle_pkt(pkt):
-    print "got a packet"
+    print("got a packet")
     pkt.show2()
 #    hexdump(pkt)
     sys.stdout.flush()
 
 
 def main():
-    ifaces = filter(lambda i: 'eth' in i, os.listdir('/sys/class/net/'))
+    ifaces = [i for i in os.listdir('/sys/class/net/') if 'eth' in i]
     iface = ifaces[0]
-    print "sniffing on %s" % iface
+    print("sniffing on %s" % iface)
     sys.stdout.flush()
     sniff(filter="tcp", iface = iface,
           prn = lambda x: handle_pkt(x))

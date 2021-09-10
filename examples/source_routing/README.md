@@ -26,14 +26,17 @@ use header stacks and remove one header at each hop.
 ## How to run
 
 Run the topology:
-
-```
+```bash
 sudo p4run
 ```
 
+or
+```bash
+sudo python network.py
+```
 
 Start the receiver script at `h2`:
-```
+```bash
 mx h2
 python receive.py
 ```
@@ -44,7 +47,7 @@ to take. Once you start the script it will ask you which path do you want to tak
 
 You can decide to go to `h2` through `s2` and `s4`:
 
-```
+```bash
 mx h1
 python send.py 10.0.4.2
 Type space separated switch_ids nums (example: "2 3 2 2 1") or "q" to quit: 2 4
@@ -52,14 +55,14 @@ Type space separated switch_ids nums (example: "2 3 2 2 1") or "q" to quit: 2 4
 
 Or you can use `s3` instead:
 
-```
+```bash
 python send.py 10.0.4.2
 Type space separated switch_ids nums (example: "2 3 2 2 1") or "q" to quit: 3 4
 ```
 
 You can also do some loops:
 
-```
+```bash
 python send.py 10.0.4.2
 Type space separated switch_ids nums (example: "2 3 2 2 1") or "q" to quit: 2 4 3 1 2 4
 ```

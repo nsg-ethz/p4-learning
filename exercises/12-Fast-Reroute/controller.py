@@ -4,12 +4,11 @@ In case of a link failure, paths are recomputed.
 """
 
 import os
+from cli import CLI
 from networkx.algorithms import all_pairs_dijkstra
 
-from p4utils.utils.topology import Topology
-from p4utils.utils.sswitch_API import SimpleSwitchAPI
-
-from cli import CLI
+from p4utils.utils.helper import load_topo
+from p4utils.utils.sswitch_thrift_API import SimpleSwitchThriftAPI
 
 
 class RerouteController(object):
@@ -18,11 +17,11 @@ class RerouteController(object):
     def __init__(self):
         """Initializes the topology and data structures."""
 
-        if not os.path.exists("topology.db"):
-            print "Could not find topology object!\n"
+        if not os.path.exists('topology.json'):
+            print("Could not find topology object!\n")
             raise Exception
 
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.controllers = {}
         self.connect_to_switches()
         self.reset_states()
@@ -38,7 +37,7 @@ class RerouteController(object):
         """Connects to all the switches in the topology."""
         for p4switch in self.topo.get_p4switches():
             thrift_port = self.topo.get_thrift_port(p4switch)
-            self.controllers[p4switch] = SimpleSwitchAPI(thrift_port)
+            self.controllers[p4switch] = SimpleSwitchThriftAPI(thrift_port)
 
     def reset_states(self):
         """Resets registers, tables, etc."""
@@ -53,8 +52,8 @@ class RerouteController(object):
         Note: Real switches would rely on L2 learning to achieve this.
         """
         for switch, control in self.controllers.items():
-            print "Installing MAC addresses for switch '%s'." % switch
-            print "=========================================\n"
+            print("Installing MAC addresses for switch '%s'." % switch)
+            print("=========================================\n")
             for neighbor in self.topo.get_neighbors(switch):
                 mac = self.topo.node_to_node_mac(neighbor, switch)
                 port = self.topo.node_to_node_port_num(switch, neighbor)
@@ -64,8 +63,8 @@ class RerouteController(object):
     def install_nexthop_indices(self):
         """Install the mapping from prefix to nexthop ids for all switches."""
         for switch, control in self.controllers.items():
-            print "Installing nexthop indices for switch '%s'." % switch
-            print "===========================================\n"
+            print("Installing nexthop indices for switch '%s'." % switch)
+            print("===========================================\n")
             control.table_clear('ipv4_lpm')
             for host in self.topo.get_hosts():
                 subnet = self.get_host_net(host)
@@ -83,7 +82,7 @@ class RerouteController(object):
             str: IP and subnet in the format "address/mask".
         """
         gateway = self.topo.get_host_gateway_name(host)
-        return self.topo[host][gateway]['ip']
+        return self.topo.get_intfs()[host][gateway]['ip']
 
     def get_nexthop_index(self, host):
         """Return the nexthop index for a destination.
@@ -130,7 +129,7 @@ class RerouteController(object):
         Returns:
             tuple(dict, dict): First dict: distances, second: paths.
         """
-        graph = self.topo.network_graph
+        graph = self.topo
 
         if failures is not None:
             graph = graph.copy()
@@ -166,12 +165,12 @@ class RerouteController(object):
         results = {}
         for switch in self.controllers:
             switch_results = results[switch] = []
-            for host in self.topo.network_graph.get_hosts():
+            for host in self.topo.get_hosts():
                 try:
                     path = all_shortest_paths[switch][host]
                 except KeyError:
-                    print "WARNING: The graph is not connected!"
-                    print "'%s' cannot reach '%s'." % (switch, host)
+                    print("WARNING: The graph is not connected!")
+                    print("'%s' cannot reach '%s'." % (switch, host))
                     continue
                 nexthop = path[1]  # path[0] is the switch itself.
                 switch_results.append((host, nexthop))
@@ -186,7 +185,7 @@ class RerouteController(object):
         nexthops = self.compute_nexthops(failures=failures)
 
         for switch, destinations in nexthops.items():
-            print "Updating nexthops for switch '%s'." % switch
+            print("Updating nexthops for switch '%s'." % switch)
             control = self.controllers[switch]
             for host, nexthop in destinations:
                 nexthop_id = self.get_nexthop_index(host)

@@ -30,20 +30,16 @@ git pull
 
 As usual, we provide you with the following files:
 
-  *  `p4app.json`: describes the topology we want to create with the help
-     of mininet and p4-utils package.
-  *  `heavy_hitter.p4`: p4 program skeleton to use as a starting point.
-  *  `send.py` and `receive.py`: small python scripts to test the solution
+- `p4app.json`: describes the topology we want to create with the help of mininet and p4-utils package.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `heavy_hitter.p4`: p4 program skeleton to use as a starting point.
+- `send.py` and `receive.py`: small python scripts to test the solution
 
 #### Notes about p4app.json
 
-For this exercise we will use a the `mixed` IP assignment strategy. If you have a look at `p4app.json` you will see that
-the option is set to `mixed`. Therefore, only hosts connected to the same switch will be assigned to the same subnet. Hosts connected
-to a different switch will belong to a different `/24` subnet. If you use the namings `hY` and `sX` (e.g h1, h2, s1...), the IP assignment
-goes as follows: `10.x.x.y`. Where `x` is the switch id (upper and lower bytes), and `y` is the host id. For example, in the topology above,
-`h1` gets `10.0.1.1` and `h2` gets `10.0.2.2`.
+For this exercise we will use a the `mixed` IP assignment strategy. If you have a look at `p4app.json` you will see that the option is set to `mixed`. Therefore, only hosts connected to the same switch will be assigned to the same subnet. Hosts connected to a different switch will belong to a different `/24` subnet. If you use the namings `hY` and `sX` (e.g h1, h2, s1...), the IP assignment goes as follows: `10.x.x.y`. Where `x` is the switch id (upper and lower bytes), and `y` is the host id. For example, in the topology above, `h1` gets `10.0.1.1` and `h2` gets `10.0.2.2`.
  
-You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+You can find all the documentation about `p4app.json` in the *P4-Utils* [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
 
 ## Implementing the heavy hitter detector
 
@@ -53,8 +49,7 @@ fill the gaps in `heavy_hitter.p4` file, and create two `cli` configuration file
 
 To successfully complete the exercise you have to do the following:
 
-1. Since defining headers is not the objective of this exercise (and it can be a bit cumbersome), you will see that we already provide you the header definitions for `ethernet`,
-`ipv4` and `tcp`. The header descriptions are at the beginning of `heavy_hitter.p4`
+1. Since defining headers is not the objective of this exercise (and it can be a bit cumbersome), you will see that we already provide you the header definitions for `ethernet`, `ipv4` and `tcp`. The header descriptions are at the beginning of `heavy_hitter.p4`
 
 2. Define the parser that is able to parse packets up to `tcp`. Note that for simplicity we do not consider `udp` packets
 in this exercise.
@@ -104,7 +99,7 @@ inside the `MyComputeChecksum` control to update checksum fields. Update the `hd
 
 10. Write the `s1-commands.txt` and `s2-commands.txt` file. This file should contain all the `cli` commands needed to fill
 the forwarding table you defined in 4. For more information about adding entries to the table check the
-[control plane documentation](../../documentation/control-plane.md).
+[control plane documentation](https://github.com/nsg-ethz/p4-learning/wiki/Control-Plane).
 
    **Important Note**: In order to fill the table you will need two things:
 
@@ -117,7 +112,7 @@ the forwarding table you defined in 4. For more information about adding entries
      the port assignment would be: {h1->1, h2->2, h3->3, h4->4}. However, this basic port assignment might not hold for more complex topologies. Another
      way of finding out port mappings is checking the messages printed by when running the `p4run` command:
 
-         ```bash
+         ```
          Switch port mapping:
          s1:  1:h1       2:h2    3:h3    4:h4
          ```
@@ -129,14 +124,16 @@ the forwarding table you defined in 4. For more information about adding entries
 Once you have the `heavy_hitter.p4` program finished you can test its behaviour:
 
 1. Start the topology (this will also compile and load the program).
-
    ```bash
    sudo p4run
    ```
+   or
+   ```bash
+   sudo python network.py
+   ```
 
 2. Check that you can ping:
-
-   ```bash
+   ```
    mininet> pingall
    ```
 
@@ -152,5 +149,5 @@ Once you have the `heavy_hitter.p4` program finished you can test its behaviour:
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as
 expected.

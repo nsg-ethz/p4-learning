@@ -479,6 +479,7 @@ pcap*/
 
 *.p4i
 *.p4rt
+*_p4rt.txt
 
 #latex
 *.aux

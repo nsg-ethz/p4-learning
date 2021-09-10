@@ -41,9 +41,9 @@ $ sudo ip netns exec <namespace-name> <cmd>
 
 Alternatively we can get a shell:
  
- ```bash
- $ sudo ip netns exec <namespace-name> bash
- ```
+```bash
+$ sudo ip netns exec <namespace-name> bash
+```
 
 ### Adding Virtual Interfaces
 

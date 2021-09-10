@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from scapy.all import sendp, send, get_if_list, get_if_hwaddr, bind_layers
 from scapy.all import Packet
 from scapy.all import Ether, IP, UDP
@@ -10,9 +10,9 @@ def get_if():
     for i in get_if_list():
         if "eth0" in i:
             iface=i
-            break;
+            break
     if not iface:
-        print "Cannot find eth0 interface"
+        print("Cannot find eth0 interface")
         exit(1)
     return iface
 

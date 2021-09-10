@@ -81,7 +81,6 @@ class Crc(object):
 
         reg = self.nondirect_init
         for octet in in_data:
-            octet = struct.unpack("B", octet)[0]
             if self.reflect_in:
                 octet = self.reflect(octet, 8)
             for i in range(8):
@@ -110,7 +109,6 @@ class Crc(object):
 
         reg = self.direct_init
         for octet in in_data:
-            octet = struct.unpack("B", octet)[0]
             if self.reflect_in:
                 octet = self.reflect(octet, 8)
             for i in range(8):

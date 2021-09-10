@@ -1,10 +1,10 @@
+import sys
 import random
 import time
-from p4utils.utils.topology import Topology
+from p4utils.utils.helper import load_topo
 from subprocess import Popen
-import sys
 
-topo = Topology(db="topology.db")
+topo = load_topo('topology.json')
 
 iperf_send = "mx {0} iperf3 -M 9000 -c {1} -t {2} --bind {3} --cport {4} -p {5} 2>&1 >/dev/null"
 iperf_recv = "mx {0} iperf3 -s -p {1} --one-off 2>&1 >/dev/null"

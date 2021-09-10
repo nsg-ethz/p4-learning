@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 import socket
 import random
 import os
@@ -6,13 +6,14 @@ import struct
 import fcntl
 import time
 import pickle
+import codecs
 
 # checksum functions needed for calculation checksum
 def checksum(msg):
     s = 0
     # loop taking 2 characters at a time
     for i in range(0, len(msg), 2):
-        w = (ord(msg[i]) << 8) + ( ord(msg[i+1]) )
+        w = (msg[i] << 8) + msg[i+1]
         s = s + w
 
     s = (s>>16) + (s & 0xffff)
@@ -31,8 +32,8 @@ def get_ip_address(ifname):
 
 
 def eth_header(src, dst, proto=0x0800):
-    src_bytes = "".join([x.decode('hex') for x in src.split(":")])
-    dst_bytes = "".join([x.decode('hex') for x in dst.split(":")])
+    src_bytes = b"".join([codecs.decode(x,'hex') for x in src.split(":")])
+    dst_bytes = b"".join([codecs.decode(x,'hex') for x in dst.split(":")])
     return src_bytes + dst_bytes + struct.pack("!H", proto)
 
 def ip_header(src,dst,ttl,proto,id=0, tos=0):
@@ -50,7 +51,7 @@ def ip_header(src,dst,ttl,proto,id=0, tos=0):
     elif proto == 17:
         proto = socket.IPPROTO_UDP
     else:
-        print "proto unknown"
+        print("proto unknown")
         return
     check = 10  # python seems to correctly fill the checksum
     saddr = socket.inet_aton ( src )  #Spoof the source ip address if you want to
@@ -138,7 +139,7 @@ def get_random_flow():
     return (src_ip, dst_ip, sport, dport, protocol, ip_id)
 
 def save_flows(flows):
-    with open("sent_flows.pickle", "w") as f:
+    with open("sent_flows.pickle", "wb") as f:
         pickle.dump(flows, f)
 
 def create_test(n_packets, n_drops, fail_hops):
@@ -166,7 +167,7 @@ def main(n_packets, n_drops, fail_hops):
     flows = create_test(n_packets, n_drops, fail_hops)
     for flow in flows:
         if flow[-1] < 10:
-            print flow
+            print(flow)
         packet = create_packet(eth_h, *flow)
         send_socket.send(packet)
         time.sleep(0.01)

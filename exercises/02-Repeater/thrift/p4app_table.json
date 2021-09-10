@@ -1,0 +1,21 @@
+{
+  "p4_src": "repeater_with_table.p4",
+  "cli": true,
+  "pcap_dump": true,
+  "enable_log": true,
+  "topology": {
+    "assignment_strategy": "l2",
+    "links": [["h1", "s1"], ["h2", "s1"]],
+    "hosts": {
+      "h1": {
+      },
+      "h2": {
+      }
+    },
+    "switches": {
+      "s1": {
+        "cli_input": "s1-commands.txt"
+      }
+    }
+  }
+}

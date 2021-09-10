@@ -24,11 +24,11 @@ For more information about flowlet switching check out this [paper](https://www.
 
 As usual, we provide you with the following files:
 
-  *  `p4app.json`: describes the topology we want to create with the help
-     of mininet and p4-utils package.
-  *  `p4src/flowlet_switching.p4`: p4 program skeleton to use as a starting point.
-  *  `p4src/includes`: In the includes directory you will find `headers.p4` and `parsers.p4` (which also have to be completed).
-  *  `send.py`: a small python script to send burst of packets that belong to the same flow.
+- `p4app.json`: describes the topology we want to create with the help of mininet and p4-utils package.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4src/flowlet_switching.p4`: p4 program skeleton to use as a starting point.
+- `p4src/includes`: In the includes directory you will find `headers.p4` and `parsers.p4` (which also have to be completed).
+- `send.py`: a small python script to send burst of packets that belong to the same flow.
 
 #### Notes about p4app.json
 
@@ -102,19 +102,21 @@ add the metadata field where you store the `flowlet_id` you read from the regist
 Once you have the `flowlet_switching.p4` program finished you can test its behaviour:
 
 1. Start the topology (this will also compile and load the program).
-
    ```bash
    sudo p4run
+   ```
+   or
+   ```bash
+   sudo python network.py
    ```
 
 2. Check that you can ping:
 
    ```bash
-   > mininet pingall
+   mininet> pingall
    ```
 
-3. Monitor the 4 links from `s1` that will be used during `ecmp` (from `s1-eth2` to `s1-eth5`). Doing this you will be able to check which path is each flow
-taking.
+3. Monitor the 4 links from `s1` that will be used during `ecmp` (from `s1-eth2` to `s1-eth5`). Doing this you will be able to check which path is each flow taking.
 
    ```bash
    sudo tcpdump -enn -i s1-ethX
@@ -142,7 +144,7 @@ taking.
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as
 expected.
 
 

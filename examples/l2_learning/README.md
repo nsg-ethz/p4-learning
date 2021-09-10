@@ -23,8 +23,12 @@ of this example in the [exercises](../../exercises/04-L2_Learning) section.
 
 1. Start the topology (this will also compile and load the program).
 
-   ```bash
+   ```
    sudo p4run --conf p4app_cpu.json
+   ```
+   or
+   ```
+   sudo python network_cpu.py
    ```
 
 2. Start the controller in another terminal window:
@@ -42,6 +46,11 @@ of this example in the [exercises](../../exercises/04-L2_Learning) section.
 
    ```bash
    sudo p4run --conf p4app_digest.json
+   ```
+
+   or
+   ```bash
+   sudo python network_digest.py
    ```
 
 2. Start the controller in another terminal window:

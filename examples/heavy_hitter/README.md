@@ -31,22 +31,27 @@ a certain number of packets (default 1000).
 
 Run the topology:
 
-```
+```bash
 sudo p4run
+```
+
+or
+```bash
+sudo network.py
 ```
 
 Run the receiver and the sending scripts in `h2` and `h1` respectively:
 
-```
+```bash
 mx h2
-python receive.py 5000
+python receive.py
 ```
 
-Send 1500 packets using the same 5-tuple. Only the first 1000 will be received by `h2`.
+Send 1500 packets from `h1` to `h2`. Only the first 1000 will be received.
 
-```
+```bash
 mx h1
-python send.py 10.0.2.2 5000 1500
+python send.py 10.0.2.2 1500
 ```
 
 

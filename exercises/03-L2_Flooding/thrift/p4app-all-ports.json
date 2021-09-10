@@ -1,0 +1,30 @@
+{
+  "p4_src": "p4src/l2_flooding_all_ports.p4",
+  "cli": true,
+  "pcap_dump": true,
+  "enable_log": true,  
+  "topology": {
+    "assignment_strategy": "l2",
+    "default": {
+      "auto_arp_tables": false
+    },
+    "links": [["h1", "s1"], ["h2", "s1"], ["h3", "s1"], ["h4","s1"]],
+    "hosts": {
+      "h1": {
+      },
+      "h2": {
+      }
+      ,
+      "h3": {
+      }
+      ,
+      "h4": {
+      }
+    },
+    "switches": {
+      "s1": {
+        "cli_input": "s1-commands-all-ports.txt"
+      }
+    }
+  }
+}

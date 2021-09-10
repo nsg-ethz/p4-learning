@@ -14,15 +14,19 @@ to the same port they arrived from.
 # How to run
 
 To start the topology with the P4 switches:
-
-```
+```bash
 sudo p4run
+```
+
+or
+```bash
+sudo python network.py
 ```
 
 Run the sending and receiving app at `h1`, every time you press return a
 packet will be sent, if the packet gets bounced it will be printed:
 
-```
+```bash
 mx h1
 python send_receive.py
 ```

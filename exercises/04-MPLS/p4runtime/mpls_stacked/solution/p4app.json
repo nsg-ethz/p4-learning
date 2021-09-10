@@ -1,0 +1,62 @@
+{
+  "p4_src": "stacked.p4",
+  "cli": true,
+  "pcap_dump": true,
+  "enable_log": true,
+  "switch_node":
+  {
+    "module_name": "p4utils.mininetlib.node",
+    "object_name": "P4RuntimeSwitch"
+  },
+  "compiler_module":
+  {
+    "options":
+    {
+      "p4rt": true
+    }
+  },
+  "exec_scripts": [
+    {
+      "cmd": "sudo python controller.py",
+      "reboot_run": true
+    }
+  ],
+  "topology": {
+    "assignment_strategy": "l3",
+    "links": [["h1", "s1"],
+              ["s1", "s2"],
+              ["s1", "s3"],
+              ["s2", "s4"],
+              ["s3", "s4"],
+              ["s4", "s5"],
+              ["s4", "s6"],
+              ["s5", "s7"],
+              ["s6", "s7"],
+              ["s7", "h2"],
+              ["s7", "h3"]],
+    "hosts": {
+      "h1": {
+      },
+      "h2": {
+      },
+      "h3": {
+      }
+    },
+    "switches": {
+      "s1": {
+      },
+      "s2": {
+      },
+      "s3": {
+      },
+      "s4": {
+      },
+      "s5": {
+      },
+      "s6": {
+      },
+      "s7": {
+      }
+    }
+  }
+}

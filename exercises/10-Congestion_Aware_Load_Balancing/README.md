@@ -49,15 +49,15 @@ You will have to install two new tools we will use during the exercise:
 
 For this exercise we provide you with the following files:
 
-  *  `p4app-line.json`: describes the topology we want to create with the help
-     of mininet and p4-utils package. This linear topology will be used for our first test.
-  *  `p4app.json`: describes the topology we used in the `ecmp` exercise, 2 switches connected through 4 middle switches.
-  *  `p4src/loadbalancer.p4`: we will use the solution of the [05-Simple_Routing](../05-Simple_Routing) exercise as starting point.
-  *  `send.py`: a small python script to generate tcp probe packets to read queues.
-  *  `receive.py`: a small python script to receive tcp probes that include a `telemetry` header.
-  *  `routing-controller.py`: routing controller of the [05-Simple_Routing](../05-Simple_Routing) exercise as starting point.
-  *  `nload_tmux_*.sh`: scripts that will create a tmux window, and `nload` in different panes.
-  *  `send_traffic_*.py`: python scripts that use `iperf3` to automatically generate flows to test our solution.
+- `p4app-line.json`: describes the topology we want to create with the help of mininet and p4-utils package. This linear topology will be used for our first test.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4app.json`: describes the topology we used in the `ecmp` exercise, 2 switches connected through 4 middle switches.
+- `p4src/loadbalancer.p4`: we will use the solution of the [05-Simple_Routing](../05-Simple_Routing) exercise as starting point.
+- `send.py`: a small python script to generate tcp probe packets to read queues.
+- `receive.py`: a small python script to receive tcp probes that include a `telemetry` header.
+- `routing-controller.py`: routing controller of the [05-Simple_Routing](../05-Simple_Routing) exercise as starting point.
+- `nload_tmux_*.sh`: scripts that will create a tmux window, and `nload` in different panes.
+- `send_traffic_*.py`: python scripts that use `iperf3` to automatically generate flows to test our solution.
 
 #### New configuration fields in p4app.json
 
@@ -105,6 +105,11 @@ Before starting the exercise, lets use the current code and observe how flows co
 
    ```bash
    sudo p4run --config p4app-medium.json
+   ```
+
+   or
+   ```bash
+   sudo python network_medium.py
    ```
 
 2. Open a `tmux` terminal (or if you are already usign `tmux`, open another window). And run monitoring script (`nload_tmux_medium.sh`). This script, will use `tmux` to create a window
@@ -162,6 +167,11 @@ across the path. To test if your toy congestion reader works do the following:
 
    ```bash
    sudo p4run --config p4app-line.json
+   ```
+
+   or
+   ```bash
+   sudo python network_line.py
    ```
 
 2. Open a terminal in `h1` and `h3`. And run the send.py and receive.py scripts.
@@ -251,7 +261,7 @@ mirror the packet. Here you have two options:
 switch (which it can then drop it).
 
 7. Hint 2: In order to differentiate between `NORMAL`, `CLONED` and `RECIRCULATED` packets when you implement your ingress and egress logic remember to use the `standard_metadata.instance_type` metadata field. Check the
-standard metadata [documentation for that field](../../documentation/simple-switch.md#standard-metadata-1).
+standard metadata [documentation for that field](https://github.com/nsg-ethz/p4-learning/wiki/BMv2-Simple-Switch#standard-metadata).
 
 To test if your implementation is sending feedback notifications to the ingress switch, try to generate congestion (for example using the line topology and `send_traffic_simple.py` script) and check if these notification
 packets are being sent to the ingress switch (filter packets using the special ethernet type you used for the notification packets).
@@ -281,6 +291,11 @@ Once you think your implementation is ready, you should repeat the steps we show
    sudo p4run --config p4app-medium.json
    ```
 
+   or
+   ```bash
+   sudo python network_medium.py
+   ```
+
 2. Open a terminal (or if you are usign `tmux`, open another window). And run monitoring script (`nload_tmux_medium.sh`). This script, will use `tmux` to create a window
 with 4 panes, in each pane it will lunch a `nload` session with a different interface (from `s1-eth1` to `s1-eth4`), which are the interfaces directly connected to `h1-h4`.
 
@@ -308,5 +323,5 @@ paths and just move flows if there is space.
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as
 expected.

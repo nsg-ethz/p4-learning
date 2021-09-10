@@ -1,7 +1,7 @@
-from p4utils.utils.topology import Topology
-from p4utils.utils.sswitch_API import *
-from crc import Crc
 import socket, struct, pickle, os
+from p4utils.utils.helper import load_topo
+from p4utils.utils.sswitch_thrift_API import *
+from crc import Crc
 
 crc32_polinomials = [0x04C11DB7, 0xEDB88320, 0xDB710641, 0x82608EDB, 0x741B8CD7, 0xEB31D82E,
                      0xD663B05, 0xBA0DC66B, 0x32583499, 0x992C1A4C, 0x32583499, 0x992C1A4C]
@@ -10,11 +10,11 @@ class CMSController(object):
 
     def __init__(self, sw_name, set_hash):
 
-        self.topo = Topology(db="topology.db")
+        self.topo = load_topo('topology.json')
         self.sw_name = sw_name
         self.set_hash = set_hash
         self.thrift_port = self.topo.get_thrift_port(sw_name)
-        self.controller = SimpleSwitchAPI(self.thrift_port)
+        self.controller = SimpleSwitchThriftAPI(self.thrift_port)
 
         self.custom_calcs = self.controller.get_custom_crc_calcs()
         self.register_num =  len(self.custom_calcs)

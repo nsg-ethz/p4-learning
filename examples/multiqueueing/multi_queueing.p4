@@ -94,16 +94,16 @@ control MyIngress(inout headers hdr,
 
     action ipv4_forward(macAddr_t dstAddr, egressSpec_t port) {
 
-        //set the src mac address as the previous dst, this is not correct right?
+        // Set the src mac address as the previous dst, this is not correct right?
         hdr.ethernet.srcAddr = hdr.ethernet.dstAddr;
 
-       //set the destination mac address that we got from the match in the table
+        // Set the destination mac address that we got from the match in the table
         hdr.ethernet.dstAddr = dstAddr;
 
-        //set the output port that we also get from the table
+        // Set the output port that we also get from the table
         standard_metadata.egress_spec = port;
 
-        //decrease ttl by 1
+        // Decrease ttl by 1
         hdr.ipv4.ttl = hdr.ipv4.ttl -1;
     }
 
@@ -120,13 +120,14 @@ control MyIngress(inout headers hdr,
         default_action = NoAction();
     }
     apply {
-        //only if IPV4 the rule is applied. Therefore other packets will not be forwarded.
-
+        // Only if IPV4 the rule is applied. Therefore other packets will not be forwarded.
         if (hdr.ipv4.isValid()){
             ipv4_lpm.apply();
+            // Packets from 10.0.1.1 get lowest priority (0)
             if (hdr.ipv4.srcAddr == 0x0a000101){
                 standard_metadata.priority = (bit<3>)0;
             }
+            // Packets from 10.0.1.2 get highest priority (7)
             else if (hdr.ipv4.srcAddr == 0x0a000102){
                 standard_metadata.priority = (bit<3>)7;
             }

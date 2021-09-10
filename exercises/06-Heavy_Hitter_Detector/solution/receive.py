@@ -7,9 +7,9 @@ def get_if():
     for i in get_if_list():
         if "eth0" in i:
             iface=i
-            break;
+            break
     if not iface:
-        print "Cannot find eth0 interface"
+        print("Cannot find eth0 interface")
         exit(1)
     return iface
 
@@ -36,7 +36,7 @@ def handle_pkt(pkt):
         if id_tup not in totals:
             totals[id_tup] = 0
         totals[id_tup] += 1
-        print ("Received from %s total: %s" %
+        print("Received from %s total: %s" %
                 (id_tup, totals[id_tup]))
 
 def main():

@@ -125,14 +125,12 @@ Thus by running `sudo make install` in `~/p4-tools/bmv2` or `~/p4-tools/bmv2-opt
 
 For this exercise we provide you with the following files:
 
-  *  `p4app.json`: describes the topology we want to create with the help
-     of mininet and p4-utils package.
-  *  `p4src/loss-detection.p4`: p4 program skeleton to use as a starting point. Furthermore,
-     we provide you an almost complete `headers.p4` and `parsers.p4` files.
-  *  `send.py`: python program that uses raw sockets to send packets (`scapy` was not fast enough for what we needed in this exercise).
-  *  `packet-loss-controller.py`: controller that uses the `runtime_API` to communicate with the switch. You will use it to configure the switches, to receive
-  event notifications and decode the IBLT.
-  * `crc.py` a python `crc32` implementation that will be used by the controller to match the same hash functions that the switch used.
+- `p4app.json`: describes the topology we want to create with the help of mininet and p4-utils package.
+- `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
+- `p4src/loss-detection.p4`: p4 program skeleton to use as a starting point. Furthermore, we provide you an almost complete `headers.p4` and `parsers.p4` files.
+- `send.py`: python program that uses raw sockets to send packets (`scapy` was not fast enough for what we needed in this exercise).
+- `packet-loss-controller.py`: controller that uses the `thrift_API` to communicate with the switch. You will use it to configure the switches, to receive event notifications and decode the IBLT.
+- `crc.py` a python `crc32` implementation that will be used by the controller to match the same hash functions that the switch used.
 
 #### Notes about p4app.json
 
@@ -300,7 +298,7 @@ To test our solution we will use the `send.py` script you can find in the provid
 to generate random packets. Depending on the parameters you use those packets will be dropped or not. For the packets
 to get dropped the script will set the TTL to X, that will determine which switch drops a given packet.
 
-```
+```python
  parser.add_argument('--n-pkt', help='number of packets', type=int, required=False, default=200)
  parser.add_argument('--n-drops', help='number of packts to drop',type=float, required=False, default=20)
  parser.add_argument('--fail-hops', help='Number of hops until packet is dropped, can be random', type=int, required=False, default=1)
@@ -308,12 +306,12 @@ to get dropped the script will set the TTL to X, that will determine which switc
 
 To test the program:
 
-1. Start the topology with `sudo p4run`
+1. Start the topology with `sudo p4run` or `sudo python network.py`.
 
 2. Start the controller so switches get configured and you start listening to batch id changes.
 
-```
-sudo python packet-loss-controller --option run
+```bash
+sudo python packet-loss-controller.py --option run
 ```
 
 This should populate the forwarding, remove_header table and mirroring id. At this point you should
@@ -350,5 +348,5 @@ You should be able to detect that the drops have happened between `s2` and `s3`.
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../../documentation/debugging-and-troubleshooting.md) in the documentation section. Use it as a reference when things do not work as
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as
 expected.

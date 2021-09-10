@@ -43,23 +43,16 @@ control debug_std_meta(in standard_metadata_t standard_metadata)
     table dbg_table {
         key = {
             // This is a complete list of fields inside of the struct
-            // standard_metadata_t as of the 2018-Sep-01 version of
+            // standard_metadata_t as of the 2021-Feb-23 version of
             // p4c in the file p4c/p4include/v1model.p4.
 
-            // parser_error is commented out because the p4c back end
-            // for bmv2 as of that date gives an error if you include
-            // a field of type 'error' in a table key.
-
-            // drop and recirculate_port are commented out because
-            // they are not used by BMv2 simple_switch, and we may
-            // want to delete them from v1model.p4 in the future.
+            // standard_metadata.parser_error is commented out because 
+            // the p4c backend for bmv2 as of that date gives an error
+            // if you include a field of type 'error' in a table key.
             standard_metadata.ingress_port : exact;
             standard_metadata.egress_spec : exact;
             standard_metadata.egress_port : exact;
-            standard_metadata.clone_spec : exact;
             standard_metadata.instance_type : exact;
-            //standard_metadata.drop : exact;
-            //standard_metadata.recirculate_port : exact;
             standard_metadata.packet_length : exact;
             standard_metadata.enq_timestamp : exact;
             standard_metadata.enq_qdepth : exact;
@@ -67,12 +60,9 @@ control debug_std_meta(in standard_metadata_t standard_metadata)
             standard_metadata.deq_qdepth : exact;
             standard_metadata.ingress_global_timestamp : exact;
             standard_metadata.egress_global_timestamp : exact;
-            standard_metadata.lf_field_list : exact;
             standard_metadata.mcast_grp : exact;
-            standard_metadata.resubmit_flag : exact;
             standard_metadata.egress_rid : exact;
             standard_metadata.checksum_error : exact;
-            standard_metadata.recirculate_flag : exact;
             //standard_metadata.parser_error : exact;
             parser_error_as_int : exact;
         }
