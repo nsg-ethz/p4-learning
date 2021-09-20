@@ -29,7 +29,7 @@ Follow these instructions to create a mininet network and run `reflector.p4`:
    ```
 
    This will call a python script that parses the configuration file, creates
-   a virtual network of hosts and p4 switches using mininet, compile the p4 program and load it in the switch. You can find the *P4-Utils* documentation [here](https://github.com/nsg-ethz/p4-utils).  
+   a virtual network of hosts and p4 switches using mininet, compile the p4 program and load it in the switch. You can find the *P4-Utils* documentation [here](https://nsg-ethz.github.io/p4-utils/index.html).  
 
    Otherwise, one can simply execute the Python script provided:
    ```bash

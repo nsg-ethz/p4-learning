@@ -28,7 +28,7 @@ help you through the exercise.
 
 Remember that if the `l2` assignment strategy is enabled all devices will be automatically placed in the same
 subnet and ARP tables get automatically populated. This was already explained in the previous exercise session, for
-more information check [here](../../01-Repeater/p4runtime/README.md#note-about-p4appjson).
+more information check [here](../../02-Repeater/p4runtime/README.md#note-about-p4appjson).
 
 In this exercise you will need to fill some table entries as we did last week.
 If you used the control plane documentation page to fill tables, you probably used
@@ -38,7 +38,7 @@ this exercise, you will see that now, the `s1` switch has an extra option, `cli_
 Every time you start the topology, or reboot the switch using the `cli`, p4-utils will automatically call
 the `simple_switch_CLI` using that file.
 
-You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://nsg-ethz.github.io/p4-utils/usage.html#json).
 
 ## Implementing the L2 Basic Forwarding
 

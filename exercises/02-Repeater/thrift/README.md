@@ -65,7 +65,7 @@ For example, after starting the topology, `h1` arp table is already loaded with 
 > Automatically populating the ARP Table is needed because our switches do
 > not know how to broadcast packets something strictly needed during the Address Resolution.
 
-You can find all the documentation about `p4app.json` in the *P4-Utils* [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+You can find all the documentation about `p4app.json` in the *P4-Utils* [documentation](https://nsg-ethz.github.io/p4-utils/usage.html#json).
 
 ## Implementing the Packet Repeater
 
@@ -98,7 +98,7 @@ the [`v1model.p4`](https://github.com/p4lang/p4c/blob/master/p4include/v1model.p
 3. Call (by using `apply`), the table you defined above.
 
 4. Populate the table (using the Thrift client command file `s1-commands.txt`). For more information
-about table population check the following [documentation](https://github.com/nsg-ethz/p4-learning/wiki/Control-Plane).
+about table population check the following [documentation](https://github.com/nsg-ethz/p4-learning/wiki/Control-Plane), [documentation 2](https://nsg-ethz.github.io/p4-utils/usage.html#control-plane-configuration), [advanced docs](https://nsg-ethz.github.io/p4-utils/advanced_usage.html#control-plane-configuration).
 
 ## Testing your solution
 
