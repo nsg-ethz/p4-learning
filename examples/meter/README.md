@@ -25,15 +25,24 @@ to port 2 of the switch.
 
 After that, the packet will go through a second table, `m_filter`, which can
 either be a no-op or drop the packet based on how the packet was tagged by the
-meter. If you take a look at the [runtime commands](commands.txt) and the
-default action in the p4 programm we wrote for this example, you will see that
-we configure the table to drop all the packets for which the color is not
-*GREEN* (i.e. all packets for which `meta.meter_tag` is not `0`).
+meter. 
 
-The [commands.txt](commands.txt) file also gives you the meter configuration.
-In this case, the first rate is 0.5 packets per second, with a burst size of
-1, and the second rate is 10 packets per second, with a burst size of 1 also.
-Feel free to play with the numbers, but these play nicely with the
+Note, that we provide the same example with direct and indirect meters. Direct
+meters are meters associated to table entries, while indirect meters can be
+addressed by index. You can have a look at both source codes to see the
+difference. 
+
+If you take a look at the source code for [indirect
+counter](indirect_meter.p4#L94) you can see that we set the default action to
+drop. Also, if you take a look at the [control plane
+commands](indirect_commands.txt) you can see (line 2) how we set a rule for
+`meta.meter_tag == 0`. Thus, all packets  for which `meta.meter_tag` is not `0`
+will be dropped.
+
+The [control plane command](indirect_commands.txt) file also gives you the meter
+configuration. In this case, the first rate is 0.5 packets per second, with a
+burst size of 1, and the second rate is 10 packets per second, with a burst size
+of 1 also. Feel free to play with the numbers, but these play nicely with the
 demonstration below.
 
 ## How to run
