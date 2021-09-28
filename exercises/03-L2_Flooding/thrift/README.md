@@ -53,7 +53,7 @@ On the other hand, if you want to use the Python script to initialize the networ
 sudo python <script path>
 ```
 
-You can find all the documentation about `p4app.json` in the *P4-Utils* [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+You can find all the documentation about `p4app.json` in the *P4-Utils* [documentation](https://nsg-ethz.github.io/p4-utils/usage.html#json).
 
 ## Implementing L2 Flooding
 
