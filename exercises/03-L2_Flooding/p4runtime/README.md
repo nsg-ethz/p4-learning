@@ -146,7 +146,7 @@ Your tasks are:
 
 3. Define a new match-action table that matches packet's `ingress_port` and sets the multicast group accordingly. Also define the action that will be called by the table to set the multicast group.
 
-4. Apply the forwarding table, and check if it matched. To do that you can use `table.apply().hit` or `table.apply().action_run` you can find more information about table hits and misses in the [P4 16 specification](https://p4.org/p4-spec/docs/P4-16-v1.0.0-spec.html#sec-invoke-mau). If there is a miss (packet needs to be broadcasted) you will have to apply new table defined in `TODO 3` which will set the multicast group.
+4. Apply the forwarding table, and check if it matched. To do that you can use `table.apply().hit` or `table.apply().action_run` you can find more information about table hits and misses in the [P4 16 specification](https://p4.org/p4-spec/docs/P4-16-v1.2.2.html#sec-invoke-mau). If there is a miss (packet needs to be broadcasted) you will have to apply new table defined in `TODO 3` which will set the multicast group.
 
 5. Fill the table entries using the script `controller-other-ports.py`. The entries should match to an ingress port and provide as an action parameter a multicast group id.
 
