@@ -14,22 +14,22 @@
     },
     "switches": {
       "s1": {
-        "cli_input": "s1-commands.txt"
+        "cli_input": "sw-commands/s1-commands.txt"
       },
       "s2": {
-        "cli_input": "s2-commands.txt"
+        "cli_input": "sw-commands/s2-commands.txt"
       },
       "s3": {
-        "cli_input": "s3-commands.txt"
+        "cli_input": "sw-commands/s3-commands.txt"
       },
       "s4": {
-        "cli_input": "s4-commands.txt"
+        "cli_input": "sw-commands/s4-commands.txt"
       },
       "s5": {
-        "cli_input": "s5-commands.txt"
+        "cli_input": "sw-commands/s5-commands.txt"
       },
       "s6": {
-        "cli_input": "s6-commands.txt"
+        "cli_input": "sw-commands/s6-commands.txt"
       }
     }
   }
