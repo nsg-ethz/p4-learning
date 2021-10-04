@@ -14,7 +14,7 @@ ports always hash to the same next hop.
 <img src="images/multi_hop_topo.png" title="Multi Hop Topology"/>
 <p/>
 
-For more information about ECMP see this [page](https://docs.cumulusnetworks.com/display/DOCS/Equal+Cost+Multipath+Load+Sharing+-+Hardware+ECMP)
+To read more about ECMP see the following [page](https://www.juniper.net/documentation/us/en/software/junos/flow-packet-processing/topics/topic-map/security-ecmp-flow-based-forwarding.html)
 
 ## Before Starting
 
@@ -33,7 +33,7 @@ to a different switch will belong to a different `/24` subnet. If you use the na
 goes as follows: `10.x.x.y`. Where `x` is the switch id (upper and lower bytes), and `y` is the host id. For example, in the topology above,
 `h1` gets `10.0.1.1` and `h2` gets `10.0.6.2`.
  
-You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://nsg-ethz.github.io/p4-utils/usage.html#json). Also, you can find information about assignment strategies [here](https://nsg-ethz.github.io/p4-utils/usage.html#automated-assignment-strategies).
 
 ## Implementing the L3 forwarding switch + ECMP
 
@@ -42,8 +42,7 @@ possible next hop or more. For that we will use two tables: in the first table w
 depending on whether ECMP has to be applied (for that destination) we set the output port or a ecmp_group. For the later we
 will apply a second table that maps (ecmp_group, hash_output) to egress ports.
 
-This time you will have to fill the gaps in several files: `p4src/ecmp.p4`, `p4src/include/headers.p4` and `p4src/include/parsers.p4`. Additionally, you will have to create a `cli` command file for each switch and name them
-`sX-commands.txt` (see inside the `p4app.json`).
+This time you will have to fill the gaps in several files: `p4src/ecmp.p4`, `p4src/include/headers.p4` and `p4src/include/parsers.p4`. Additionally, you will have to create a `cli` command file for each switch and name them `sX-commands.txt` (see inside the `p4app.json`). To keep the workspace clean, we placed all the command files inside `sw-commands` directory.
 
 To successfully complete the exercise you have to do the following:
 
@@ -92,7 +91,7 @@ respectively.
     2. Apply the first table.
     3. If the action `ecmp_group` was called during the first table apply. Call the second table.
     Note: to know which action was called during an apply you can use a switch statement and `action_run`, to see more information about how to check which action was used, check out
-    the [P4 16 specification](https://p4.org/p4-spec/docs/P4-16-v1.0.0-spec.html#sec-invoke-mau)
+    the [P4 16 specification](https://p4.org/p4-spec/docs/P4-16-v1.2.2.html#sec-invoke-mau)
 
 9. In this exercise we modify a packet's field for the first time (remember we have to subtract 1 to the ip.ttl field). When doing so, the `ipv4` checksum field need
 to be updated otherwise other network devices (or receiving hosts) might drop the packet. To do that, the `v1model` provides an `extern` function that can be called
