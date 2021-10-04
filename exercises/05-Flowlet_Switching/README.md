@@ -38,7 +38,7 @@ to a different switch will belong to a different `/24` subnet. If you use the na
 goes as follows: `10.x.x.y`. Where `x` is the switch id (upper and lower bytes), and `y` is the host id. For example, in the topology above,
 `h1` gets `10.0.1.1` and `h2` gets `10.0.2.2`.
  
-You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://nsg-ethz.github.io/p4-utils/usage.html#json). Also, you can find information about assignment strategies [here](https://nsg-ethz.github.io/p4-utils/usage.html#automated-assignment-strategies).
 
 ## Implementing the flowlet switching enhancement
 
