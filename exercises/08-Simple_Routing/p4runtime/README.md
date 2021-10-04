@@ -40,7 +40,7 @@ the IP assignment will go as follows:
 Note that it is the first time we assign IP addresses to a switch. However, it is very important to note that actually `p4-utils` will not assign those IPs
 to the switches, but it will save them so they can be `virtually` used for some switch functionality (we will see what this means later).
 
-You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://nsg-ethz.github.io/p4-utils/usage.html#json). Also, you can find information about assignment strategies [here](https://nsg-ethz.github.io/p4-utils/usage.html#automated-assignment-strategies).
 
 ## Understanding the router's P4 program
 
@@ -92,8 +92,13 @@ At a high level, the `route` function should do the following:
 
 To get information about the shortest paths, ip addresses, mac addresses, port indexes and how nodes are connected between each other you will have to strongly utilize the topology object from `p4-utils`. To implement the routing function you will have to strongly utilize the topology object from `p4-utils`.
 
-You can find documentation about all the functions you have to use to solve this exercise in the P4-Utils [documentation](https://github.com/nsg-ethz/p4-utils#topology-object) page (all the functions documented should be enough to solve the exercise). However, if you want to, you can also find the topology object
-source code [here](https://github.com/nsg-ethz/p4-utils/blob/master/p4utils/utils/topology.py) and use other functions.
+You can find documentation about all the functions you have to use to solve this
+exercise in the P4-Utils
+[documentation](https://nsg-ethz.github.io/p4-utils/p4utils.utils.topology.html#p4utils.utils.topology.NetworkGraph)
+page (all the functions documented should be enough to solve the exercise).
+However, if you want to, you can also find the topology object source code
+[here](https://github.com/nsg-ethz/p4-utils/blob/master/p4utils/utils/topology.py)
+and use other functions.
 
 ## Testing your solution
 
