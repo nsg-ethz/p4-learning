@@ -47,9 +47,9 @@ control MyIngress(inout headers hdr,
         mark_to_drop(standard_metadata);
     }
 
-    //TODO 3: define a l2 forwarding table and define an action to set the egress port
-
     //TODO 4: define an action to set the egress port
+
+    //TODO 3: define a l2 forwarding table and define a match to set the egress port
 
     apply {
         //TODO 5: call the forwarding table
