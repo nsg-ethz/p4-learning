@@ -179,4 +179,4 @@ Now run the controller, and check that your can send traffic to all the nodes. F
 
 #### Some notes on debugging and troubleshooting
 
-We have added a [small guideline](../https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as expected.
+We have added a [small guideline](https://github.com/nsg-ethz/p4-learning/wiki/Debugging-and-Troubleshooting) in the documentation section. Use it as a reference when things do not work as expected.
