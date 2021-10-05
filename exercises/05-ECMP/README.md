@@ -67,8 +67,8 @@ is done in the very last hop. Finally, decrease the packet's TTL by 1.
 action is one of the key parts of the ECMP algorithm. You have to do several things:
 
    1. In this action we will compute a hash function. To store the output you need to define a metadata field. Define `ecmp_hash` (14 bits) inside
-   the metadata struct in `headers.p4`. Use the `hash` extern function to compute the hash of packets 5-tuple (src ip, dst ip, src port, dst port, protocol). The signature of a hash function is:
-   `hash(output_field, (crc16 or crc32), (bit<1>)0, {fields to hash}, (bit<16>)modulo)`.
+   the metadata struct in `headers.p4`. Use the [`hash`](https://github.com/p4lang/p4c/blob/57f54582a9401b8a89f8254738fca0f350dd557e/p4include/v1model.p4#L453) extern function to compute the hash of packets 5-tuple (src ip, dst ip, src port, dst port, protocol). The signature of a hash function is:
+   `hash(output_field, (crc16 or crc32), (bit<1>)0, {fields to hash}, (bit<16>)modulo)`. You can find all the available hash functions [here](https://github.com/p4lang/p4c/blob/57f54582a9401b8a89f8254738fca0f350dd557e/p4include/v1model.p4#L403). For example, if you want to use `crc32`, your algorithm will be: `HashAlgorithm.crc32`.
    2. Define another metadata field and call it `ecmp_group_id` (14 bits).
    3. Finally copy the value of the second action parameter ecmp group in the metadata field you just defined (`ecmp_group_id`) this will be used
    to match in the second table.
