@@ -99,7 +99,7 @@ As you already did for the sketch exercise you can disable the debugging options
 cd ~/p4-tools/
 git clone https://github.com/p4lang/behavioral-model.git bmv2-opt
 cd bmv2-opt
-git checkout b447ac4c0cfd83e5e72a3cc6120251c1e91128ab
+git checkout 62a013a15ed2c42b1063c26331d73c2560d1e4d0
 ./autogen.sh
 ./configure --without-nanomsg --disable-elogger --disable-logging-macros 'CFLAGS=-g -O2' 'CXXFLAGS=-g -O2'
 make -j 2
