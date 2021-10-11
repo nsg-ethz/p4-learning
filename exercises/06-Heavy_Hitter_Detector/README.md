@@ -39,7 +39,7 @@ As usual, we provide you with the following files:
 
 For this exercise we will use a the `mixed` IP assignment strategy. If you have a look at `p4app.json` you will see that the option is set to `mixed`. Therefore, only hosts connected to the same switch will be assigned to the same subnet. Hosts connected to a different switch will belong to a different `/24` subnet. If you use the namings `hY` and `sX` (e.g h1, h2, s1...), the IP assignment goes as follows: `10.x.x.y`. Where `x` is the switch id (upper and lower bytes), and `y` is the host id. For example, in the topology above, `h1` gets `10.0.1.1` and `h2` gets `10.0.2.2`.
  
-You can find all the documentation about `p4app.json` in the *P4-Utils* [documentation](https://github.com/nsg-ethz/p4-utils#topology-description).
+(https://nsg-ethz.github.io/p4-utils/usage.html#json). Also, you can find information about assignment strategies [here](https://nsg-ethz.github.io/p4-utils/usage.html#automated-assignment-strategies).
 
 ## Implementing the heavy hitter detector
 
@@ -91,7 +91,7 @@ For this exercise you have to use two hash functions. Your update bloom filter o
     If so, drop the packet, otherwise `apply` the `ipv4` forwarding table.
 
 9. In this exercise we modify a packet's field for the first time (remember we have to subtract 1 to the ip.ttl field). When doing so, the `ipv4` checksum field needs
-to be updated otherwise other network devices (or receiving hosts) might drop the packet. To do that, the [`v1model`](https://github.com/p4lang/p4c/blob/master/p4include/v1model.p4#L450) provides an `extern` function that can be called
+to be updated otherwise other network devices (or receiving hosts) might drop the packet. To do that, the [`v1model`](https://github.com/p4lang/p4c/blob/71697086270a7242be6dd90a0bab39b3d1b4395e/p4include/v1model.p4#L514) provides an `extern` function (`update_checksum`) that can be called
 inside the `MyComputeChecksum` control to update checksum fields. Update the `hdr.ipv4.hdrChecksum` field hashing all the `ipv4` fields keeping the same order they are declared in the
 `ipv4` and excluding the `hdrChecksum` field, since its what we are computing here.
 
