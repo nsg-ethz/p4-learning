@@ -71,8 +71,8 @@ For this exercise we provide you with the following files:
 #### Notes about p4app.json
 
 For this exercise we will use the `mixed` strategy, however this is not very important since we will just use the switch to send packets
-through it and run the count-min sketch. In this small topology, where `h1` and `h2` are connected to the same switch `s1` the ip assignment is
-`10.0.1.1` and `10.0.1.2` respectively.
+through it and run the count-min sketch. In this small topology, where `h1` and `h2` are connected to the same switch `s1` the ip assignment is `10.0.1.1` and `10.0.1.2` respectively.
+
  
 You can find all the documentation about `p4app.json` in the `p4-utils` [documentation](https://nsg-ethz.github.io/p4-utils/usage.html#json). Also, you can find information about assignment strategies [here](https://nsg-ethz.github.io/p4-utils/usage.html#automated-assignment-strategies).
 ## Implementing the count-min sketch and the decoding controller
