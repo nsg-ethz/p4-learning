@@ -20,7 +20,7 @@ Before we begin, we need some vocabulary to understand the concepts better:
 
 In actual MPLS, the label stack is represented as a sequence of *label-stack entries*. Each label-stack entry is represented by 4 bytes:
 
-```
+```bash
 Label: Label Value, 20 bits
 Exp: Experimental Use, 3 bits
 S: Bottom of Stack, 1 bit
@@ -295,7 +295,7 @@ actions: 1) normal mpls forwarding, 2) penultimate mpls forwarding which makes s
 1. Let's start analyzing our ingress control block. The block starts with a condition: `if(hdr.ipv4.isValid() && hdr.mpls[0].isInvalid())`. This condition occurs only when there is an IPv4 packet arriving to the switch.
 This happens in two cases: either the switch is an ingress MPLS switch, or the egress MPLS switch. If we go to the `FEC_tbl` definition, there are two types of actions involved: `ipv4_forward` and `mpls_ingress_1_hop`. Analyze the `mpls_ingress_1_hop` action, then implement `mpls_ingress_2_hop`, `mpls_ingress_3_hop`, `mpls_ingress_4_hop`, `mpls_ingress_5_hop` yourself, so that the code can also support topologies of different path sizes.
 
-Hint: implementing `mpls_ingress_x_hop` can be done by just carefully recplicating the content of `mpls_ingress_1_hop`. You just need to use
+Hint: implementing `mpls_ingress_x_hop` can be done by just carefully replicating the content of `mpls_ingress_1_hop`. You just need to use
 `hdr.mpls.push_front(1)` multiple times, and set the bottom of stack accordingly (only once). Be careful with the order in which you push the mpls
 headers, the last header you push in front will be the first one in the header stack. For example, if you push label1, label2, and label3, label3
 will be the first one in the header stack, while label1 should be the last one. 
