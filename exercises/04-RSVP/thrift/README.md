@@ -71,7 +71,7 @@ The bandwidth for each link is set to 10 Mbps (see `p4app.json`).
 ### Control Plane
 
 The focus of this exercise will not be on the data-plane implementation (you
-will use the [MPLS stacked code](./04-MPLS/thrift/mpls_stacked) with a small modification) but on the
+will use the [MPLS stacked code](../../04-MPLS/p4runtime/mpls_stacked) with a small modification) but on the
 control plane. To get started, we provide you with a code skeleton for the
 controller in `rsvp_controller.py`.
 
@@ -93,9 +93,6 @@ This will start a CLI we made for the exercise where you can run a set of
 different commands that will not do anything until you implement them. You can
 type `help` to see the commands (`add_reservation` and `del_reservation` among
 the most important ones).
-
-> Note: The controller has dependencies that are implemented in `python2` only.
-  Make sure you don't use `python3` to run it.
 
 ### Performance Optimizations
 
@@ -255,9 +252,7 @@ task:
   inserts a table entry. Note that, `table_add` expects all parameters in match and action lists to be strings, 
   make sure you cast them before.
 
-For more info about the controller you can see its source code
-[here](https://github.com/nsg-ethz/p4-utils/blob/master/p4utils/utils/topology.py).
-
+For more info about the controller topology functions see the [documentation](https://nsg-ethz.github.io/p4-utils/p4utils.utils.topology.html) and [source code](https://github.com/nsg-ethz/p4-utils/blob/master/p4utils/utils/topology.py). 
 
 ## Central RSVP Controller
 
@@ -546,9 +541,9 @@ the reservations.
 
 ### Task 1: Reservation rate limiting with meters
 
-During the last [lecture](https://polybox.ethz.ch/index.php/s/A7lGH0JQsGSpBob) 
-you were taught different P4 stateful data structures. There, we showed you
-that direct/indirect color `meters` can be used to rate limit traffic. 
+During the stateful data structures lecture you were taught different P4
+stateful data structures. There, we showed you that direct/indirect color
+`meters` can be used to rate limit traffic. 
 
 The `bmv2` software switch implements the so-called two-rate three-color marker meters. 
 You can find more details in the corresponding [RFC](https://tools.ietf.org/html/rfc2698).
