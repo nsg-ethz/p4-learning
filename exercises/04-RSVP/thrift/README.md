@@ -1,6 +1,6 @@
 # Traffic Engineering with RSVP (I)
 
-> **IMPORTANT:** This exercise builds upon the [MPLS Stacked](../../04-MPLS/thrift/mpls_stac).
+> **IMPORTANT:** This exercise builds upon the [MPLS Stacked](../../04-MPLS/thrift/mpls_stacked).
 > Make sure that your MPLS stacked implementation works before
 > continuing.
 
@@ -45,13 +45,6 @@ with the following properties:
 We provide you some files that will help you
 through the exercise.
 
-Before continuing, pull the latest version of the exercise repository:
-
-```bash
-cd ~/adv-net-2020/
-git pull
-```
-
 Amongst others, you will get these files:
 - `p4app.json`: describes the topology that you will use throughout the exercise. See the figure below. We also added `p4app-simple.json` topology in case you want to use a smaller (triangle) topology.
 - `network.py`: a Python scripts that initializes the topology using *Mininet* and *P4-Utils*. One can use indifferently `network.py` or `p4app.json` to start the network.
@@ -60,16 +53,6 @@ Amongst others, you will get these files:
 
 Note that we do not provide a P4 template this time because you will re-use the code from the previous (MPLS stacked) exercise. Therefore, copy this code to
 `rsvp.p4` (if you did not finish the MPLS exercise, continue with it today):
-
-```bash
-cp ~/adv-net-2020/02-MPLS/mpls_stacked/stacked.p4 ~/adv-net-2020/03-RSVP_1/rsvp.p4
-```
-
-The controller requires new functionalities that we recently added for this exercise to *P4-Utils*. To get them, update *P4-Utils* as follows:
-```bash
-cd ~/p4-tools/p4-utils
-git pull
-```
 
 ### Network Topology
 
@@ -88,7 +71,7 @@ The bandwidth for each link is set to 10 Mbps (see `p4app.json`).
 ### Control Plane
 
 The focus of this exercise will not be on the data-plane implementation (you
-will use the [MPLS stacked code](./04-MPLS/mpls_stacked) with a small modification) but on the
+will use the [MPLS stacked code](./04-MPLS/thrift/mpls_stacked) with a small modification) but on the
 control plane. To get started, we provide you with a code skeleton for the
 controller in `rsvp_controller.py`.
 
