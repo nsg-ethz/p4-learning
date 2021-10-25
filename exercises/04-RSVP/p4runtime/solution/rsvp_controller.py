@@ -457,7 +457,7 @@ class RSVPController(object):
         with self.update_lock:
             
             # makes a copy of all the reservation pairs
-            reservation_keys = self.current_reservations.keys()
+            reservation_keys = list(self.current_reservations.keys())
             for src,dst in reservation_keys:
                 self.del_reservation(src, dst)
     
