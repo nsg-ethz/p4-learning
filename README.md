@@ -14,7 +14,7 @@ You will find software installation guides, lecture slides, specific development
 - [Slides](./slides): deck of slides that go from the story of SDN and introduction to data plane programming to advanced (research level) applications.
 - [Examples](./examples): a collection of examples showing how to use almost all the simple switch features.
 - [Exercises](./exercises): a set of P4 exercises with a long description and solutions.
-- [Environment Installation](./vm): a guide and scripts to install the required software to start developing P4 applications in your own machine.
+- [Environment Installation](https://github.com/nsg-ethz/p4-utils/tree/master/vm): a guide and scripts to install the required software to start developing P4 applications in your own machine.
 
 **The documentation of *P4-Learning* is available in the [Wiki](https://github.com/nsg-ethz/p4-learning/wiki).** It contains helpful information that will help you getting started with the exercises and examples contained in this repository. Moreover, you will also find documentation about the software switches used in the network topologies and how to configure them using their control plane.
 
