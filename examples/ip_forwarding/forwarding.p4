@@ -95,7 +95,7 @@ control MyIngress(inout headers hdr,
 
     action ipv4_forward(macAddr_t dstAddr, egressSpec_t port) {
 
-        //set the src mac address as the previous dst, this is not correct right?
+        //set the src mac address as the previous dst
         hdr.ethernet.srcAddr = hdr.ethernet.dstAddr;
 
        //set the destination mac address that we got from the match in the table
