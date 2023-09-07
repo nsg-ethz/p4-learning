@@ -37,7 +37,7 @@ sudo p4run
 
 or
 ```bash
-sudo network.py
+sudo python network.py
 ```
 
 

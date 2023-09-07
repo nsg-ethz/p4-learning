@@ -37,7 +37,7 @@ sudo p4run
 
 or
 ```bash
-sudo network.py
+sudo python network.py
 ```
 
 Run the receiver and the sending scripts in `h2` and `h1` respectively:

@@ -39,6 +39,7 @@ header ipv4_t {
 
 
 struct metadata {
+    @field_list(0)
     bit<8> counter;
 }
 
@@ -131,7 +132,7 @@ control MyEgress(inout headers hdr,
        debug.apply();
        if (meta.counter < RECIRCULATE_TIMES){
            meta.counter = meta.counter + 1;
-           recirculate({meta.counter});
+           recirculate_preserving_field_list(0);
        }
     }
 }
