@@ -53,11 +53,8 @@ control MyEgress(inout headers hdr,
 
             meta.recirculate_meta.stack_length = meta.recirculate_meta.stack_length +1;
             meta.recirculate_meta.stack_length_tmp = meta.recirculate_meta.stack_length;
-
             if (meta.recirculate_meta.stack_length < hdr.recirculate_header.length) {
-                recirculate(meta);
-                // This should in theory work but there is a bug in p4c
-                //recirculate(meta.recirculate_meta);
+                recirculate_preserving_field_list(0);
                }
             }
         }

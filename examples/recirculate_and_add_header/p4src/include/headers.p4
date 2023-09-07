@@ -41,7 +41,9 @@ header recirculate_data_t {
 
 /* Metadata */
 struct recirculate_meta_t {
+   @field_list(0)
    bit<8> stack_length;
+   @field_list(0)
    bit<8> stack_length_tmp;
 }
 
