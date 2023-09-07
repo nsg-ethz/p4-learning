@@ -34,7 +34,8 @@ header ipv4_t {
 }
 
 struct recirculate_meta_t {
-   bit<8> i;
+    @field_list(0)
+    bit<8> i;
 }
 
 struct metadata {
@@ -149,7 +150,7 @@ control MyEgress(inout headers hdr,
                 meta.recirculate_meta.i = meta.recirculate_meta.i + 1;
                 //Does not work because a recirculateed packet will always stay unmodified.
                 hdr.ipv4.identification = hdr.ipv4.identification -1;
-                recirculate({meta.recirculate_meta.i});
+                recirculate_preserving_field_list(0);
             }
         }
     }

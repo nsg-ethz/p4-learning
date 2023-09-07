@@ -34,7 +34,8 @@ header ipv4_t {
 }
 
 struct resubmit_meta_t {
-   bit<8> i;
+    @field_list(0)
+    bit<8> i;
 }
 
 struct metadata {
@@ -137,7 +138,7 @@ control MyIngress(inout headers hdr,
                 meta.resubmit_meta.i = meta.resubmit_meta.i + 1;
                 //Does not work because a resubmited packet will always stay unmodified.
                 //hdr.ipv4.identification = hdr.ipv4.identification -1;
-                resubmit({meta.resubmit_meta.i});
+                resubmit_preserving_field_list(0);
              }
         }
     }
