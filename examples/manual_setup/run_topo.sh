@@ -60,7 +60,7 @@ p4c --target bmv2 --arch v1model --std p4-16 forwarding.p4 -o .
 sudo simple_switch -i 1@s1-eth0 -i 2@s1-eth1  --thrift-port 9090 --nanolog ipc:///tmp/bm-0-log.ipc --device-id 0 forwarding.json &
 sudo simple_switch -i 1@s2-eth0 -i 2@s2-eth1  --thrift-port 9091 --nanolog ipc:///tmp/bm-1-log.ipc --device-id 1 forwarding.json &
 
-sleep 0.5
+sleep 5
 echo -ne 'Waiting for switches to boot.'
 for i in $(seq 1 10); do
   sleep 0.2
@@ -69,7 +69,7 @@ done
 echo '.'
 
 # Populate switches with CLI
-simple_switch_CLI --thrift-port 9090 < s1-commands.txt
-simple_switch_CLI --thrift-port 9091 < s2-commands.txt
+#simple_switch_CLI --thrift-port 9090 < s1-commands.txt
+#simple_switch_CLI --thrift-port 9091 < s2-commands.txt
 
 
