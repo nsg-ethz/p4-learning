@@ -18,7 +18,7 @@
 
 In the past to enable multiqueueing one had to uncomment something in the `bmv2`
 model code and recompile. A recent pull request
-(PR)[https://github.com/p4lang/behavioral-model/commit/adff022fc8679f5436d07e7af73c3300431df785]
+[PR](https://github.com/p4lang/behavioral-model/commit/adff022fc8679f5436d07e7af73c3300431df785)
 improved this part, and now multiqueueing can be directly enabled from the
 `simple_switch` command line, using the target argument `--priority-queues
 <num>`.
@@ -26,7 +26,7 @@ improved this part, and now multiqueueing can be directly enabled from the
 In order to fully utilize priority queues, we need two medatata fields to be
 present in the `v1model.p4` architecture definition. If the fields `priority`
 and `qid` are not present in the `standard_metadata_t` at the
-(v1model.p4)[https://github.com/p4lang/p4c/blob/main/p4include/v1model.p4#L64]
+[v1model.p4](https://github.com/p4lang/p4c/blob/main/p4include/v1model.p4#L64)
 you have to manually add them:
 
 1. Go to the directory where you have downloaded `p4c`.
@@ -44,7 +44,7 @@ you have to manually add them:
 3. Copy the updated `v1model.p4` to the global path `/usr/local/share/p4c/p4include/`. Remember that every time you update `p4c` this file will be overwritten and the metadata fields might be removed. 
 
 
-Alternatively you can use the provided (v1model-mod.sh)[./v1model-mod.sh] script which does all that automatically:
+Alternatively you can use the provided [v1model-mod.sh]()./v1model-mod.sh script which does all that automatically:
 ```
 ./v1model-mod.sh
 ```
