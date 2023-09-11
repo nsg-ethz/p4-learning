@@ -41,12 +41,16 @@ you have to manually add them:
     @alias("queueing_metadata.qid")
     bit<5> qid;
     ```
-3. Copy the updated `v1model.p4` to the global path `/usr/local/share/p4c/p4include/`. Remember that every time you update `p4c` this file will be overwritten and the metadata fields might be removed. As an alternative, you can copy the preconfigured `v1model.p4` in the global path.
-    ```
-    sudo wget https://raw.githubusercontent.com/nsg-ethz/p4-learning/master/examples/multiqueueing/v1model.p4 -O /usr/local/share/p4c/p4include/v1model.p4
-    ```
-8. Now you are ready to go and test the `simple_switch` strict priority queues!
+3. Copy the updated `v1model.p4` to the global path `/usr/local/share/p4c/p4include/`. Remember that every time you update `p4c` this file will be overwritten and the metadata fields might be removed. 
 
+
+Alternatively you can use the provided (v1model-mod.sh)[./v1model-mod.sh] script which does all that automatically:
+```
+./v1model-mod.sh
+```
+
+At this point everything should be set to start using strict priority queues in the `simple_switch`
+    
 
 ## How to run
 
@@ -80,4 +84,6 @@ mx h2
 iperf -c 10.0.1.3 -i 1 -t 10 -p 5001 -u -b 50M
 ```
 
-You will observe that the first flow will not get through the switch during the 10 seconds in which the second one is active, because the latter will get all the available bandwidth according to its higher priority.
+You will observe that the first flow will not get through the switch during the
+10 seconds in which the second one is active, because the latter will get all
+the available bandwidth according to its higher priority.

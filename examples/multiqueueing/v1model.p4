@@ -108,7 +108,7 @@ struct standard_metadata_t {
     bit<1>  checksum_error;
     /// Error produced by parsing
     error parser_error;
-    // set packet priority
+    /// set packet priority
     @alias("intrinsic_metadata.priority")
     bit<3> priority;
     // queue used info at egress
