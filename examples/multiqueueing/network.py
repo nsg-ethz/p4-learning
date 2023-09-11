@@ -9,7 +9,7 @@ net.enableCli()
 # Network definition
 net.addP4Switch('s1', cli_input='s1-commands.txt')
 # can also bee added as a parametter in addP4Switch
-net.setPriorityQueueNum('s1', 6)
+net.setPriorityQueueNum('s1', 8)
 net.setP4Source('s1','multi_queueing.p4')
 net.addHost('h1')
 net.addHost('h2')

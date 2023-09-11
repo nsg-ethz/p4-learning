@@ -54,6 +54,29 @@ At this point everything should be set to start using strict priority queues in 
 
 ## How to run
 
+First of all, in order to enable `multiqueueing` at the `simple_switch` we need
+to add the option either in the `p4app.json` or in the `network.py` script. You
+can see that that can be achieved as follows:
+
+In `p4app.json`:
+
+```json
+    "s1": {
+    "cli_input": "s1-commands.txt",
+    "priority_queues_num": 8
+    }
+```
+
+In the `network.py` network script:
+
+```python
+# Network definition
+net.addP4Switch('s1', cli_input='s1-commands.txt')
+net.setPriorityQueueNum('s1', 8)
+```
+
+Running the code:
+
 Packets from `h1` and `h2` towards `h3` will be sent to two different priority queues 0 and 7, respectively. To see that one queue gets priority over the other we can start to iperf sessions and see who gets the bandwidth.
 
 ```bash
