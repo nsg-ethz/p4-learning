@@ -16,7 +16,8 @@
     },
     "switches": {
       "s1": {
-        "cli_input": "s1-commands.txt"
+        "cli_input": "s1-commands.txt",
+        "priority_queues_num": 8
       }
     }
   }

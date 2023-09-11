@@ -16,17 +16,24 @@
 
 ### Introduction
 
-To make this example work you will first need to make a small change to the `bmv2` code,
-then recompile it again. At the time  of writing this, the `v1model.p4` architecture
-file does not include the needed metadata to set and read the priority queues,
-thus you will also have to add that in the `v1model.p4` file.
+In the past to enable multiqueueing one had to uncomment something in the `bmv2`
+model code and recompile. A recent pull request
+(PR)[https://github.com/p4lang/behavioral-model/commit/adff022fc8679f5436d07e7af73c3300431df785]
+improved this part, and now multiqueueing can be directly enabled from the
+`simple_switch` command line, using the target argument `--priority-queues
+<num>`.
 
-1. Go to the directory where you have downloaded `bmv2`. 
-2. Go to `PATH_TO_BMV2/targets/simple_switch/simple_switch.h`.
-3. Look for the line `// #define SSWITCH_PRIORITY_QUEUEING_ON` and uncomment it.
-4. Compile and install `bmv2` again.
-5. Go to the directory where you have downloaded `p4c`.
-6. Copy and edit `PATH_TO_P4C/p4include/v1model.p4` in another location. You will have to add the following metadata fields inside the `standard_metadata` struct (if not already present). You can find an already configured `v1model.p4` in this directory.
+In order to fully utilize priority queues, we need two medatata fields to be
+present in the `v1model.p4` architecture definition. If the fields `priority`
+and `qid` are not present in the `standard_metadata_t` at the
+(v1model.p4)[https://github.com/p4lang/p4c/blob/main/p4include/v1model.p4#L64]
+you have to manually add them:
+
+1. Go to the directory where you have downloaded `p4c`.
+2. Copy and edit `PATH_TO_P4C/p4include/v1model.p4` in another location. You
+   will have to add the following metadata fields inside the `standard_metadata`
+   struct (if not already present). You can find an already configured
+   `v1model.p4` in this directory.
     ``` 
     /// set packet priority
     @alias("intrinsic_metadata.priority")
@@ -34,7 +41,7 @@ thus you will also have to add that in the `v1model.p4` file.
     @alias("queueing_metadata.qid")
     bit<5> qid;
     ```
-7. Copy the updated `v1model.p4` to the global path `/usr/local/share/p4c/p4include/`. Remember that every time you update `p4c` this file will be overwritten and the metadata fields might be removed. As an alternative, you can copy the preconfigured `v1model.p4` in the global path.
+3. Copy the updated `v1model.p4` to the global path `/usr/local/share/p4c/p4include/`. Remember that every time you update `p4c` this file will be overwritten and the metadata fields might be removed. As an alternative, you can copy the preconfigured `v1model.p4` in the global path.
     ```
     sudo wget https://raw.githubusercontent.com/nsg-ethz/p4-learning/master/examples/multiqueueing/v1model.p4 -O /usr/local/share/p4c/p4include/v1model.p4
     ```
