@@ -110,3 +110,7 @@ iperf -c 10.0.1.3 -i 1 -t 10 -p 5001 -u -b 50M
 You will observe that the first flow will not get through the switch during the
 10 seconds in which the second one is active, because the latter will get all
 the available bandwidth according to its higher priority.
+
+Furthermore, you can use the script [set_queue_rates.py](./set_queue_rates.py)
+to modify the rate each priority queue has. The rate unit that `simple_switch`
+uses is the packet per second or pps.

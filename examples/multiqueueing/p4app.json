@@ -1,8 +1,8 @@
 {
   "p4_src": "multi_queueing.p4",
   "cli": true,
-  "pcap_dump": true,
-  "enable_log": true,
+  "pcap_dump": false,
+  "enable_log": false,
   "topology": {
     "assignment_strategy": "mixed",
     "links": [["h1", "s1"], ["h2", "s1"], ["s1", "h3", {"bw": 5}]],
