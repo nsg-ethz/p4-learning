@@ -49,8 +49,8 @@ with commands to fill your tables.
 
 In summary, your tasks are:
 
-1. Define the ethernet header type and an empty metadata `struct` called meta. Then define
-the headers `struct` with an ethernet header.
+1. Define the ethernet header, an empty `struct` for the `metadata`, and the
+   `struct` called `headers` listing the ethernet header.
 
 2. Parse the ethernet header.
 

@@ -20,10 +20,10 @@ sent to the port they came from.
 
 For this exercise the files we provide you are:
 
-- `p4app-other-ports.json` and `p4app-all-ports.json`: *P4-Utils* configuration files for each solution. Both files define the same topology. The only difference between them is the `program` and `cli_input` options.
+- `p4app-all-ports.json` and `p4app-other-ports.json`: *P4-Utils* configuration files for each solution. Both files define the same topology. The only difference between them is the `program` and `cli_input` options.
 - `network-all-ports.py` and `network-other-ports.py`: *P4-Utils* topology initilization scripts that can be used instead of the JSON configuration files to run the network.
 - `p4src/l2_flooding_all_ports.p4` and `p4src/l2_flooding_other_ports.p4`: p4 program skeletons.
-- `send_broadcast.py`: small scapy script to send packets with the L2 broadcast destination address set.
+- `send_broadcast.py`: small scapy script to send packets with the l2 broadcast destination address set.
 
 #### Notes about p4app.json
 
@@ -74,18 +74,18 @@ Your tasks are:
 2. Define a multicast group with `id=1`.
 Create a multicast node that contains all the ports and associate it with the multicast group.
 
-3. Define a match-action table to make switch behave as a l2 packet forwarder. The destination
+3. Define a `broadcast` action. This action has to set the `standard_metadata.mcast_grp` to the multicast group id
+we want to use (in our case 1).
+
+4. Define a match-action table to make switch behave as an l2 packet forwarder. The destination
 mac address of each packet should tell the switch witch output port use.
 
    **Hint**: you can directly copy the table you defined in the previous exercise, and populate it
    with the same mac to port entries.
 
-4. Add an extra action to the table and name it `broadcast`. This action should be called when there is
-no hit in the forwarding table (unknown Mac or `ff:ff:ff:ff:ff:ff`). You can set it as a default action either
-directly in the table description or using the `table_set_default` cli command.
-
-5. Define the `broadcast` action. This action has to set the `standard_metadata.mcast_grp` to the multicast group id
-we want to use (in our case 1).
+5. Add the `broadcast` action to the table. This action should be called when there is no hit in the forwarding table
+(unknown Mac or `ff:ff:ff:ff:ff:ff`). You can set it as a default action either directly in the table description or
+using the `table_set_default` cli command.
 
 6. Apply the table.
 

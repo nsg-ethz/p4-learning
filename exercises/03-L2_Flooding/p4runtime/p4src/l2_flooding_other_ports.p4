@@ -66,14 +66,14 @@ control MyIngress(inout headers hdr,
         mark_to_drop(standard_metadata);
     }
 
-    //TODO 2: define a forwarding match-action table like the one from the previous exercise. This time you can remove
-    //        the broadcast action, or make it empty.
+    //TODO 2: define a forwarding match-action table like the one from the previous exercise
+    //        This time you do not need the broadcast action.
 
     //TODO 3: define a new match-action table that matches to the ingress_port and calls an action to set the multicast group
 
     apply {
-        //TODO 5: Build your control logic: apply the normal forwarding table,
-        //        if there is a miss apply the second table to set the multicast group.
+        //TODO 5: Build your control logic: apply the forwarding table and, if there is a miss,
+        //        apply the second table to set the multicast group.
 
     }
 }

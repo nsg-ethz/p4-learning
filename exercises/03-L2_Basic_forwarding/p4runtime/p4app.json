@@ -2,7 +2,7 @@
     "p4_src": "p4src/l2_basic_forwarding.p4",
     "cli": true,
     "pcap_dump": false,
-    "enable_log": false,
+    "enable_log": true,
     "switch_node":
     {
       "module_name": "p4utils.mininetlib.node",
