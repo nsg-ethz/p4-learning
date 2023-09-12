@@ -140,8 +140,11 @@ Once you have the `heavy_hitter.p4` program finished you can test its behaviour:
 
 3. Use the `receive.py` and `send.py` scripts:
 
-   Get a terminal in `h1` and `h2`. Run `python receive.py` in one of them, in the other run `python send.py <ip_dst> <number_of_packets>`. The receiver
-   will start getting packets, you will see that it does not receive more than 1000.
+   Get a terminal in `h1` and `h2` using the `mx` tool. Run `python receive.py`
+   in one of them, in the other run `python send.py <ip_dst>
+   <number_of_packets>`. The receiver will start getting packets, you will see
+   that it does not receive more than 1000. The `ip` address of `h2` is
+   `10.0.2.2`.
 
 4. Check that you can not finish an `iperf`:
 
