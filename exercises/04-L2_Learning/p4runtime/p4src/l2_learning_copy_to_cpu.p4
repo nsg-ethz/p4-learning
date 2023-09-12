@@ -23,6 +23,7 @@ header ethernet_t {
 
 struct metadata {
     //TODO 3: define a metadata field to carry the ingress_port with the cloned packet
+    //        make sure you tag the field with @field_list(index)
 }
 
 struct headers {

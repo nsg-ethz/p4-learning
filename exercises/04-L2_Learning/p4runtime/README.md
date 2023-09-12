@@ -29,13 +29,13 @@ exercise.
 
 In this exercise we will implement a learning switch. For that we need a controller code, and instruct the switch
 to send the (mac, port) tuple to the controller. For the sake of learning, we will show you two different
-ways of sending packets to the controller.
+ways of transmitting information to the controller: cloning packets to the controller (`cpu`) or sending digest messages.
 
 ## Before Starting
 
 For this exercise the files we provide you are:
 
-- `p4app_cpu.json` and `p4app_digest.json`: two p4 utils configuration files. They define the same star topology used in previous exercises. `p4app_cpu.json` has an extra option enabled, `cpu_port` which tells P4 utils to add an extra port to connect with the controller.
+- `p4app_cpu.json` and `p4app_digest.json`: two p4 utils configuration files. They define the same star topology used in previous exercises. `p4app_cpu.json` and `p4app_digest.json`: two p4 utils configuration files. They define the same star topology used in previous exercises.
 - `network_cpu.py` and `network_digest.py`: *P4-Utils* topology initilization scripts that can be used instead of the JSON configuration files to run the network.
 - `p4src/l2_learning_copy_to_cpu.p4` and `p4src/l2_learning_digest.p4`: p4 program skeletons. Each skeleton will be used for one version
   of the solution.
@@ -61,7 +61,7 @@ net.disableArpTables()
 
 Note that `p4app_cpu.json` adds a `cpu_port: true` option to `s1`. This will make P4-Utils add an extra port to `s1`, this port then will be used by the controller to receive control plane packets. The same is done in `network_cpu.py` with the option `net.enableCpuPortAll()`.
 
-**Note:** This option is already disabled in the provided configuration files.
+**Note:** This option is already enabled in the provided configuration files.
 
 Furthermore, during this exercise you will need to use the `--conf` option when calling `p4run`. By default, if you do not specify
 anything it tries to find a configuration file named `p4app.json`, which has to be located in the same path. Since in this exercise we
@@ -80,10 +80,10 @@ You can find all the documentation about `p4app.json` in the *P4-Utils* [documen
 ## Implementing L2 Learning
 
 For this exercise we will also use two different techniques, as described above. Since the learning switch also need to
-flood unknown packets you will be able to reuse code from the previous exercise (however, all the step will be listed in the
+flood unknown packets you will be able to reuse code from the previous exercise (however, all the steps will be listed in the
 `TODOS`).
 
-#### Learning Switch: cloning packets to controller
+#### Learning Switch: cloning packets to the controller
 
 To complete this exercise we will need to clone packets. When a learning packet needs to be sent to the controller the switch
 will have to make a copy of the packet, send it to the controller, and then continue the pipeline normally with the original packet.
@@ -99,27 +99,26 @@ and one for the input port (48 and 16 bits respectively). Remember to cast the `
 standard metadata field is 9 bits, but we need to send a multiple of 8 to the controller, and thus we use 16 bits).
 
 3. Cloned packets get all the metadata reset. If we want to be able to know the `ingress_port` for our cloned packet we will need to put
-that in a metadata field.
+that in a metadata field. Make sure you tag the field with the `@field_list`. The user metadata fields that are tagged with @field_list(index) will be sent to the parser together with the packet. For more info read the docs section from `TODO 1`
 
 4. Add the new header to the headers struct.
 
 5. Define a normal forwarding table, and call it `dmac`. The table should match to the packet's destination mac address, and
 call a function `forward` that sets the output port. Set `NoAction` as default. Copy this from the previous exercise.
 
+**Note:** The naming of these tables and actions needs to match the names you use in the controller code *precisely*.
+
 6. Define a table named `broadcast` that matches to `ingress_port` and calls the action `set_mcast_grp` which sets the
 multicast group for the packet, if needed. Define also the `set_mcast_grp` action. Copy this from the previous exercise.
 
 7. Define a third and new table (and name it `smac`). This new table will be used to match source mac addresses. If there
 is a match nothing should happen, if there is a miss, an action `mac_learn` should be called. The `mac_learn` action should
-set the metadata field you defined in 3 to `standard_metadata.ingress_port` and call `clone3` with `CloneType.I2E` and  mirroring ID = 100.
+set the metadata field you defined in 3 to `standard_metadata.ingress_port` and call `clone_preserving_field_list` with `CloneType.I2E` and  mirroring session ID = 100, with the `fiel_list_index` assinged at the defined metadata field `ingress_port`. Again for more info refer to the cloning documentation or the [comments in the v1model](https://github.com/p4lang/p4c/blob/main/p4include/v1model.p4#L607C1-L607C1).
 
-**Note:** when using `clone3` with a non empty third parameter the compiler will complain with the following warning
-`[--Wwarn=unsupported] warning: clone3: clone with non-empty argument not supported`. This is due to a bug in the implementation of
-the software switch that they could not fix yet, however even if they say that it is not supported, the clone operation will work as intended.
 
 8. Write the apply logic. First apply the `smac` table. Then the `dmac` and if it does not have a hit, apply the `broadcast` table.
 
-9. When you call `clone3` the packet gets copied to the egress pipeline. Here you have to do several things.
+9. When you call `clone_preserving_field_list` the packet gets copied to the egress pipeline. Here you have to do several things.
 
    * First check that the `instance_type` is equal to 1 (which means that the packet is an ingress clone).
    * Now you will use the `cpu` header you defined in 2 to add the learning information we want to send to the controller. To
@@ -179,7 +178,7 @@ Once you have the `l2_learning_copy_to_cpu.p4` program finished you can test its
    *** Results: 0% dropped (12/12 received)
    ```
 
-4. Verify that the switch table was populated:
+4. Verify (in a bash shell) that the switch table was populated:
 
    ```bash
    simple_switch_CLI --thrift-port 9090
