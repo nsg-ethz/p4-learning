@@ -28,9 +28,9 @@ class RoutingController(object):
             controller.table_set_default("ecmp_group_to_nhop", "drop", [])
 
     def set_icmp_ingress_port_table(self):
-
         for sw_name, controller in self.controllers.items():
             for intf, node in self.topo.get_interfaces_to_node(sw_name).items():
+                import ipdb; ipdb.set_trace()
                 ip = self.topo.node_to_node_interface_ip(sw_name, node).split("/")[0]
                 port_number = self.topo.interface_to_port(sw_name, intf)
 

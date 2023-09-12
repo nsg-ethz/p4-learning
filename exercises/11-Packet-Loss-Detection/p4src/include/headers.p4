@@ -65,6 +65,7 @@ header udp_t{
     bit<16> checksum;
 }
 
+@field_list(0)
 struct metadata {
 
     bit<16> tmp_src_port;

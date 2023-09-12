@@ -70,6 +70,7 @@ struct metadata {
     bit<4>  egress_type;
     bit<48> feedback_ts;
     bit<12> feedback_register_index;
+    @field_list(0)
     feedback_t feedback;
 }
 

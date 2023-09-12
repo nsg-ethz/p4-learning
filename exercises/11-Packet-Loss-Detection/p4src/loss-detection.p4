@@ -125,7 +125,7 @@ control MyIngress(inout headers hdr,
             // that the batch id never changes
             if (meta.batch_id != meta.last_local_batch_id)
             {
-                clone3(CloneType.I2E, 100, meta);
+                clone_preserving_field_list(CloneType.I2E, 100, 0);
             }
 
             // Update the header batch id with the current one

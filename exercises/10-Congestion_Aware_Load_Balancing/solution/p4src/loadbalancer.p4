@@ -202,7 +202,7 @@ control MyEgress(inout headers hdr,
     apply {
         //Cloned packet, used to generate probe
         if (standard_metadata.instance_type == PKT_INSTANCE_TYPE_EGRESS_CLONE){
-            recirculate(meta.feedback);
+            recirculate_preserving_field_list(0);
         }
 
         else if (standard_metadata.instance_type == PKT_INSTANCE_TYPE_NORMAL && hdr.ethernet.etherType != TYPE_FEEDBACK) {
