@@ -102,23 +102,23 @@ inside the `MyComputeChecksum` control to update checksum fields. Update the `hd
 the forwarding table you defined in 4. For more information about adding entries to the table check the
 [control plane documentation](https://github.com/nsg-ethz/p4-learning/wiki/Control-Plane).
 
-   **Important Note**: In order to fill the table you will need two things:
+**Important Note**: In order to fill the table you will need two things:
 
-     1. Host's MAC addresses: by default hosts get assigned MAC addresses using the following pattern: `00:00:<IP address to hex>`. For example
-     if `h1` IP's address were `10.0.1.5` the Mac address would be: `00:00:0a:00:01:05`. Alternatively, you can use `iconfig`/`ip` directly in a
-     host's terminal.
+1. Host's MAC addresses: by default hosts get assigned MAC addresses using the following pattern: `00:00:<IP address to hex>`. For example
+if `h1` IP's address were `10.0.1.5` the Mac address would be: `00:00:0a:00:01:05`. Alternatively, you can use `iconfig`/`ip` directly in a
+host's terminal.
 
-     2. Switch port index each host is connected to. There are several ways to figure out the `port_index` to interface mapping. By default
-     p4-utils add ports in the same order they are found in the `links` list in the `p4app.json` conf file. Thus, with the current configuration
-     the port assignment would be: {h1->1, h2->2, h3->3, h4->4}. However, this basic port assignment might not hold for more complex topologies. Another
-     way of finding out port mappings is checking the messages printed by when running the `p4run` command:
+2. Switch port index each host is connected to. There are several ways to figure out the `port_index` to interface mapping. By default
+p4-utils add ports in the same order they are found in the `links` list in the `p4app.json` conf file. Thus, with the current configuration
+the port assignment would be: {h1->1, h2->2, h3->3, h4->4}. However, this basic port assignment might not hold for more complex topologies. Another
+way of finding out port mappings is checking the messages printed by when running the `p4run` command:
 
-         ```
-         Switch port mapping:
-         s1:  1:h1       2:h2    3:h3    4:h4
-         ```
+   ```
+   Switch port mapping:
+   s1:  1:h1       2:h2    3:h3    4:h4
+   ```
 
-        In future exercises we will see an extra way to get topology information.
+   In future exercises we will see an extra way to get topology information.
 
 ## Testing your solution
 
