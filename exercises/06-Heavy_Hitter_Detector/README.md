@@ -110,7 +110,7 @@ host's terminal.
 
 2. Switch port index each host is connected to. There are several ways to figure out the `port_index` to interface mapping. By default
 p4-utils add ports in the same order they are found in the `links` list in the `p4app.json` conf file. Thus, with the current configuration
-the port assignment would be: {h1->1, h2->2, h3->3, h4->4}. However, this basic port assignment might not hold for more complex topologies. Another
+the port assignment would be: `{h1->1, h2->2, h3->3, h4->4}`. However, this basic port assignment might not hold for more complex topologies. Another
 way of finding out port mappings is checking the messages printed by when running the `p4run` command:
 
    ```
