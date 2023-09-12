@@ -172,7 +172,7 @@ sudo p4run --config 40-switches.json
 If you want to use Python scripts instead of JSON files, you may want to run:
 
 ```bash
-python network_generator.py --output_name 40-switches.json --topo random -n 40 -d 4
+python network_generator.py --output_name 40-switches.py --topo random -n 40 -d 4
 ```
 
 and
