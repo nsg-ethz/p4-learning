@@ -159,10 +159,18 @@ Once you completed your implementation, you can test the program using the `trac
 
    You can either use our own implementation (`traceroute.py`) in a host or the default `traceroute` Mininet tool:
 
-   ```python -i traceroute.py
+   ```bash
+   mx h1
+   ipython3 -i traceroute.py
+   ```
+   Inside the interpreter: 
+
+   ```python 
    for sport in range(6000,6020):
        print(traceroute(dst="10.6.2.2",sport=sport, dport=80))
    ```
+
+   Otherwise from the mininet cli:
 
    ```bash
    mininet> h1 traceroute -n -w 0.5 -q 1 -T --sport=<src_port> --port=<dst_port> 10.6.2.2
