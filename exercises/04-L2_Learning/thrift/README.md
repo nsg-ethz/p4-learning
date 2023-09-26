@@ -102,7 +102,7 @@ and one for the input port (48 and 16 bits respectively). Remember to cast the `
 standard metadata field is 9 bits, but we need to send a multiple of 8 to the controller, and thus we use 16 bits).
 
 3. Cloned packets get all the metadata reset. If we want to be able to know the `ingress_port` for our cloned packet we will need to put
-that in a metadata field. Make sure you tag the field with the `@field_list`. The user metadata fields that are tagged with @field_list(index) will be sent to the parser together with the packet. For more info read the docs section from `TODO 1`
+that in a metadata field. Make sure you tag the field with the `@field_list`. The user metadata fields that are tagged with `@field_list(index)` will be sent to the parser together with the packet. For more info read the docs section from `TODO 1`
 
 4. Add the new header to the headers struct.
 
