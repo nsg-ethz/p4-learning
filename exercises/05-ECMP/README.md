@@ -92,7 +92,7 @@ respectively.
     2. Apply the first table.
     3. If the action `ecmp_group` was called during the first table apply. Call the second table.
     Note: to know which action was called during an apply you can use a switch statement and `action_run`, to see more information about how to check which action was used, check out
-    the [P4 16 specification](https://p4.org/p4-spec/docs/P4-16-v1.2.2.html#sec-invoke-mau)
+    the [P4 16 specification](https://p4.org/p4-spec/docs/P4-16-v1.2.4.html#sec-invoke-mau)
 
 9. In this exercise we modify a packet's field for the first time (remember we have to subtract 1 to the ip.ttl field). When doing so, the `ipv4` checksum field need
 to be updated otherwise other network devices (or receiving hosts) might drop the packet. To do that, the `v1model` provides an `extern` function that can be called
